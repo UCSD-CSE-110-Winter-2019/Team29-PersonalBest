@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "83289949414",
+    "firebase_url": "https://team29-personalbest.firebaseio.com",
+    "project_id": "team29-personalbest",
+    "storage_bucket": "team29-personalbest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83289949414:android:b6dff023b0209944",
+        "android_client_info": {
+          "package_name": "com.android.helloworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83289949414-6t864qdaqrqmlf0k0ath7s83otf6c95q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.helloworld",
+            "certificate_hash": "d50e1209c5c8e3f6474993b05c8c44b04bedabbf"
+          }
+        },
+        {
+          "client_id": "83289949414-ud0dn53urfr46sp3aib7ta8su7nct94v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpUhFis5yMDz14NLDwX0Y9yTnrm3tXmbw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83289949414-ud0dn53urfr46sp3aib7ta8su7nct94v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
