@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.personalbest.fitness.FitnessService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -38,8 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private String LogInStatus = "LogInStatus";
     private boolean login = false;
     public static final String SHARED_PREFS = "user_name";
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    public SharedPreferences sharedPreferences;
+    public SharedPreferences.Editor editor;
+
+    //get permission from user
+    private FitnessService fitnessService;
+    public String fitnessServicePermission = "fitnessServicePermission";
+    public Boolean fitnessPermission = false;
+
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     //Log in with google account with firebase
@@ -59,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
 
         login = sharedPreferences.getBoolean(LogInStatus,login);
+        //fitnessService.setup();
 
         if(login){
             startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
@@ -126,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            editor = sharedPreferences.edit();
+                            editor= sharedPreferences.edit();
                             editor.putBoolean(LogInStatus,true);
                             editor.apply();
 
