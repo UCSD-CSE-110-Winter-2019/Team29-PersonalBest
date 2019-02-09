@@ -21,12 +21,11 @@ public class InputHeightActivity extends AppCompatActivity {
 
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
-        setContentView(R.layout.activity_input_height);
-        doneButton = (Button)findViewById(R.id.done);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Check for invalid input
                 String input = userHeight.getText().toString();
                 int height;

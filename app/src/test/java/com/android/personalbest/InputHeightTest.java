@@ -1,4 +1,4 @@
-/*package test;
+package test;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -97,4 +97,4 @@ public class InputHeightTest {
         assertEquals(heightInputActivity.getResources().getString(R.string.invalid_input), latestToast);
 
     }
-}*/
+}
