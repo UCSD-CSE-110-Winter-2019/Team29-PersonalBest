@@ -2,7 +2,6 @@
 
     <!-- General -->
     <string name="app_name">PersonalBest</string>
-
     <!-- Sign In -->
     <string name="sign_out">sign out</string>
     <string name="done">Done</string>
