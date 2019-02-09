@@ -1,6 +1,7 @@
 package com.android.personalbest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
     private FirebaseAuth mAuth;
 
+    private String LogInStatus = "LogInStatus";
+    private boolean login = false;
+    public static final String SHARED_PREFS = "user_name";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     //Log in with google account with firebase
     //Issue with Cannot resolve symbol default_web_client_id
@@ -48,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         signOutButton =  findViewById(R.id.sign_out_button);
         mAuth = FirebaseAuth.getInstance();
+
+        sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+
+        login = sharedPreferences.getBoolean(LogInStatus,login);
+
+        if(login){
+            startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
+        }
+
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -110,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            editor = sharedPreferences.edit();
+                            editor.putBoolean(LogInStatus,true);
+                            editor.apply();
+
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
