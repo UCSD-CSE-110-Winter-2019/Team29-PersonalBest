@@ -154,17 +154,20 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         signOutButton.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.GONE);
+        startActivity(new Intent(this, MainPageActivity.class));
+        //startActivity(new Intent(MainActivity.this, HeightInputActivity.class));
+        //startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.user_prefs), MODE_PRIVATE);
 
         //If first time signing in, ask user for height
-        if (!sharedPref.getBoolean(getString(R.string.first_time), false)) {
-            startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-        }
+        //if (!sharedPref.getBoolean(getString(R.string.first_time), false)) {
+         //   startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+        //}
         //If not first time signing in, go to main page
-        else {
+        //else {
             startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-        }
+        //}
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
