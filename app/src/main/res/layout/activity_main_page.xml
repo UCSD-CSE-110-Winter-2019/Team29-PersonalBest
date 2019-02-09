@@ -7,7 +7,7 @@
     tools:context="com.android.personalbest.MainPageActivity">
 
     <Button
-        android:id="@+id/startBtn"
+        android:id="@+id/startButton"
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
@@ -17,7 +17,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="#238A16"
-        android:text="@string/start_now"
+        android:text="@string/start_walk"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

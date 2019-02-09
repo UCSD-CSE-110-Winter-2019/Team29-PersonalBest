@@ -11,10 +11,13 @@
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_to_go">STEPS TO GO:</string>
-    <string name="start_now">Start Walk</string>
+    <string name="start_walk">Start Walk</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
 
+    <!-- WalkActivity -->
+    <string name="title_activity_walk">WalkActivity</string>
+    <string name="end_walk">End Walk</string>
 
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
@@ -28,5 +31,7 @@
     <string name="first_time">firstTime</string>
     <string name="height">height</string>
     <string name="goal">goal</string>
+
+
 
 </resources>
