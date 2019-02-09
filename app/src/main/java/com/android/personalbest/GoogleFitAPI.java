@@ -1,35 +1,32 @@
-package com.android.personalbest;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-
-import android.util.Log;
-
-import com.google.android.gms.common.Scopes;
+import com.android.personalbest.R;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessStatusCodes;
-import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.request.OnDataPointListener;
+import com.google.api.services.fitness.FitnessScopes;
 
-public class GoogleFitAPI{
+/**
+ * Created by Admin on Dec/8/2016.
+ * <p/>
+ * <p/>
+ * http://stackoverflow.com/questions/28476809/step-counter-google-fit-api?rq=1
+ */
+public class GoogleFitAPI extends AppCompatActivity
+{
 
 
-    public void subscribe() {
-        // To create a subscription, invoke the Recording API. As soon as the subscription is
-        // active, fitness data will start recording.
-        Fitness.RecordingApi.subscribe(m Client, DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                .setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        if (status.isSuccess()) {
-                            if (status.getStatusCode()
-                                    == FitnessStatusCodes.SUCCESS_ALREADY_SUBSCRIBED) {
-                                Log.i(TAG, "Existing subscription for activity detected.");
-                            } else {
-                                Log.i(TAG, "Successfully subscribed!");
-                            }
-                        } else {
-                            Log.w(TAG, "There was a problem subscribing.");
-                        }
-                    }
-                });
+    private static final String TAG = "FitActivity";
+    private GoogleApiClient mClient = null;
+    private OnDataPointListener mListener;
+
+    // Create Builder View
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
     }
+
+
 }
