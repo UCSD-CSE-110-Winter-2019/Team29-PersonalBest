@@ -1,11 +1,27 @@
 <resources>
-    <string name="app_name">PersonalBest</string>
-    <string name="input_your_height_n_nyour_height_will_be_used_to_estimate_your_stride_length">Input Your Height \n Your height will be used to estimate your stride length</string>
-    <string name="title_activity_main_page">MainPageActivity</string>
 
+    <!-- General -->
+    <string name="app_name">PersonalBest</string>
+
+    <!-- Sign In -->
     <string name="sign_out">sign out</string>
-    <string name="inches">inches</string>
-    <string name="start_now">Start Now</string>
     <string name="done">Done</string>
+
+    <!-- MainPageActivity -->
+    <string name="title_activity_main_page">MainPageActivity</string>
+    <string name="start_now">Start Walk Now</string>
+
+    <!-- HeightInputActivity -->
+    <string name="input_height">Input Your Height</string>
+    <string name="height_purpose">Your height will be used to estimate your stride length</string>
+    <string name="inches">inches</string>
+    <string name="invalid_input">Invalid height. Please input your height in inches.</string>
+    <string name="empty_input">Please input your height</string>
+
+    <!-- SharedPreferences -->
+    <string name="user_prefs">userPrefs</string>
+    <string name="first_time">firstTime</string>
+    <string name="height">height</string>
+    <string name="goal">goal</string>
 
 </resources>
