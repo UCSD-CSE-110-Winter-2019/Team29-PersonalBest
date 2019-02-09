@@ -67,4 +67,4 @@ public class InputHeightActivity extends AppCompatActivity {
             }
         });
     }
-}
+

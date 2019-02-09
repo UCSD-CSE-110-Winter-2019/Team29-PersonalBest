@@ -15,8 +15,13 @@
     <string name="user_settings">User Settings</string>
 
     <!-- WalkActivity -->
-    <string name="title_activity_walk">WalkActivity</string>
     <string name="end_walk">End Walk</string>
+    <string name="title_activity_walk">WalkActivity</string>
+    <string name="time_elapsed">Time Elapsed:</string>
+    <string name="mph">MPH:</string>
+    <string name="steps">Steps:</string>
+    <string name="miles">Miles:</string>
+
 
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
