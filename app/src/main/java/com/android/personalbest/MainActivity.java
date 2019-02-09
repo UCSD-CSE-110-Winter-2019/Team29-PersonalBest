@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         //If first time signing in, ask user for height
         if (!sharedPref.getBoolean(getString(R.string.first_time), false)) {
-            startActivity(new Intent(MainActivity.this, HeightInputActivity.class));
+            startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
         }
         //If not first time signing in, go to main page
         else {

@@ -10,11 +10,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".InputHeightActivity"></activity>
         <activity
             android:name=".MainPageActivity"
             android:label="@string/title_activity_main_page"
+<<<<<<< HEAD
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".HeightInputActivity">
+=======
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MainActivity">
+>>>>>>> 022255fdadb94d806d57ca519b2957c3c40e32a8
             <intent-filter>
                 <!-- Moved the lines below from MainActivity to
                 HeightInputActivity to test w/o dependency on log in -->

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class HeightInputActivity extends AppCompatActivity {
+public class InputHeightActivity extends AppCompatActivity {
 
     private Button doneButton;
     private EditText userHeight;
@@ -17,15 +17,16 @@ public class HeightInputActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_height_input);
+        setContentView(R.layout.activity_input_height);
 
         userHeight = findViewById(R.id.userHeight);
-        doneButton = findViewById(R.id.doneBtn);
+        doneButton = findViewById(R.id.done);
+        setContentView(R.layout.activity_input_height);
+        doneButton = (Button)findViewById(R.id.done);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //Check for invalid input
                 String input = userHeight.getText().toString();
                 int height;
@@ -59,7 +60,7 @@ public class HeightInputActivity extends AppCompatActivity {
                     editor.putBoolean(getString(R.string.first_time), true);
                     editor.apply();
 
-                    startActivity(new Intent(HeightInputActivity.this, MainPageActivity.class));
+                    startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
                 }
             }
         });

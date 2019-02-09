@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.personalbest.HeightInputActivity;
+import com.android.personalbest.InputHeightActivity;
 import com.android.personalbest.R;
 
 import org.junit.Before;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 public class InputHeightTest {
 
-    HeightInputActivity heightInputActivity;
+    InputHeightActivity heightInputActivity;
     Resources res;
 
     //added to avoid empty test suite error
@@ -30,7 +30,7 @@ public class InputHeightTest {
 
     @Before
     public void init() {
-        heightInputActivity = Robolectric.setupActivity(HeightInputActivity.class);
+        heightInputActivity = Robolectric.setupActivity(InputHeightActivity.class);
         res = heightInputActivity.getResources();
     }
 
@@ -41,7 +41,7 @@ public class InputHeightTest {
         userHeight.setText("55");
 
         //Press done button
-        Button doneButton = heightInputActivity.findViewById(R.id.doneBtn);
+        Button doneButton = heightInputActivity.findViewById(R.id.done);
         doneButton.performClick();
 
         //Check sharedPref value
@@ -56,7 +56,7 @@ public class InputHeightTest {
         userHeight.setText("55");
 
         //Press done button
-        Button doneButton = heightInputActivity.findViewById(R.id.doneBtn);
+        Button doneButton = heightInputActivity.findViewById(R.id.done);
         doneButton.performClick();
 
         //Check sharedPref value
@@ -70,7 +70,7 @@ public class InputHeightTest {
         EditText userHeight = heightInputActivity.findViewById(R.id.userHeight);
 
         //Press done button
-        Button doneButton = heightInputActivity.findViewById(R.id.doneBtn);
+        Button doneButton = heightInputActivity.findViewById(R.id.done);
         doneButton.performClick();
 
         //Check Toast message value
@@ -84,7 +84,7 @@ public class InputHeightTest {
         userHeight.setText("2");
 
         //Press done button
-        Button doneButton = heightInputActivity.findViewById(R.id.doneBtn);
+        Button doneButton = heightInputActivity.findViewById(R.id.done);
         doneButton.performClick();
 
         //Check Toast message value
