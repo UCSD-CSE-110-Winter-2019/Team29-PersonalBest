@@ -9,7 +9,11 @@
 
     <!-- MainPageActivity -->
     <string name="title_activity_main_page">MainPageActivity</string>
-    <string name="start_now">Start Walk Now</string>
+    <string name="start_now">Start Walk</string>
+
+    <!-- MainPageActivity -->
+    <string name="title_activity_walk">WalkActivity</string>
+    <string name="end_now">End Walk</string>
 
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
