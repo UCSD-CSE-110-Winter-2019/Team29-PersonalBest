@@ -14,7 +14,7 @@
             android:name=".MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".heightInputActivity" />
+        <activity android:name=".HeightInputActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

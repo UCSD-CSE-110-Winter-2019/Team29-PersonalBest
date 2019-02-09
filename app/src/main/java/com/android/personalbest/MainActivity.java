@@ -34,7 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
     private FirebaseAuth mAuth;
 
-
+    //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
+    //Log in with google account with firebase
+    //Issue with Cannot resolve symbol default_web_client_id
+    //Fix with hard code default_web_client_id
+    //Docs:
+    //https://stackoverflow.com/questions/37810552/cannot-resolve-symbol-default-web-client-id-in-firebases-android-codelab
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         signOutButton.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.GONE);
-        startActivity(new Intent(MainActivity.this, heightInputActivity.class));
+        startActivity(new Intent(MainActivity.this, HeightInputActivity.class));
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
             String personName = acct.getDisplayName();

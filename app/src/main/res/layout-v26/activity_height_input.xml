@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.personalbest.heightInputActivity">
+    tools:context="com.android.personalbest.HeightInputActivity">
 
     <TextView
         android:id="@+id/textView3"

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class heightInputActivity extends AppCompatActivity {
+public class HeightInputActivity extends AppCompatActivity {
 
     private Button doneButton;
 
@@ -20,7 +20,7 @@ public class heightInputActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(heightInputActivity.this,MainPageActivity.class));
+                startActivity(new Intent(HeightInputActivity.this,MainPageActivity.class));
             }
         });
     }
