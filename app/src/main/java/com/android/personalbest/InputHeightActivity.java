@@ -6,21 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class HeightInputActivity extends AppCompatActivity {
+public class InputHeightActivity extends AppCompatActivity {
 
     private Button doneButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_height_input);
-
-        doneButton = findViewById(R.id.doneBtn);
+        setContentView(R.layout.activity_input_height);
+        doneButton = (Button)findViewById(R.id.done);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HeightInputActivity.this,MainPageActivity.class));
+                startActivity(new Intent(InputHeightActivity.this,MainPageActivity.class));
             }
         });
     }
