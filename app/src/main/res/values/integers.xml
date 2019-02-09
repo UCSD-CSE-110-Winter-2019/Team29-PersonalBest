@@ -1,0 +1,7 @@
+<resources>
+
+    <integer name="default_goal">5000</integer>
+    <integer name="two_feet_in_inches">24</integer>
+    <integer name="eight_feet_in_inches">96</integer>
+
+</resources>

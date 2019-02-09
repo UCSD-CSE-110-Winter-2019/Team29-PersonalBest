@@ -14,14 +14,18 @@
             android:name=".MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".HeightInputActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HeightInputActivity">
             <intent-filter>
+                <!-- Moved the lines below from MainActivity to
+                HeightInputActivity to test w/o dependency on log in -->
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 
