@@ -68,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
         login = sharedPreferences.getBoolean(LogInStatus,login);
         //fitnessService.setup();
 
-        if(login){
-            startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
-        }
+        //UNCOMMENT BEFORE PUSHING
+        //if(login){
+         //   startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
+        //}
 
 
         // Configure sign-in to request the user's ID, email address, and basic
