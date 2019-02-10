@@ -95,6 +95,5 @@ public class InputHeightTest {
         doneButton.performClick();
         latestToast = ShadowToast.getTextOfLatestToast();
         assertEquals(heightInputActivity.getResources().getString(R.string.invalid_input), latestToast);
-
     }
 }

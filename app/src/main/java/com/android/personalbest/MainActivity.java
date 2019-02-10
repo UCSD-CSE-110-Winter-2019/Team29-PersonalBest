@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, MainPageActivity.class));
         }
 
-
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -160,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         signOutButton.setVisibility(View.VISIBLE);
         signInButton.setVisibility(View.GONE);
-        startActivity(new Intent(this, MainPageActivity.class));
-        //startActivity(new Intent(MainActivity.this, HeightInputActivity.class));
-        //startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+
+
         if (acct != null) {
             String personName = acct.getDisplayName();
             String personGivenName = acct.getGivenName();
@@ -174,8 +173,6 @@ public class MainActivity extends AppCompatActivity {
             Uri personPhoto = acct.getPhotoUrl();
             Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
         }
-
-
 
     }
 }
