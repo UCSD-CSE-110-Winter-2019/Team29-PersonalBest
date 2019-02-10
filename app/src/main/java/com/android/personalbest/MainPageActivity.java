@@ -1,15 +1,17 @@
 package com.android.personalbest;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.personalbest.fitness.FitnessService;
-import com.android.personalbest.fitness.FitnessServiceFactory;
+import android.view.View;
+import android.widget.Button;
 
-import static com.android.personalbest.MainActivity.FITNESS_SERVICE_KEY;
+import com.android.personalbest.fitness.FitnessService;
+
 
 public class MainPageActivity extends AppCompatActivity {
     private FitnessService fitnessService;
@@ -19,9 +21,23 @@ public class MainPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+
 //        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
 //        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-        fitnessService.setup();
+
+        Button startWalkActivity = (Button) findViewById(R.id.startButton);
+        startWalkActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                launchWalkActivity();
+            }
+        });
+    }
+
+    public void launchWalkActivity() {
+        Intent walk = new Intent(this, WalkActivity.class);
+        startActivity(walk);
+
     }
 
     @Override
