@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +21,12 @@ public class InputHeightActivity extends AppCompatActivity {
 
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
-        setContentView(R.layout.activity_input_height);
-        doneButton = (Button)findViewById(R.id.done);
 
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Check for invalid input
                 String input = userHeight.getText().toString();
 
@@ -40,10 +38,9 @@ public class InputHeightActivity extends AppCompatActivity {
                     height = Integer.parseInt(userHeight.getText().toString());
                     //Invalid range
                     if (height < getResources().getInteger(R.integer.two_feet_in_inches)
-                            || height > getResources().getInteger(R.integer.eight_feet_in_inches)){
+                            || height > getResources().getInteger(R.integer.eight_feet_in_inches)) {
                         Toast.makeText(getApplicationContext(), R.string.invalid_input, Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         validHeight = true;
                     }
                 }
@@ -69,3 +66,4 @@ public class InputHeightActivity extends AppCompatActivity {
         });
     }
 }
+

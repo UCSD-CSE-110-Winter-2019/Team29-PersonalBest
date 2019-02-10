@@ -20,9 +20,11 @@ public class GoogleFitAdapter implements FitnessService {
     private final String TAG = "GoogleFitAdapter";
 
     private MainPageActivity activity;
+    private MainActivity mainActivity;
 
-    public GoogleFitAdapter(MainPageActivity activity){
+    public GoogleFitAdapter(MainPageActivity activity, MainActivity mainActivity){
         this.activity = activity;
+        this.mainActivity = mainActivity;
 
     }
 
@@ -33,31 +35,48 @@ public class GoogleFitAdapter implements FitnessService {
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .build();
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(activity), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    activity, // your activity
-                    GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(activity),
 
-                    fitnessOptions);
-//
-        }else {
+        getCurrentStep();
+        startRecording();
 
-        }
+
 
     }
+
+    private void startRecording() {
+        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(mainActivity);
+        if (lastSignedInAccount == null) {
+            return;
+        }
+
+        Fitness.getRecordingClient(mainActivity, GoogleSignIn.getLastSignedInAccount(mainActivity))
+                .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "Successfully subscribed!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "There was a problem subscribing.");
+                    }
+                });
+    }
+
 
     /**
      * Reads the current daily step total, computed from midnight of the current day on the device's
      * current timezone.
      */
-    public void updateStepCount() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
+    public void getCurrentStep() {
+        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(mainActivity);
         if (lastSignedInAccount == null) {
             return;
         }
 
-        Fitness.getHistoryClient(activity, lastSignedInAccount)
+        Fitness.getHistoryClient(mainActivity, lastSignedInAccount)
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
                         new OnSuccessListener<DataSet>() {
@@ -69,7 +88,7 @@ public class GoogleFitAdapter implements FitnessService {
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                               // activity.setStepCount(total);
+                                activity.setStepCount(total);
                                 Log.d(TAG, "Total steps: " + total);
                             }
                         })

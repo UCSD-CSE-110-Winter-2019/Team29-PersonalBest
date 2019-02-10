@@ -2,7 +2,6 @@ package com.android.personalbest;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +11,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.personalbest.fitness.FitnessService;
-import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -43,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String LogInStatus = "LogInStatus";
     private boolean login = false;
-    public static final String SHARED_PREFS = "user_name";
+    private boolean haveInputtedHeight = false;
     public SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
 
@@ -70,15 +66,19 @@ public class MainActivity extends AppCompatActivity {
         signOutButton =  findViewById(R.id.sign_out_button);
         mAuth = FirebaseAuth.getInstance();
 
-        sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
 
         login = sharedPreferences.getBoolean(LogInStatus,login);
-        fitnessPermission = sharedPreferences.getBoolean(fitnessServicePermission,fitnessPermission);
 
 
+        //If first time signing in, ask user for height
+        if (login && !haveInputtedHeight) {
+            startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+        }
+        //If not first time signing in, go to main page
+        else if (login) {
+            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
 
-        if(login ){
-            startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
         }
 
 
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             editor.putBoolean(LogInStatus,true);
                             editor.apply();
 
-                            updateUI(user);
+                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -164,35 +164,26 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUI(FirebaseUser user) {
-        signOutButton.setVisibility(View.VISIBLE);
-        signInButton.setVisibility(View.GONE);
-
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.user_prefs), MODE_PRIVATE);
-
-        //If first time signing in, ask user for height
-        if (!sharedPref.getBoolean(getString(R.string.first_time), false)) {
-            startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-        }
-        //If not first time signing in, go to main page
-        else {
-            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-        }
-
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        if (acct != null) {
-            String personName = acct.getDisplayName();
-            String personGivenName = acct.getGivenName();
-            String personFamilyName = acct.getFamilyName();
-            String personEmail = acct.getEmail();
-            String personId = acct.getId();
-            Uri personPhoto = acct.getPhotoUrl();
-            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
-        }
-
-
-
-    }
+//    private void updateUI(FirebaseUser user) {
+//        signOutButton.setVisibility(View.VISIBLE);
+//        signInButton.setVisibility(View.GONE);
+//        startActivity(new Intent(this, MainPageActivity.class));
+//
+//
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+//        if (acct != null) {
+//            String personName = acct.getDisplayName();
+//            String personGivenName = acct.getGivenName();
+//            String personFamilyName = acct.getFamilyName();
+//            String personEmail = acct.getEmail();
+//            String personId = acct.getId();
+//            Uri personPhoto = acct.getPhotoUrl();
+//            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
+//        }
+//
+//
+//
+//    }
 
 
 
