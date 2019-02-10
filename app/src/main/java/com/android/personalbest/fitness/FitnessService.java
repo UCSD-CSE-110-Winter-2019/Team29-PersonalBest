@@ -1,7 +1,7 @@
 package com.android.personalbest.fitness;
 
 public interface FitnessService {
-    //int getRequestCode();
+    int getRequestCode();
     void setup();
-    //void updateStepCount();
+    void updateStepCount();
 }

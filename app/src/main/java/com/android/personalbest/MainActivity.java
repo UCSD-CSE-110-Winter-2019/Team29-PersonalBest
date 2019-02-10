@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.personalbest.fitness.FitnessService;
+import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -28,6 +31,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private SignInButton signInButton;
 
     private Button signOutButton;
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "user_name";
     public SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
+
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
 
     //get permission from user
     private FitnessService fitnessService;
@@ -66,9 +73,11 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
 
         login = sharedPreferences.getBoolean(LogInStatus,login);
-        //fitnessService.setup();
+        fitnessPermission = sharedPreferences.getBoolean(fitnessServicePermission,fitnessPermission);
 
-        if(login){
+
+
+        if(login ){
             startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
         }
 
@@ -93,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mAuth.signOut();
                 signOutButton.setVisibility(View.GONE);
+                editor= sharedPreferences.edit();
+                editor.putBoolean(fitnessServicePermission,false);
+                editor.putBoolean(LogInStatus,false);
+                editor.apply();
             }
         });
 
@@ -180,4 +193,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
 }

@@ -25,6 +25,7 @@ public class InputHeightActivity extends AppCompatActivity {
         setContentView(R.layout.activity_input_height);
         doneButton = (Button)findViewById(R.id.done);
 
+
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
