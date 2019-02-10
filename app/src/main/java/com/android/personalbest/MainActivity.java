@@ -2,6 +2,7 @@ package com.android.personalbest;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, MainPageActivity.class));
 
         }
-
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -164,28 +164,29 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-//    private void updateUI(FirebaseUser user) {
-//        signOutButton.setVisibility(View.VISIBLE);
-//        signInButton.setVisibility(View.GONE);
-//        startActivity(new Intent(this, MainPageActivity.class));
-//
-//
-//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-//        if (acct != null) {
-//            String personName = acct.getDisplayName();
-//            String personGivenName = acct.getGivenName();
-//            String personFamilyName = acct.getFamilyName();
-//            String personEmail = acct.getEmail();
-//            String personId = acct.getId();
-//            Uri personPhoto = acct.getPhotoUrl();
-//            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
-//        }
-//
-//
-//
-//    }
 
 
 
+
+
+    private void updateUI(FirebaseUser user) {
+        signOutButton.setVisibility(View.VISIBLE);
+        signInButton.setVisibility(View.GONE);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+
+
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
+        }
+
+    }
 
 }
