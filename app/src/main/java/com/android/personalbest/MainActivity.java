@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String LogInStatus = "LogInStatus";
     private boolean login = false;
-    public static final String SHARED_PREFS = "user_name";
+    private boolean haveInputtedHeight = false;
     public SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
 
@@ -63,15 +63,20 @@ public class MainActivity extends AppCompatActivity {
         signOutButton =  findViewById(R.id.sign_out_button);
         mAuth = FirebaseAuth.getInstance();
 
-        sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
 
         login = sharedPreferences.getBoolean(LogInStatus,login);
+        haveInputtedHeight = sharedPreferences.getBoolean(getString(R.string.first_time), haveInputtedHeight);
         //fitnessService.setup();
 
-        //UNCOMMENT BEFORE PUSHING
-        //if(login){
-         //   startActivity(new Intent(MainActivity.this,InputHeightActivity.class));
-        //}
+        //If first time signing in, ask user for height
+        if (login && !haveInputtedHeight) {
+            startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+        }
+        //If not first time signing in, go to main page
+        else if (login) {
+            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
+        }
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -158,17 +163,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainPageActivity.class));
         //startActivity(new Intent(MainActivity.this, HeightInputActivity.class));
         //startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.user_prefs), MODE_PRIVATE);
-
-        //If first time signing in, ask user for height
-        //if (!sharedPref.getBoolean(getString(R.string.first_time), false)) {
-         //   startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-        //}
-        //If not first time signing in, go to main page
-        //else {
-            startActivity(new Intent(MainActivity.this, MainPageActivity.class));
-        //}
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         if (acct != null) {
