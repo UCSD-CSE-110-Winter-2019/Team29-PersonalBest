@@ -255,6 +255,7 @@ public class MainPageActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        numStepDone.setText(String.valueOf(val));
                                         Log.i("Step",String.valueOf(val));
                                     }
                                 });
