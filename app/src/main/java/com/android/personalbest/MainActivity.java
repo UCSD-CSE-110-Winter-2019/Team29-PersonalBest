@@ -1,5 +1,6 @@
 package com.android.personalbest;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -12,12 +13,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.personalbest.fitness.FitnessService;
+import com.android.personalbest.fitness.GoogleFitAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -26,13 +34,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
 
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private SignInButton signInButton;
 
-    private Button signOutButton;
+
     private int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
     private String TAG = "MainActivity";
@@ -40,16 +50,18 @@ public class MainActivity extends AppCompatActivity {
 
     private String LogInStatus = "LogInStatus";
     private boolean login = false;
+
     private boolean haveInputtedHeight = false;
+
+    public String numStepDone = "numStepDone";
+
     public SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
 
-    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    private GoogleFitAdapter googleFitAdapter;
 
-    //get permission from user
-    private FitnessService fitnessService;
-    public String fitnessServicePermission = "fitnessServicePermission";
-    public Boolean fitnessPermission = false;
+
+
 
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
@@ -64,20 +76,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         signInButton = findViewById(R.id.sign_in_button);
-        signOutButton =  findViewById(R.id.sign_out_button);
+
         mAuth = FirebaseAuth.getInstance();
 
         sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
+        editor= sharedPreferences.edit();
 
+
+        //update log in status here
         login = sharedPreferences.getBoolean(LogInStatus,login);
+
+        //update haveInputtedHeight here
+        haveInputtedHeight = sharedPreferences.getBoolean(getString(R.string.first_time), haveInputtedHeight);
 
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
+
             startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+
         }
         //If not first time signing in, go to main page
         else if (login) {
+
             startActivity(new Intent(MainActivity.this, MainPageActivity.class));
 
         }
@@ -88,8 +109,10 @@ public class MainActivity extends AppCompatActivity {
                 .requestIdToken( "83289949414-ud0dn53urfr46sp3aib7ta8su7nct94v.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
+
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,17 +120,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                signOutButton.setVisibility(View.GONE);
-                editor= sharedPreferences.edit();
-                editor.putBoolean(fitnessServicePermission,false);
-                editor.putBoolean(LogInStatus,false);
-                editor.apply();
-            }
-        });
+
 
     }
 
@@ -133,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         }
+
+
+
+
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -147,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            editor= sharedPreferences.edit();
+
                             editor.putBoolean(LogInStatus,true);
                             editor.apply();
 
@@ -169,24 +186,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void updateUI(FirebaseUser user) {
-        signOutButton.setVisibility(View.VISIBLE);
-        signInButton.setVisibility(View.GONE);
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
-        startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-
-
-        if (acct != null) {
-            String personName = acct.getDisplayName();
-            String personGivenName = acct.getGivenName();
-            String personFamilyName = acct.getFamilyName();
-            String personEmail = acct.getEmail();
-            String personId = acct.getId();
-            Uri personPhoto = acct.getPhotoUrl();
-            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
-        }
-
-    }
+//
+//    private void updateUI(FirebaseUser user) {
+//        signOutButton.setVisibility(View.VISIBLE);
+//        signInButton.setVisibility(View.GONE);
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+//
+//        startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+//
+//
+//        if (acct != null) {
+//            String personName = acct.getDisplayName();
+//            String personGivenName = acct.getGivenName();
+//            String personFamilyName = acct.getFamilyName();
+//            String personEmail = acct.getEmail();
+//            String personId = acct.getId();
+//            Uri personPhoto = acct.getPhotoUrl();
+//            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
+//        }
+//
+//    }
 
 }

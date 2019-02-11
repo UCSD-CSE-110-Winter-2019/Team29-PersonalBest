@@ -22,9 +22,11 @@ public class GoogleFitAdapter implements FitnessService {
     private MainPageActivity activity;
     private MainActivity mainActivity;
 
-    public GoogleFitAdapter(MainPageActivity activity, MainActivity mainActivity){
+    public GoogleFitAdapter(MainActivity mainActivity){
         this.activity = activity;
         this.mainActivity = mainActivity;
+        Log.i(TAG, "Create a GoogleFitAdapter Object");
+
 
     }
 
@@ -36,8 +38,21 @@ public class GoogleFitAdapter implements FitnessService {
                 .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .build();
 
-        getCurrentStep();
-        startRecording();
+        //getCurrentStep();
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(mainActivity), fitnessOptions)) {
+            Log.i(TAG, "Need permission");
+            GoogleSignIn.requestPermissions(
+                    mainActivity, // your activity
+                    GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
+                    GoogleSignIn.getLastSignedInAccount(mainActivity),
+
+                    fitnessOptions);
+
+        } else {
+            startRecording();
+            updateStepCount();
+            Log.i(TAG, "Not get into startRecodring");
+        }
 
 
 
@@ -70,7 +85,8 @@ public class GoogleFitAdapter implements FitnessService {
      * Reads the current daily step total, computed from midnight of the current day on the device's
      * current timezone.
      */
-    public void getCurrentStep() {
+    @Override
+    public void updateStepCount() {
         GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(mainActivity);
         if (lastSignedInAccount == null) {
             return;
@@ -82,13 +98,14 @@ public class GoogleFitAdapter implements FitnessService {
                         new OnSuccessListener<DataSet>() {
                             @Override
                             public void onSuccess(DataSet dataSet) {
+
                                 Log.d(TAG, dataSet.toString());
                                 long total =
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-                                activity.setStepCount(total);
+                                mainActivity.editor.putLong(mainActivity.numStepDone,total);
+                                mainActivity.editor.apply();
                                 Log.d(TAG, "Total steps: " + total);
                             }
                         })
