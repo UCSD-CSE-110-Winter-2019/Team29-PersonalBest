@@ -20,4 +20,5 @@ public class WalkActivity extends AppCompatActivity {
             }
         });
     }
+
 }
