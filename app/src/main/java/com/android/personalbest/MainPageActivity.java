@@ -1,25 +1,15 @@
 package com.android.personalbest;
 
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.result.DailyTotalResult;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.android.personalbest.fitness.GoogleFitAdapter;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,11 +17,14 @@ public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
     private Button seeBarChart;
     private Button userSettings;
-    private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
-    private static final String TAG = "MainPageActivity";
-    public static CountStepAsynTask runner;
+    private GoogleFitAdapter googleFitAdapter;
 
-    private long total = 0;
+    private static final String TAG = "MainPageActivity";
+
+    public TextView numStepDone;
+
+    public SharedPreferences sharedPreferences;
+    public SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +33,14 @@ public class MainPageActivity extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
+        numStepDone = findViewById(R.id.numStepDone);
+
+        sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
+
+        googleFitAdapter = new GoogleFitAdapter(this);
+        googleFitAdapter.setup();
+        googleFitAdapter.updateStepInRealTime();
+
 
 
         Button startWalkActivity = (Button) findViewById(R.id.startButton);
@@ -51,27 +52,6 @@ public class MainPageActivity extends AppCompatActivity {
         });
 
 
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_WRITE)
-                .build();
-
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this, // your activity
-                    GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-        } else {
-
-            startRecording();
-            runner = new CountStepAsynTask();
-            runner.execute();
-
-        }
-
     }
 
     public void launchWalkActivity() {
@@ -80,98 +60,5 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
 
-    private void startRecording() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (lastSignedInAccount == null) {
-            return;
-        }
-
-        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
-
-                .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Successfully subscribed!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i(TAG, "There was a problem subscribing.");
-                    }
-                });
-    }
-
-    public long updateStepCount() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (lastSignedInAccount == null) {
-            return total;
-        }
-
-        Fitness.getHistoryClient(this, lastSignedInAccount)
-                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
-                .addOnSuccessListener(
-                        new OnSuccessListener<DataSet>() {
-                            @Override
-                            public void onSuccess(DataSet dataSet) {
-                                Log.d(TAG, dataSet.toString());
-                                long total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-                                Log.i(TAG, "Total steps: " + total);
-                            }
-                        })
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "There was a problem getting the step count.", e);
-                            }
-                        });
-        return total;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    private class CountStepAsynTask extends AsyncTask<Void, Long,Long> {
-
-
-        @Override
-        protected Long doInBackground(Void... params) {
-
-
-            Log.i(TAG, "doInBackground() get call ");
-
-
-            try {
-
-                total = updateStepCount();
-                publishProgress(total);
-
-                Log.i(TAG, "Total steps 11111: " + total);
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-            return total;
-        }
-
-        @Override
-        protected void onProgressUpdate(Long... count) {
-
-            Log.i(TAG, ("current count" + count));
-
-
-        }
-    }
-
-
 }
+

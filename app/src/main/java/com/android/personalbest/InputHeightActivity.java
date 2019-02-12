@@ -54,6 +54,7 @@ public class InputHeightActivity extends AppCompatActivity {
                     SharedPreferences sharedPref = getSharedPreferences(getString(R.string.user_prefs), MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
 
+
                     //Save height and default step goal in shared pref
                     editor.putInt(getString(R.string.height), Integer.parseInt(userHeight.getText().toString()));
                     editor.putInt(getString(R.string.goal), getResources().getInteger(R.integer.default_goal));
