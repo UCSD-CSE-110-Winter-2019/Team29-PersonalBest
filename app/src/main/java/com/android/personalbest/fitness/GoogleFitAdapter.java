@@ -126,10 +126,13 @@ public class GoogleFitAdapter implements FitnessService {
         runnable = new Runnable() {
             @Override
             public void run() {
+                Log.i(TAG, " updateStepCount() is calling ");
                 updateStepCount();
+                handler.postDelayed(this, 1000);
             }
         };
         handler.postDelayed(runnable, 1000);
+
     }
 }
 

@@ -12,20 +12,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.personalbest.fitness.FitnessService;
+
 import com.android.personalbest.fitness.GoogleFitAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
+
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.request.SensorRequest;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -80,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
-        editor= sharedPreferences.edit();
 
 
         //update log in status here
@@ -164,11 +159,10 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            editor = sharedPreferences.edit();
                             editor.putBoolean(LogInStatus,true);
                             editor.apply();
-
-                            //updateUI(user);
+                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -187,25 +181,24 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//
-//    private void updateUI(FirebaseUser user) {
-//        signOutButton.setVisibility(View.VISIBLE);
-//        signInButton.setVisibility(View.GONE);
-//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-//
-//        startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
-//
-//
-//        if (acct != null) {
-//            String personName = acct.getDisplayName();
-//            String personGivenName = acct.getGivenName();
-//            String personFamilyName = acct.getFamilyName();
-//            String personEmail = acct.getEmail();
-//            String personId = acct.getId();
-//            Uri personPhoto = acct.getPhotoUrl();
-//            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
-//        }
-//
-//    }
+    private void updateUI(FirebaseUser user) {
+
+        signInButton.setVisibility(View.GONE);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+
+        startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+
+
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+            Toast.makeText(this, "Name of the user: "+ personName +"user id is :" + personId,Toast.LENGTH_LONG).show();
+        }
+
+    }
 
 }
