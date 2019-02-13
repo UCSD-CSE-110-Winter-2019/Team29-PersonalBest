@@ -22,6 +22,7 @@ public class InputHeightActivity extends AppCompatActivity {
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
 
+
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +53,7 @@ public class InputHeightActivity extends AppCompatActivity {
                 if (validHeight) {
                     SharedPreferences sharedPref = getSharedPreferences(getString(R.string.user_prefs), MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
+
 
                     //Save height and default step goal in shared pref
                     editor.putInt(getString(R.string.height), Integer.parseInt(userHeight.getText().toString()));
