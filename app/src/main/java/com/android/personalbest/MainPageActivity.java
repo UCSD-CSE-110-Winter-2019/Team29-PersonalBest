@@ -1,9 +1,10 @@
 package com.android.personalbest;
 
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,12 +18,9 @@ public class MainPageActivity extends AppCompatActivity {
     private Button userSettings;
     private GoogleFitAdapter googleFitAdapter;
 
-    private static final String TAG = "MainPageActivity";
-
     public TextView numStepDone;
 
     public SharedPreferences sharedPreferences;
-    public SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +29,7 @@ public class MainPageActivity extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
+
         numStepDone = findViewById(R.id.numStepDone);
 
         sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
@@ -39,15 +38,48 @@ public class MainPageActivity extends AppCompatActivity {
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        if(walker){
+            startButton.setText("Start Walk");
+        }
+        else{
+            startButton.setText("Start Run");
+        }
 
-        Button startWalkActivity = (Button) findViewById(R.id.startButton);
-        startWalkActivity.setOnClickListener(new View.OnClickListener() {
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 launchWalkActivity();
             }
         });
 
+        seeBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchBarChartActivity();
+            }
+        });
+
+        userSettings.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                launchUserSettings();
+            }
+        });
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        if(walker == true){
+            startButton.setText("Start Walk");
+        }
+        else{
+            startButton.setText("Start Run");
+        }
 
     }
 
@@ -56,6 +88,16 @@ public class MainPageActivity extends AppCompatActivity {
         startActivity(walk);
     }
 
+
+    public void launchUserSettings() {
+        Intent settings = new Intent(this, UserSettings.class);
+        startActivity(settings);
+    }
+
+    public void launchBarChartActivity() {
+        Intent walk = new Intent(this, BarChartActivity.class);
+        startActivity(walk);
+    }
 
 }
 
