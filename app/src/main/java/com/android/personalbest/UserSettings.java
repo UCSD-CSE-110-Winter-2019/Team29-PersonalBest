@@ -16,7 +16,6 @@ public class UserSettings extends AppCompatActivity {
     private Button goBackButton;
     private RadioButton walkerOpt;
     private RadioButton runnerOpt;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
