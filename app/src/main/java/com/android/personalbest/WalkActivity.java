@@ -1,31 +1,45 @@
 package com.android.personalbest;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
+
 
 public class WalkActivity extends AppCompatActivity {
 
-    private Chronometer chronometer;
+    public Chronometer chronometer;
+    private SharedPrefManager sharedPrefManager;
+    private WalkDataAdapter walkDataAdapter;
+
+
+    public TextView intenionalStepTextView;
+    public TextView milesTextView;
+    public TextView MPHTextView;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
 
-        chronometer = findViewById(R.id.chronometer);
-        //set the base of the chronometer to be the current system's clock
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        //start timer
-        chronometer.start();
+        initiateWalkDataTextView();
+        walkDataAdapter = new WalkDataAdapter(this);
+
+
         Button endWalk = (Button)findViewById(R.id.endButton);
         SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        sharedPrefManager = new SharedPrefManager(this);
+
+
+
         if(walker == true){
             endWalk.setText("End Walk");
         }
@@ -35,10 +49,14 @@ public class WalkActivity extends AppCompatActivity {
         endWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(RESULT_OK, returnElapsedTime());
+                setResult(RESULT_OK, walkDataAdapter.returnElapsedTime());
                 finish();
             }
         });
+
+        walkDataAdapter.updateWalkStepInRealTime();
+
+
 
 
         //finish() destroys this activity and returns to main activity
@@ -62,14 +80,15 @@ public class WalkActivity extends AppCompatActivity {
 
     }
 
-    //method to be called when user clicks "end walk"
-    //returns the time elapsed
-    public Intent returnElapsedTime() {
-        chronometer.stop();
-        long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-        Intent intent = new Intent();
-        intent.putExtra("time elapsed", elapsedTime);
-        return intent;
+
+
+    public void initiateWalkDataTextView(){
+
+        intenionalStepTextView = findViewById(R.id.intenionalStep);
+        milesTextView = findViewById(R.id.miles);
+        MPHTextView = findViewById(R.id.MPH);
+        chronometer = findViewById(R.id.chronometer);
+
     }
 
 }

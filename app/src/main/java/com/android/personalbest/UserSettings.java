@@ -29,6 +29,7 @@ public class UserSettings extends AppCompatActivity {
 
         SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+
         if(walker == true){
             walkerOpt.setChecked(true);
             runnerOpt.setChecked(false);
@@ -67,7 +68,6 @@ public class UserSettings extends AppCompatActivity {
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
-
             if(walkerOpt.isChecked()){
                 SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
                 SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();

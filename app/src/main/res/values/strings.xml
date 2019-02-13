@@ -16,6 +16,7 @@
 
     <!-- MainPageActivityRun -->
     <string name="start_run">Start Run</string>
+    <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
@@ -41,6 +42,7 @@
     <string name="first_time">firstTime</string>
     <string name="height">height</string>
     <string name="goal">goal</string>
+    <string name="num_steps_in_mile">numStepsInMile</string>
     <string name="title_activity_user_settings">UserSettings</string>
 
     <!-- UserSettings -->
@@ -52,8 +54,19 @@
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
 
-    <!-- BarChar -->
+    <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
+
+    <!--GoogleFitAdpter-->
+    <string name="totalStep">totalStep</string>
+    
+    <!--WalkActivity-->
+    <string name="intentionalStep">intentionalStep</string>
+
+    <!--WalkDataAdapter-->
+    <string name="elapsedTime">timeElapsed</string>
+    <string name="milesInDisplay">mileInDisplay</string>
+    <string name="MPH">MPH</string>
 
 
     <string name="_0">0</string>
