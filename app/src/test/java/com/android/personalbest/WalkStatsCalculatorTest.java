@@ -1,17 +1,10 @@
 package com.android.personalbest;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.widget.Button;
-import android.widget.EditText;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowToast;
 
 import static org.junit.Assert.assertEquals;
 

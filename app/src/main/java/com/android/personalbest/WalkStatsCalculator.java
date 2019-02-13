@@ -15,12 +15,12 @@ public class WalkStatsCalculator {
     }
 
     //Reference for calculating miles: https://www.openfit.com/how-many-steps-walk-per-mile
+    //Pass in height from Shared Pref (int heightInInches = sharedPrefManager.getHeight();)
+    //Save output to Shared Pref to avoid repeated calculation (sharedPrefManager.storeNumStepsInMile(numStepsInMile);)
     protected int calculateNumStepsInMile(int heightInInches) {
-        //int heightInInches = sharedPrefManager.getHeight(); removed due to testing dependency (move this somewhere else)
         double averageStrideLengthInInches = heightInInches * STRIDE_LENGTH_MULTIPLIER;
         double averageStrideLengthInFeet = averageStrideLengthInInches/res.getInteger(R.integer.num_inches_in_foot);
         int numStepsInMile = (int) (res.getInteger(R.integer.num_feet_in_mile)/averageStrideLengthInFeet);
-        //sharedPrefManager.storeNumStepsInMile(numStepsInMile); move all the shared pref dependencies out !!!
         return numStepsInMile;
     }
 
