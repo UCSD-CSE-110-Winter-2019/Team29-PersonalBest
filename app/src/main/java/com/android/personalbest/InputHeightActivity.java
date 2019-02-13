@@ -59,6 +59,13 @@ public class InputHeightActivity extends AppCompatActivity {
                     editor.putBoolean(getString(R.string.first_time), true);
                     editor.apply();
 
+                    //creating sharedpreference to keep track of whether user is a walker runner
+                    SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
+                    SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
+                    //default is walker
+                    editorWalkerRunner.putBoolean("isWalker", true);
+                    editorWalkerRunner.apply();
+
                     startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
                 }
             }

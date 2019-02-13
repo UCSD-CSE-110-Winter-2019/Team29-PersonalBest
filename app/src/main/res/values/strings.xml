@@ -14,6 +14,9 @@
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
 
+    <!-- MainPageActivityRun -->
+    <string name="start_run">Start Run</string>
+
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
     <string name="title_activity_walk">WalkActivity</string>
@@ -21,6 +24,9 @@
     <string name="mph">MPH:</string>
     <string name="steps">Steps:</string>
     <string name="miles">Miles:</string>
+
+    <!-- WalkActivity -->
+    <string name="end_run">End Run</string>
 
 
     <!-- HeightInputActivity -->
@@ -35,7 +41,16 @@
     <string name="first_time">firstTime</string>
     <string name="height">height</string>
     <string name="goal">goal</string>
+    <string name="title_activity_user_settings">UserSettings</string>
 
+    <!-- UserSettings -->
+    <string name="settings">SETTINGS</string>
+    <string name="change_goal">Change Goal</string>
+    <string name="app_proposed_goals">App-Proposed Goals</string>
+    <string name="home">Home</string>
+    <string name="walker_or_runner">Walker or Runner?</string>
+    <string name="walker_option">Walker</string>
+    <string name="runner_option">Runner</string>
 
 
 </resources>
