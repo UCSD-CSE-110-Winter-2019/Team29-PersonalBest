@@ -39,8 +39,14 @@ public class MainPageActivity extends AppCompatActivity {
             }
         });
 
-        Button goToSettings = (Button) findViewById(R.id.userSettings);
-        goToSettings.setOnClickListener(new View.OnClickListener(){
+        seeBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchBarChartActivity();
+            }
+        });
+
+        userSettings.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 launchUserSettings();
@@ -71,6 +77,11 @@ public class MainPageActivity extends AppCompatActivity {
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettings.class);
         startActivity(settings);
+    }
+
+    public void launchBarChartActivity() {
+        Intent walk = new Intent(this, BarChartActivity.class);
+        startActivity(walk);
     }
 
 

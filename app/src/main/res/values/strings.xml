@@ -52,5 +52,9 @@
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
 
+    <!-- BarChar -->
+    <string name="this_week">THIS WEEK</string>
+
+
 
 </resources>

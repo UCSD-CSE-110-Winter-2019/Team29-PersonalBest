@@ -81,21 +81,5 @@ public class UserSettings extends AppCompatActivity {
                 editorWalkerRunner.putBoolean("isWalker", false);
                 editorWalkerRunner.apply();
             }
-       // switch(view.getId()) {
-            /**case R.id.walkerOption:
-                if(checked){
-                    SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-                    SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                    editorWalkerRunner.putBoolean("isWalker", true);
-                    editorWalkerRunner.apply();
-                }
-            case R.id.runnerOption:
-                if(checked) {
-                    SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-                    SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                    editorWalkerRunner.putBoolean("isWalker", false);
-                    editorWalkerRunner.apply();
-                }
-        }**/
     }
 }
