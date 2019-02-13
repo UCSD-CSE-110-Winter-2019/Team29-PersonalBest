@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.android.personalbest.fitness.GoogleFitAdapter;
 
 
-import java.util.concurrent.TimeUnit;
-
 public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
     private Button seeBarChart;
@@ -40,7 +38,6 @@ public class MainPageActivity extends AppCompatActivity {
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
-
 
 
         Button startWalkActivity = (Button) findViewById(R.id.startButton);
