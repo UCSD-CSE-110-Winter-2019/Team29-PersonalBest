@@ -41,6 +41,7 @@
     <string name="first_time">firstTime</string>
     <string name="height">height</string>
     <string name="goal">goal</string>
+    <string name="num_steps_in_mile">numStepsInMile</string>
     <string name="title_activity_user_settings">UserSettings</string>
 
     <!-- UserSettings -->
@@ -52,7 +53,7 @@
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
 
-    <!-- BarChar -->
+    <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
 
 
