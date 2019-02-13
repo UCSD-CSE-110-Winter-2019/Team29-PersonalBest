@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.concurrent.TimeUnit;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String LogInStatus = "LogInStatus";
     private boolean login = false;
+
 
     private boolean haveInputtedHeight = false;
 
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(TAG,"Log in button is pressed");
                 signIn();
             }
         });
@@ -174,9 +176,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-
 
 
 
