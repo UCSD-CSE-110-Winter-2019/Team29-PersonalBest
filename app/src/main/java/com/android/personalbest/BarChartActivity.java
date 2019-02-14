@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.mikephil.charting.charts.BarChart;
+
 public class BarChartActivity extends AppCompatActivity {
 
     private Button userSettingsButton;
@@ -34,6 +36,13 @@ public class BarChartActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        BarChart chart = (BarChart) findViewById(R.id.barChart);
 
     }
 

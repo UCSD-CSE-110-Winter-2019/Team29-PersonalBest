@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 
 public class UserSettings extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class UserSettings extends AppCompatActivity {
     private Button goBackButton;
     private RadioButton walkerOpt;
     private RadioButton runnerOpt;
+    private CheckBox proposedGoals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class UserSettings extends AppCompatActivity {
         goBackButton = findViewById(R.id.homeButton);
         walkerOpt = findViewById(R.id.walkerOption);
         runnerOpt = findViewById(R.id.runnerOption);
+        proposedGoals = findViewById(R.id.appProposedGoals);
 
         SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
@@ -63,12 +66,7 @@ public class UserSettings extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-
-            if(walkerOpt.isChecked()){
+        if(walkerOpt.isChecked()){
                 SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
                 SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
                 editorWalkerRunner.putBoolean("isWalker", true);
