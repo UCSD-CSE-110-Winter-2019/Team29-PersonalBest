@@ -8,8 +8,8 @@ import java.util.Calendar;
 
 public class SharedPrefManager {
 
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+    public SharedPreferences sharedPref;
+    public SharedPreferences.Editor editor;
     Resources res;
     Context context;
 
@@ -20,12 +20,17 @@ public class SharedPrefManager {
         editor = sharedPref.edit();
     }
 
-    int getHeight() {
-        return sharedPref.getInt(res.getString(R.string.height), context.MODE_PRIVATE);
+    public int getHeight() {
+        return sharedPref.getInt(res.getString(R.string.height), 0);
     }
 
-    void storeNumStepsInMile(int numStepsInMile) {
+    public void storeNumStepsInMile(int numStepsInMile) {
         editor.putInt(res.getString(R.string.num_steps_in_mile), context.MODE_PRIVATE);
         editor.apply();
     }
+
+    public int getGoal(){
+        return sharedPref.getInt(res.getString(R.string.goal),0);
+    }
+
 }

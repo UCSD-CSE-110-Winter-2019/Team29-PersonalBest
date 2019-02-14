@@ -28,7 +28,6 @@
     <!-- WalkActivity -->
     <string name="end_run">End Run</string>
 
-
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
     <string name="height_purpose">Your height will be used to estimate your stride length</string>
@@ -53,10 +52,11 @@
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
 
+    <!--GoogleFitAdapter-->
+    <string name="totalStep">totalStep</string>
+
     <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
-
-
     <string name="_0">0</string>
 
 

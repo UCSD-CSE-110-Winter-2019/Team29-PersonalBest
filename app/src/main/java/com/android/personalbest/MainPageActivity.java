@@ -19,6 +19,7 @@ public class MainPageActivity extends AppCompatActivity {
     private GoogleFitAdapter googleFitAdapter;
 
     public TextView numStepDone;
+    public TextView numStepsToGoal;
 
     public SharedPreferences sharedPreferences;
 
@@ -31,6 +32,7 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
 
         numStepDone = findViewById(R.id.numStepDone);
+        numStepsToGoal = findViewById(R.id.numStepsToGoal);
 
         sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
 
