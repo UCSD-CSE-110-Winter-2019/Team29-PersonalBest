@@ -33,17 +33,17 @@ public class WalkActivity extends AppCompatActivity {
 
 
         Button endWalk = (Button)findViewById(R.id.endButton);
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
         sharedPrefManager = new SharedPrefManager(this);
 
 
 
         if(walker == true){
-            endWalk.setText("End Walk");
+            endWalk.setText(getString(R.string.end_walk));
         }
         else{
-            endWalk.setText("End Run");
+            endWalk.setText(getString(R.string.end_run));
         }
         endWalk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,10 +71,10 @@ public class WalkActivity extends AppCompatActivity {
         boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
         Button endWalk = (Button)findViewById(R.id.endButton);
         if(walker == true){
-            endWalk.setText("End Walk");
+            endWalk.setText(getString(R.string.end_walk));
         }
         else{
-            endWalk.setText("End Run");
+            endWalk.setText(getString(R.string.end_run));
         }
 
     }

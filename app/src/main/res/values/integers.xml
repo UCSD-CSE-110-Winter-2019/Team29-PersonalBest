@@ -5,7 +5,7 @@
     <integer name="eight_feet_in_inches">96</integer>
     <integer name="num_inches_in_foot">12</integer>
     <integer name="num_feet_in_mile">5280</integer>
-    <integer name="num_mins_in_hour">60</integer>
+    <integer name="num_milli_second_in_hour">3600000</integer>
 
 
 </resources>

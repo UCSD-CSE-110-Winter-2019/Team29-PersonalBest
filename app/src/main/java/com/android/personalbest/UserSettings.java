@@ -27,8 +27,8 @@ public class UserSettings extends AppCompatActivity {
         walkerOpt = findViewById(R.id.walkerOption);
         runnerOpt = findViewById(R.id.runnerOption);
 
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.runner_option), true);
 
         if(walker == true){
             walkerOpt.setChecked(true);
@@ -50,8 +50,8 @@ public class UserSettings extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker == true){
             walkerOpt.setChecked(true);
             runnerOpt.setChecked(false);
@@ -69,15 +69,15 @@ public class UserSettings extends AppCompatActivity {
 
         // Check which radio button was clicked
             if(walkerOpt.isChecked()){
-                SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
+                SharedPreferences sharedPrefWalkerRunner = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
                 SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                editorWalkerRunner.putBoolean("isWalker", true);
+                editorWalkerRunner.putBoolean(getString(R.string.walker_option), true);
                 editorWalkerRunner.apply();
             }
             else{
-                SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
+                SharedPreferences sharedPrefWalkerRunner = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
                 SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                editorWalkerRunner.putBoolean("isWalker", false);
+                editorWalkerRunner.putBoolean(getString(R.string.walker_option), false);
                 editorWalkerRunner.apply();
             }
     }

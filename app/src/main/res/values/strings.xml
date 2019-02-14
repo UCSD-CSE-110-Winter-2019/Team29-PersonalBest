@@ -3,7 +3,6 @@
     <!-- General -->
     <string name="app_name">PersonalBest</string>
     <!-- Sign In -->
-    <string name="sign_out">sign out</string>
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
@@ -11,16 +10,17 @@
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_to_go">STEPS TO GO:</string>
     <string name="start_walk">Start Walk</string>
+    <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
 
     <!-- MainPageActivityRun -->
-    <string name="start_run">Start Run</string>
+
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
-    <string name="title_activity_walk">WalkActivity</string>
+    <string name="intentionalStep">intentionalStep</string>
     <string name="time_elapsed">Time Elapsed:</string>
     <string name="mph">MPH:</string>
     <string name="steps">Steps:</string>
@@ -33,7 +33,6 @@
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
     <string name="height_purpose">Your height will be used to estimate your stride length</string>
-    <string name="zero">0</string>
     <string name="inches">inches</string>
     <string name="invalid_input">Invalid height. Please input your height in inches.</string>
     <string name="empty_input">Please input your height</string>
@@ -44,7 +43,7 @@
     <string name="height">height</string>
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
-    <string name="title_activity_user_settings">UserSettings</string>
+
 
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
@@ -61,9 +60,8 @@
     <!--GoogleFitAdpter-->
     <string name="totalStep">totalStep</string>
     
-    <!--WalkActivity-->
-    <!--WalkActivity-->
-    <string name="intentionalStep">intentionalStep</string>
+
+
 
     <!--WalkDataAdapter-->
     <string name="elapsedTime">timeElapsed</string>

@@ -29,7 +29,7 @@ public class WalkStatsCalculator {
     }
 
     public float calculateMilesPerHour(float miles, long millisecond) {
-        float hours = ((float) millisecond)/3600000;
+        float hours = ((float) millisecond)/res.getInteger(R.integer.num_milli_second_in_hour);
         return miles/hours;
     }
 }
