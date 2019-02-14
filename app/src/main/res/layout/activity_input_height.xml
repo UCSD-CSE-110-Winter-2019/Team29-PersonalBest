@@ -19,7 +19,6 @@
         android:digits="0123456789"
         android:ems="10"
         android:hint="@string/_0"
-        android:autofillHints="@string/_0"
         android:textAlignment="center"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
