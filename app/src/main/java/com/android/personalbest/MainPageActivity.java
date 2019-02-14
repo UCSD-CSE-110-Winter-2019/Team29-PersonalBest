@@ -20,6 +20,7 @@ public class MainPageActivity extends AppCompatActivity {
     private int curStep;
 
     public TextView numStepDone;
+    public TextView numStepsToGoal;
 
     public SharedPrefManager sharedPrefManager;
 
@@ -33,6 +34,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         //Total Step done
         numStepDone = findViewById(R.id.numStepDone);
+        numStepsToGoal = findViewById(R.id.numStepsToGoal);
 
         sharedPrefManager = new SharedPrefManager(this);
 

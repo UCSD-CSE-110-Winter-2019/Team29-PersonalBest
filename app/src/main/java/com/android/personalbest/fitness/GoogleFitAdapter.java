@@ -25,19 +25,21 @@ public class GoogleFitAdapter implements FitnessService {
     private MainPageActivity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
+    private int goal = sharedPrefManager.getGoal();
+
 
     private Handler handler;
     private Runnable runnable;
-
 
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity);
 
+
     }
 
-    //FitnessOptions setup and ask permission if needed
+
     public void setup() {
 
         FitnessOptions fitnessOptions = FitnessOptions.builder()
@@ -103,6 +105,8 @@ public class GoogleFitAdapter implements FitnessService {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
+
+                                activity.numStepsToGoal.setText(String.valueOf(goal-total));
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 

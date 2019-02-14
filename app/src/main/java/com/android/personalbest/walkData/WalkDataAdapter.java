@@ -21,11 +21,11 @@ public class WalkDataAdapter implements WalkData {
     private int totalStep = 0;
     private int intenionalStep = 0;
     private float miles;
-    private long numberStepInMiles;
-    private long MPH;
+    private int numberStepInMiles;
+    private float MPH;
 
-    private long elapsedTime;
-    private long curElasedTime;
+    private int elapsedTime;
+    private int curElasedTime;
     private int upDateTimeInterval = 1000;
 
     private Handler handler;
@@ -47,10 +47,9 @@ public class WalkDataAdapter implements WalkData {
         //start timer
         walkActivity.chronometer.start();
     }
-
     @Override
-    public long getCurrentElapsedTime(){
-        curElasedTime = SystemClock.elapsedRealtime() - walkActivity.chronometer.getBase();
+    public int getCurrentElapsedTime(){
+        curElasedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
         return curElasedTime;
     }
 
@@ -58,7 +57,7 @@ public class WalkDataAdapter implements WalkData {
     public Intent returnElapsedTime(){
 
         walkActivity.chronometer.stop();
-        elapsedTime = SystemClock.elapsedRealtime() - walkActivity.chronometer.getBase();
+        elapsedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
         sharedPrefManager.editor.putLong(walkActivity.getString(R.string.elapsedTime),elapsedTime);
         sharedPrefManager.editor.apply();
         Intent intent = new Intent();
@@ -102,10 +101,10 @@ public class WalkDataAdapter implements WalkData {
     public void displayMPH(){
 
          miles = sharedPrefManager.sharedPref.getFloat(walkActivity.getString(R.string.milesInDisplay),miles);
-         MPH = walkStatsCalculator.calculateMilesPerHour((double)miles,getCurrentElapsedTime());
+         MPH = walkStatsCalculator.calculateMilesPerHour(miles,getCurrentElapsedTime());
          walkActivity.MPHTextView.setText(String.valueOf(MPH));
 
-         sharedPrefManager.editor.putLong(walkActivity.getString(R.string.MPH),MPH);
+         sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.MPH),MPH);
          sharedPrefManager.editor.apply();
 
 

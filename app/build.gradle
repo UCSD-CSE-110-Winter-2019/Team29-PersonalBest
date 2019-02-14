@@ -23,8 +23,11 @@ android {
         }
     }
     lintOptions {
-        warningsAsErrors = false
+
         abortOnError false
+        warningsAsErrors = true
+        disable 'UnusedAttribute', 'OldTargetApi'
+
     }
 }
 

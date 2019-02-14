@@ -13,7 +13,6 @@ public class WalkStatsCalculatorTest {
     WalkActivity walkActivity;
     WalkStatsCalculator walkStatsCalculator;
 
-    //added to avoid empty test suite error
     public WalkStatsCalculatorTest() {}
 
     @Before
@@ -40,23 +39,23 @@ public class WalkStatsCalculatorTest {
     public void testCalculateMilesWhenWalkedLessThanMile() {
         int numStepsInMile = 2360;
         int numStepsTaken = 1000;
-        double expectedMiles = 0.4;
-        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.05);
+        float expectedMiles = 0.4f;
+        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
     }
 
     @Test
     public void testCalculateMilesWhenWalkedMoreThanMile() {
         int numStepsInMile = 2360;
         int numStepsTaken = 5000;
-        double expectedMiles = 2.1;
-        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.05);
+        float expectedMiles = 2.1f;
+        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
     }
 
     @Test
     public void testCalculateMilesPerHour() {
-        double miles = 2.12;
+        float miles = 2.12f;
         int minutes = 45;
-        double expectedMilesPerHour = 2.8;
-        assertEquals(expectedMilesPerHour, walkStatsCalculator.calculateMilesPerHour(miles, minutes), 0.05);
+        float expectedMilesPerHour = 2.8f;
+        assertEquals(expectedMilesPerHour, walkStatsCalculator.calculateMilesPerHour(miles, minutes), 0.00);
     }
 }
