@@ -34,7 +34,7 @@ public class WalkActivity extends AppCompatActivity {
 
         Button endWalk = (Button)findViewById(R.id.endButton);
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         sharedPrefManager = new SharedPrefManager(this);
 
 
@@ -67,8 +67,8 @@ public class WalkActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         Button endWalk = (Button)findViewById(R.id.endButton);
         if(walker == true){
             endWalk.setText(getString(R.string.end_walk));

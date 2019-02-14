@@ -21,8 +21,8 @@ public class WalkDataAdapter implements WalkData {
     private int totalStep = 0;
     private int intenionalStep = 0;
     private float miles;
-    private float numberStepInMiles;
-    private float MPH;
+    private long numberStepInMiles;
+    private long MPH;
 
     private long elapsedTime;
     private long curElasedTime;
@@ -102,10 +102,10 @@ public class WalkDataAdapter implements WalkData {
     public void displayMPH(){
 
          miles = sharedPrefManager.sharedPref.getFloat(walkActivity.getString(R.string.milesInDisplay),miles);
-         MPH = walkStatsCalculator.calculateMilesPerHour(miles,getCurrentElapsedTime());
+         MPH = walkStatsCalculator.calculateMilesPerHour((double)miles,getCurrentElapsedTime());
          walkActivity.MPHTextView.setText(String.valueOf(MPH));
 
-         sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.MPH),MPH);
+         sharedPrefManager.editor.putLong(walkActivity.getString(R.string.MPH),MPH);
          sharedPrefManager.editor.apply();
 
 

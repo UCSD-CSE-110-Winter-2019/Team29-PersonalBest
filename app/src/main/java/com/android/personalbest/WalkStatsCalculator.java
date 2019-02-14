@@ -24,12 +24,16 @@ public class WalkStatsCalculator {
         return numStepsInMile;
     }
 
-    public float calculateMiles(int numStepsTaken, float numStepsInMile) {
-        return ((float) numStepsTaken)/numStepsInMile;
+    public long calculateMiles(int numStepsTaken, long numStepsInMile) {
+        return ((long) numStepsTaken)/numStepsInMile;
     }
 
-    public float calculateMilesPerHour(float miles, long millisecond) {
-        float hours = ((float) millisecond)/res.getInteger(R.integer.num_milli_second_in_hour);
-        return miles/hours;
+    public long calculateMilesPerHour(double miles, long millisecond) {
+
+         long hours = ( millisecond)/res.getInteger(R.integer.num_milli_second_in_hour);
+         if (hours == 0){
+             return 0;
+         }
+        return (long)miles/hours;
     }
 }
