@@ -29,6 +29,10 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public int getGoal(){
+        return sharedPref.getInt(res.getString(R.string.goal),0);
+    }
+
     //Called when "end walk" button is pressed
     void storeIntentionalWalkStats(int dayOfWeek, int intentionalStepsTaken, float intentionalDistanceInMiles,
                                    float intentionalMilesPerHour, int intentionalTimeElapsed) {
