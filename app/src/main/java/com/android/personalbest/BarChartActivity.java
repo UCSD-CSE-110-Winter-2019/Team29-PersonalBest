@@ -32,15 +32,10 @@ public class BarChartActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
     }
 
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettings.class);
         startActivity(settings);
     }
-
-
 }
