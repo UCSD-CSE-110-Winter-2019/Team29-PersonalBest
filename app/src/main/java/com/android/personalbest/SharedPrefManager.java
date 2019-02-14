@@ -18,6 +18,7 @@ public class SharedPrefManager {
         res = context.getResources();
         sharedPref = context.getSharedPreferences(res.getString(R.string.user_prefs), context.MODE_PRIVATE);
         editor = sharedPref.edit();
+        editor.apply();
     }
 
     public int getHeight() {

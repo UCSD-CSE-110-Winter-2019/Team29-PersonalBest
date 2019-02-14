@@ -24,13 +24,13 @@ public class WalkActivity extends AppCompatActivity {
         //start timer
         chronometer.start();
         Button endWalk = (Button)findViewById(R.id.endButton);
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker == true){
-            endWalk.setText("End Walk");
+            endWalk.setText(getString(R.string.end_walk));
         }
         else{
-            endWalk.setText("End Run");
+            endWalk.setText(getString(R.string.end_run));
         }
         endWalk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,14 +50,14 @@ public class WalkActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         Button endWalk = (Button)findViewById(R.id.endButton);
         if(walker == true){
-            endWalk.setText("End Walk");
+            endWalk.setText(getString(R.string.end_walk));
         }
         else{
-            endWalk.setText("End Run");
+            endWalk.setText(getString(R.string.end_run));
         }
 
     }
@@ -68,7 +68,7 @@ public class WalkActivity extends AppCompatActivity {
         chronometer.stop();
         long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
         Intent intent = new Intent();
-        intent.putExtra("time elapsed", elapsedTime);
+        intent.putExtra(getString(R.string.time_elapsed), elapsedTime);
         return intent;
     }
 

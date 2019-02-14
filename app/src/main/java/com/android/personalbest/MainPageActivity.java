@@ -40,13 +40,13 @@ public class MainPageActivity extends AppCompatActivity {
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker){
-            startButton.setText("Start Walk");
+            startButton.setText(getString(R.string.start_walk));
         }
         else{
-            startButton.setText("Start Run");
+            startButton.setText(getString(R.string.start_run));
         }
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -74,13 +74,13 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker == true){
-            startButton.setText("Start Walk");
+            startButton.setText(getString(R.string.start_walk));
         }
         else{
-            startButton.setText("Start Run");
+            startButton.setText(getString(R.string.start_run));
         }
 
     }
