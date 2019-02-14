@@ -33,6 +33,7 @@
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
     <string name="height_purpose">Your height will be used to estimate your stride length</string>
+    <string name="zero">0</string>
     <string name="inches">inches</string>
     <string name="invalid_input">Invalid height. Please input your height in inches.</string>
     <string name="empty_input">Please input your height</string>
@@ -60,6 +61,7 @@
     <!--GoogleFitAdpter-->
     <string name="totalStep">totalStep</string>
     
+    <!--WalkActivity-->
     <!--WalkActivity-->
     <string name="intentionalStep">intentionalStep</string>
 

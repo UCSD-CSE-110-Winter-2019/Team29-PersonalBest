@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
+import com.android.personalbest.walkData.WalkDataAdapter;
+
 
 public class WalkActivity extends AppCompatActivity {
 
@@ -19,9 +21,6 @@ public class WalkActivity extends AppCompatActivity {
     public TextView intenionalStepTextView;
     public TextView milesTextView;
     public TextView MPHTextView;
-
-
-
 
 
     @Override
@@ -79,8 +78,6 @@ public class WalkActivity extends AppCompatActivity {
         }
 
     }
-
-
 
     public void initiateWalkDataTextView(){
 

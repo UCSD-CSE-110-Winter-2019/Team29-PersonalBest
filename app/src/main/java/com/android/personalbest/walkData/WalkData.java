@@ -1,4 +1,4 @@
-package com.android.personalbest;
+package com.android.personalbest.walkData;
 
 import android.content.Intent;
 
@@ -11,6 +11,5 @@ public interface WalkData {
     long getCurrentElapsedTime();
     Intent returnElapsedTime();
     void updateWalkStepInRealTime();
-
 
 }
