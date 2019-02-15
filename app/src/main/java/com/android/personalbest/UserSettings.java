@@ -4,6 +4,7 @@
 
 package com.android.personalbest;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,9 +45,14 @@ public class UserSettings extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                launchMainActivity();
             }
         });
+    }
+
+    public void launchMainActivity() {
+        Intent walk = new Intent(this, MainPageActivity.class);
+        startActivity(walk);
     }
 
     @Override
