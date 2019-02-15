@@ -26,6 +26,7 @@ public class GoogleFitAdapter implements FitnessService {
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
     private int goal;
+    private GoogleSignInAccount lastSignedInAccount;
 
 
     private Handler handler;
@@ -36,6 +37,7 @@ public class GoogleFitAdapter implements FitnessService {
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity);
         goal = sharedPrefManager.getGoal();
+        lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
 
     }
 
@@ -60,12 +62,12 @@ public class GoogleFitAdapter implements FitnessService {
     }
 
     private void startRecording() {
-//        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
-//        if (lastSignedInAccount == null) {
-//            return;
-//        }
+        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
+        if (lastSignedInAccount == null) {
+            return;
+        }
 
-        Fitness.getRecordingClient(activity, GoogleSignIn.getLastSignedInAccount(activity))
+        Fitness.getRecordingClient(activity, lastSignedInAccount)
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -87,7 +89,7 @@ public class GoogleFitAdapter implements FitnessService {
      * current timezone.
      */
     public void updateStepCount() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
+
         if (lastSignedInAccount == null) {
             return;
         }
