@@ -18,6 +18,7 @@
         android:layout_marginBottom="220dp"
         android:digits="0123456789"
         android:ems="10"
+        android:autofillHints="@string/_0"
         android:textAlignment="center"
         android:hint="@string/inches"
         android:inputType="numberDecimal"
