@@ -28,29 +28,29 @@ public class WalkStatsCalculatorTest {
         assertEquals(expectedNumStepsInMile, walkStatsCalculator.calculateNumStepsInMile(heightInInches));
     }
 
-//    @Test
-//    public void testCalculateNumStepsInMile2() {
-//        int heightInInches = 74; // 6.2 feet
-//        int expectedNumStepsInMile = 2073; // calculation used: 5280/((74 * 0.413)/12)
-//        assertEquals(expectedNumStepsInMile, walkStatsCalculator.calculateNumStepsInMile(heightInInches));
-//    }
-//
-//    @Test
-//    public void testCalculateMilesWhenWalkedLessThanMile() {
-//        int numStepsInMile = 2360;
-//        int numStepsTaken = 1000;
-//        float expectedMiles = 0.4f;
-//        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
-//    }
-//
-//    @Test
-//    public void testCalculateMilesWhenWalkedMoreThanMile() {
-//        int numStepsInMile = 2360;
-//        int numStepsTaken = 5000;
-//        float expectedMiles = 2.1f;
-//        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
-//    }
-//
+    @Test
+    public void testCalculateNumStepsInMile2() {
+        int heightInInches = 74; // 6.2 feet
+        int expectedNumStepsInMile = 2073; // calculation used: 5280/((74 * 0.413)/12)
+        assertEquals(expectedNumStepsInMile, walkStatsCalculator.calculateNumStepsInMile(heightInInches));
+    }
+
+    @Test
+    public void testCalculateMilesWhenWalkedLessThanMile() {
+        int numStepsInMile = 2360;
+        int numStepsTaken = 1000;
+        float expectedMiles = 0.4f;
+        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
+    }
+
+    @Test
+    public void testCalculateMilesWhenWalkedMoreThanMile() {
+        int numStepsInMile = 2360;
+        int numStepsTaken = 5000;
+        float expectedMiles = 2.1f;
+        assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
+    }
+
 //    @Test
 //    public void testCalculateMilesPerHour() {
 //        float miles = 2.12f;
