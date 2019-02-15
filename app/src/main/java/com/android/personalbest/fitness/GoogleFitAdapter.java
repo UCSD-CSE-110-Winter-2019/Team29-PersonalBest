@@ -99,7 +99,6 @@ public class GoogleFitAdapter implements FitnessService {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
-                                activity.numStepsToGoal.setText(String.valueOf(goal-total));
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 

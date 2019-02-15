@@ -1,13 +1,11 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -34,15 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MainActivity";
     private FirebaseAuth mAuth;
 
-    private String LogInStatus = "LogInStatus";
     private boolean login = false;
 
     private boolean haveInputtedHeight = false;
 
-    public String numStepDone = "numStepDone";
-
-    public SharedPreferences sharedPreferences;
-    public SharedPreferences.Editor editor;
+    private SharedPrefManager sharedPrefManager;
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
@@ -52,12 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton = findViewById(R.id.sign_in_button);
         mAuth = FirebaseAuth.getInstance();
-        sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
-        //update log in status here
-        login = sharedPreferences.getBoolean(LogInStatus,login);
-        //update haveInputtedHeight here
-        haveInputtedHeight = sharedPreferences.getBoolean(getString(R.string.first_time), haveInputtedHeight);
+        login = sharedPrefManager.getLogin();
+        haveInputtedHeight = sharedPrefManager.getFirstTime();
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
@@ -116,17 +108,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            editor = sharedPreferences.edit();
-                            editor.putBoolean(LogInStatus,true);
-                            editor.apply();
+                            sharedPrefManager.setLogin(true);
                             updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this,"You are not able to log in to Google",Toast.LENGTH_LONG).show();
                         }
                     }
                 });

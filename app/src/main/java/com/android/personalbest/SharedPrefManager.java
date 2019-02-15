@@ -19,6 +19,28 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    /* Google Fit API Sign in */
+
+    public void setLogin(boolean login){
+        editor.putBoolean(res.getString(R.string.login), login);
+        editor.apply();
+    }
+
+    public boolean getLogin(){
+        return sharedPref.getBoolean(res.getString(R.string.login), false);
+    }
+
+    public void setFirstTime(boolean firstTime) {
+        editor.putBoolean(res.getString(R.string.first_time), firstTime);
+        editor.apply();
+    }
+
+    public boolean getFirstTime() {
+        return sharedPref.getBoolean(res.getString(R.string.first_time),false);
+    }
+
+    /* User settings */
+
     public void setHeight(int height) {
         editor.putInt(res.getString(R.string.height), height);
         editor.apply();
@@ -26,11 +48,6 @@ public class SharedPrefManager {
 
     public int getHeight() {
         return sharedPref.getInt(res.getString(R.string.height), 0);
-    }
-
-    public void storeNumStepsInMile(int numStepsInMile) {
-        editor.putInt(res.getString(R.string.num_steps_in_mile), context.MODE_PRIVATE);
-        editor.apply();
     }
 
     public void setGoal(int goal) {
@@ -42,11 +59,6 @@ public class SharedPrefManager {
         return sharedPref.getInt(res.getString(R.string.goal),0);
     }
 
-    public void setFirstTime(boolean firstTime) {
-        editor.putBoolean(res.getString(R.string.first_time), firstTime);
-        editor.apply();
-    }
-
     public void setIsWalker(boolean isWalker) {
         editor.putBoolean("isWalker", isWalker);
         editor.apply();
@@ -56,5 +68,9 @@ public class SharedPrefManager {
         return sharedPref.getBoolean(res.getString(R.string.walker_option), true);
     }
 
-
+    //TODO: is this ever used?
+    public void storeNumStepsInMile(int numStepsInMile) {
+        editor.putInt(res.getString(R.string.num_steps_in_mile), context.MODE_PRIVATE);
+        editor.apply();
+    }
 }

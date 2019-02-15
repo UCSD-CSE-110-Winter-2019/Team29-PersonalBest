@@ -18,7 +18,7 @@ public class MainPageActivity extends AppCompatActivity {
     private GoogleFitAdapter googleFitAdapter;
 
     public TextView numStepDone;
-    public TextView numStepsToGoal;
+    private TextView goal;
 
     private SharedPrefManager sharedPrefManager;
 
@@ -26,19 +26,19 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
+
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
-
         numStepDone = findViewById(R.id.numStepDone);
-        numStepsToGoal = findViewById(R.id.numStepsToGoal);
-
-        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
+        goal = findViewById(R.id.goal);
 
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
+        goal.setText(sharedPrefManager.getGoal());
         checkWalkOrRun();
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +66,7 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+        goal.setText(sharedPrefManager.getGoal());
         checkWalkOrRun();
     }
 
@@ -76,7 +77,7 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     public void launchUserSettings() {
-        Intent settings = new Intent(this, UserSettings.class);
+        Intent settings = new Intent(this, UserSettingsActivity.class);
         startActivity(settings);
     }
 
