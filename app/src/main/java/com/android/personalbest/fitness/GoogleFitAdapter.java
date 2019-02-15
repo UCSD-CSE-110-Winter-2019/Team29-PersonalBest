@@ -37,7 +37,6 @@ public class GoogleFitAdapter implements FitnessService {
         sharedPrefManager = new SharedPrefManager(activity);
         goal = sharedPrefManager.getGoal();
 
-
     }
 
 
