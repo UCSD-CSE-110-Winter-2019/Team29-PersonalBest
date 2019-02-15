@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class WalkOrRunTest {
-    UserSettings usersettings;
+    UserSettingsActivity usersettings;
     InputHeightActivity inputHeight;
     MainPageActivity mainPage;
     WalkActivity walkActivity;
@@ -26,7 +26,7 @@ public class WalkOrRunTest {
 
     @Before
     public void init() {
-        usersettings = Robolectric.setupActivity(UserSettings.class);
+        usersettings = Robolectric.setupActivity(UserSettingsActivity.class);
         inputHeight = Robolectric.setupActivity(InputHeightActivity.class);
         mainPage = Robolectric.setupActivity(MainPageActivity.class);
         walkActivity = Robolectric.setupActivity(WalkActivity.class);

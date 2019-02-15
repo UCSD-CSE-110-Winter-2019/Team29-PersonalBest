@@ -25,16 +25,18 @@ public class GoogleFitAdapter implements FitnessService {
     private MainPageActivity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
-    private int goal;
+    private int goal = 0;
 
     private Handler handler;
     private Runnable runnable;
+    private GoogleSignInAccount lastSignedInAccount;
 
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         goal = sharedPrefManager.getGoal();
+        lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
     }
 
     public void setup() {
@@ -83,7 +85,6 @@ public class GoogleFitAdapter implements FitnessService {
      * current timezone.
      */
     public void updateStepCount() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
         if (lastSignedInAccount == null) {
             return;
         }

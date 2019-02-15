@@ -1,6 +1,7 @@
 package com.android.personalbest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,7 +11,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-
 
 import java.util.ArrayList;
 
@@ -39,38 +39,61 @@ public class BarChartActivity extends AppCompatActivity {
 
         //getting total number of steps for each day
         ArrayList<BarEntry> entries = new ArrayList<>();
-        /**int sundaySteps = pastWeek.getTotalStepsTaken(Calendar.SUNDAY);
-        int mondaySteps = pastWeek.getTotalStepsTaken(Calendar.MONDAY);
-        int tuesdaySteps = pastWeek.getTotalStepsTaken(Calendar.TUESDAY);
-        int wednesdaySteps = pastWeek.getTotalStepsTaken(Calendar.WEDNESDAY);
-        int thursdaySteps = pastWeek.getTotalStepsTaken(Calendar.THURSDAY);
-        int fridaySteps = pastWeek.getTotalStepsTaken(Calendar.FRIDAY);
-        int saturdaySteps = pastWeek.getTotalStepsTaken(Calendar.SATURDAY);**/
+        /**int sundayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SUNDAY);
+        int mondayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.MONDAY);
+        int tuesdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.TUESDAY);
+        int wednesdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.WEDNESDAY);
+        int thursdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.THURSDAY);
+        int fridayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.FRIDAY);
+        int saturdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SATURDAY);
 
-        int sundaySteps = 1000;
-        int mondaySteps = 0;
-        int tuesdaySteps = 2450;
-        int wednesdaySteps = 3000;
-        int thursdaySteps = 500;
-        int fridaySteps = 10275;
-        int saturdaySteps = 8010;
+        int sundayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.SUNDAY);
+        int mondayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.MONDAY);
+        int tuesdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.TUESDAY);
+        int wednesdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.WEDNESDAY);
+        int thursdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.THURSDAY);
+        int fridayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.FRIDAY);
+        int saturdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.SATURDAY);**/
+
+
+
+        int sundayIntentionalSteps = 1000;
+        int mondayIntentionalSteps = 0;
+        int tuesdayIntentionalSteps = 2450;
+        int wednesdayIntentionalSteps = 3000;
+        int thursdayIntentionalSteps = 500;
+        int fridayIntentionalSteps = 10275;
+        int saturdayIntentionalSteps = 8010;
+
+        int sundayNonIntentional = 500;
+        int mondayNonIntentional = 0;
+        int tuesdayNonIntentional = 20;
+        int wednesdayNonIntentional = 1000;
+        int thursdayNonIntentional = 250;
+        int fridayNonIntentional = 70;
+        int saturdayNonIntentional = 2000;
+
+
 
         //setting up entries
-        entries.add(new BarEntry(1f, sundaySteps));
-        entries.add(new BarEntry(2f, mondaySteps));
-        entries.add(new BarEntry(3f, tuesdaySteps));
-        entries.add(new BarEntry(4f, wednesdaySteps));
-        entries.add(new BarEntry(5f, thursdaySteps));
-        entries.add(new BarEntry(6f, fridaySteps));
-        entries.add(new BarEntry(7f, saturdaySteps));
+        entries.add(new BarEntry(1f, new float[] { sundayIntentionalSteps, sundayNonIntentional }));
+        entries.add(new BarEntry(2f, new float[] { mondayIntentionalSteps, mondayNonIntentional }));
+        entries.add(new BarEntry(3f, new float[] { tuesdayIntentionalSteps, tuesdayNonIntentional }));
+        entries.add(new BarEntry(4f, new float[] { wednesdayIntentionalSteps, wednesdayNonIntentional }));
+        entries.add(new BarEntry(5f, new float[] { thursdayIntentionalSteps, thursdayNonIntentional }));
+        entries.add(new BarEntry(6f, new float[] { fridayIntentionalSteps, fridayNonIntentional }));
+        entries.add(new BarEntry(7f, new float[] { saturdayIntentionalSteps, saturdayNonIntentional }));
 
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
+        int[] colors = new int[]{Color.CYAN, Color.GREEN};
+        dataSet.setColors(colors);
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.75f);
         chart.setData(data);
         chart.getXAxis().setAxisMaxValue(data.getXMax() + 0.25f);
         chart.getXAxis().setAxisMinValue(data.getXMin() - 0.25f);
+
 
         //onclicklisteners for buttons
         userSettingsButton.setOnClickListener(new View.OnClickListener() {

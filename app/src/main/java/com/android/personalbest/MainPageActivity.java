@@ -47,7 +47,7 @@ public class MainPageActivity extends AppCompatActivity {
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
-        goal.setText(sharedPrefManager.getGoal());
+        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
 
         googleFitAdapter = new GoogleFitAdapter(this);
@@ -79,7 +79,7 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        goal.setText(sharedPrefManager.getGoal());
+        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
     }
 

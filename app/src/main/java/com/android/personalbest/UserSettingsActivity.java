@@ -1,6 +1,7 @@
 package com.android.personalbest;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -70,7 +71,7 @@ public class UserSettingsActivity extends AppCompatActivity {
 
     }
 
-    /**public void onRadioButtonClicked(View view) {
+   /** public void onRadioButtonClicked(View view) {
         if(walkerOpt.isChecked()){
                 SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
                 SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
