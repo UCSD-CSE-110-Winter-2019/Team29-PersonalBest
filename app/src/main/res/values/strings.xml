@@ -3,7 +3,6 @@
     <!-- General -->
     <string name="app_name">PersonalBest</string>
     <!-- Sign In -->
-    <string name="sign_out">sign out</string>
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
@@ -11,23 +10,17 @@
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_to_go">STEPS TO GO:</string>
     <string name="start_walk">Start Walk</string>
+    <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
 
-    <!-- MainPageActivityRun -->
-    <string name="start_run">Start Run</string>
-
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
-    <string name="title_activity_walk">WalkActivity</string>
+    <string name="end_run">End Run</string>
     <string name="time_elapsed">Time Elapsed:</string>
     <string name="mph">MPH:</string>
     <string name="steps">Steps:</string>
     <string name="miles">Miles:</string>
-
-    <!-- WalkActivity -->
-    <string name="end_run">End Run</string>
-
 
     <!-- HeightInputActivity -->
     <string name="input_height">Input Your Height</string>
@@ -41,7 +34,7 @@
     <string name="first_time">firstTime</string>
     <string name="height">height</string>
     <string name="goal">goal</string>
-    <string name="title_activity_user_settings">UserSettings</string>
+    <string name="num_steps_in_mile">numStepsInMile</string>
 
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
@@ -52,12 +45,28 @@
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
 
-    <!-- BarChar -->
+    <!--GoogleFitAdapter-->
+    <string name="totalStep">totalStep</string>
+
+    <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
-
-
     <string name="_0">0</string>
 
+    <!-- DaysOfWeek -->
+    <string name="Sunday">Sunday</string>
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
 
+    <string name="totalStepsTaken">totalStepsTaken</string>
+    <string name="intentionalStepsTaken">intentionalStepsTaken</string>
+    <string name="intentionalDistanceInMiles">intentionalDistanceInMiles</string>
+    <string name="intentionalMilesPerHour">intentionalMilesPerHour</string>
+    <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
+
+    <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
 
 </resources>

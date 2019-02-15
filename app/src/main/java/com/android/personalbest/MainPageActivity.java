@@ -19,6 +19,7 @@ public class MainPageActivity extends AppCompatActivity {
     private GoogleFitAdapter googleFitAdapter;
 
     public TextView numStepDone;
+    public TextView numStepsToGoal;
 
     public SharedPreferences sharedPreferences;
 
@@ -31,21 +32,22 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
 
         numStepDone = findViewById(R.id.numStepDone);
+        numStepsToGoal = findViewById(R.id.numStepsToGoal);
 
         sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
+
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
+        if(walker){
+            startButton.setText(getString(R.string.start_walk));
+        }
+        else{
+            startButton.setText(getString(R.string.start_run));
+        }
 
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
-
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
-        if(walker){
-            startButton.setText("Start Walk");
-        }
-        else{
-            startButton.setText("Start Run");
-        }
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,13 +74,13 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker == true){
-            startButton.setText("Start Walk");
+            startButton.setText(getString(R.string.start_walk));
         }
         else{
-            startButton.setText("Start Run");
+            startButton.setText(getString(R.string.start_run));
         }
 
     }
