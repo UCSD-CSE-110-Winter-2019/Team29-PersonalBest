@@ -29,7 +29,7 @@ public class GoogleFitAdapter implements FitnessService {
     private MainPageActivity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
-    private int goal = sharedPrefManager.getGoal();
+    private int goal;
 
     private Handler handler;
     private Runnable runnable;
@@ -38,6 +38,8 @@ public class GoogleFitAdapter implements FitnessService {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity);
+        goal = sharedPrefManager.getGoal();
+
     }
 
     public void setup() {
