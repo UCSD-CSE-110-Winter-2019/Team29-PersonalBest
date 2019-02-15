@@ -1,11 +1,6 @@
-/**when I choose runner, go home, and go back, it still goes back to walker
- * end/start run/walk not switching properly/wrong string is showing???
- */
-
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,11 +13,8 @@ public class UserSettingsActivity extends AppCompatActivity {
     private Button goBackButton;
     private RadioButton walkerOpt;
     private RadioButton runnerOpt;
-<<<<<<< HEAD:app/src/main/java/com/android/personalbest/UserSettings.java
     private CheckBox proposedGoals;
-=======
     private SharedPrefManager sharedPrefManager;
->>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535:app/src/main/java/com/android/personalbest/UserSettingsActivity.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +67,10 @@ public class UserSettingsActivity extends AppCompatActivity {
             runnerOpt.setChecked(true);
             walkerOpt.setChecked(false);
         }
-<<<<<<< HEAD:app/src/main/java/com/android/personalbest/UserSettings.java
 
     }
 
-    public void onRadioButtonClicked(View view) {
+    /**public void onRadioButtonClicked(View view) {
         if(walkerOpt.isChecked()){
                 SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
                 SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
@@ -92,7 +83,5 @@ public class UserSettingsActivity extends AppCompatActivity {
                 editorWalkerRunner.putBoolean("isWalker", false);
                 editorWalkerRunner.apply();
             }
-=======
->>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535:app/src/main/java/com/android/personalbest/UserSettingsActivity.java
-    }
+    }**/
 }
