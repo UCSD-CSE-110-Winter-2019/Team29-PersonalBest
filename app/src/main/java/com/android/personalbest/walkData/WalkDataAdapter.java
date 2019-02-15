@@ -19,7 +19,7 @@ public class WalkDataAdapter implements WalkData {
 
     private int totalStepBeforeSwitch = 0;
     private int totalStep = 0;
-    private int intenionalStep = 0;
+    private int intentionalStep = 0;
     private float miles;
     private int numberStepInMiles;
     private float MPH;
@@ -73,10 +73,10 @@ public class WalkDataAdapter implements WalkData {
 
         totalStepBeforeSwitch = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.step_count_before_switch_to_start_walk_activity),totalStepBeforeSwitch);
         totalStep = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.totalStep),totalStep);
-        intenionalStep = totalStep - totalStepBeforeSwitch;
-        walkActivity.intenionalStepTextView.setText(String.valueOf(intenionalStep));
+        intentionalStep = totalStep - totalStepBeforeSwitch;
+        walkActivity.intentionalStepTextView.setText(String.valueOf(intentionalStep));
 
-        sharedPrefManager.editor.putInt(walkActivity.getString(R.string.intentionalStep),intenionalStep);
+        sharedPrefManager.editor.putInt(walkActivity.getString(R.string.intentionalStep),intentionalStep);
         sharedPrefManager.editor.apply();
 
 
@@ -85,9 +85,9 @@ public class WalkDataAdapter implements WalkData {
     @Override
     public void displayMiles() {
 
-        intenionalStep = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.intentionalStep),intenionalStep);
+        intentionalStep = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.intentionalStep),intentionalStep);
         numberStepInMiles = walkStatsCalculator.calculateNumStepsInMile(sharedPrefManager.getHeight());
-        miles = walkStatsCalculator.calculateMiles(intenionalStep,numberStepInMiles);
+        miles = walkStatsCalculator.calculateMiles(intentionalStep,numberStepInMiles);
         walkActivity.milesTextView.setText(String.valueOf(miles));
 
         sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.milesInDisplay),miles);

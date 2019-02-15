@@ -18,7 +18,7 @@ public class WalkActivity extends AppCompatActivity {
     private WalkDataAdapter walkDataAdapter;
 
 
-    public TextView intenionalStepTextView;
+    public TextView intentionalStepTextView;
     public TextView milesTextView;
     public TextView MPHTextView;
 
@@ -81,7 +81,7 @@ public class WalkActivity extends AppCompatActivity {
 
     public void initiateWalkDataTextView() {
 
-        intenionalStepTextView = findViewById(R.id.intenionalStep);
+        intentionalStepTextView = findViewById(R.id.intentionalStep);
         milesTextView = findViewById(R.id.miles);
         MPHTextView = findViewById(R.id.MPH);
         chronometer = findViewById(R.id.chronometer);
