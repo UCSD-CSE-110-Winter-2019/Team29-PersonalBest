@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -44,15 +43,7 @@ public class WalkActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
-        Button endWalk = (Button)findViewById(R.id.endButton);
-        if(walker == true){
-            endWalk.setText(getString(R.string.end_walk));
-        }
-        else{
-            endWalk.setText(getString(R.string.end_run));
-        }
+        setEndWalkText();
     }
 
     //method to be called when user clicks "end walk"
