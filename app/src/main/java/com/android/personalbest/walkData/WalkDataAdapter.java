@@ -51,7 +51,7 @@ public class WalkDataAdapter implements WalkData {
     @Override
     public int getCurrentElapsedTime(){
         curElasedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
-        Log.i("curElasedTime",String.valueOf(curElasedTime));
+
         return curElasedTime;
     }
 

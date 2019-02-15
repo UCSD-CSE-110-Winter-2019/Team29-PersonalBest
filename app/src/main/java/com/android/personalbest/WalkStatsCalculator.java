@@ -31,8 +31,14 @@ public class WalkStatsCalculator {
         return Math.round(miles*10.0f)/10.0f; //ensures rounding to tenths place
     }
 
-    public float calculateMilesPerHour(float miles, int minutes) {
-        float hours = ((float) minutes)/res.getInteger(R.integer.num_milli_second_in_hour);
+    public float calculateMilesPerHour(float miles, int milliseconds) {
+
+        if (milliseconds == 0){
+            return 0.0f;
+        }
+
+        float hours = ((float)milliseconds)/res.getInteger(R.integer.num_milli_second_in_hour);
+
         return Math.round((miles/hours)*10.0f)/10.0f; //ensures rounding to tenths place
 
     }
