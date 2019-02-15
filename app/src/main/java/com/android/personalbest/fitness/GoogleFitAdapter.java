@@ -17,7 +17,10 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
@@ -33,8 +36,12 @@ public class GoogleFitAdapter implements FitnessService {
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
+<<<<<<< HEAD
         sharedPrefManager = new SharedPrefManager(activity);
         goal = sharedPrefManager.getGoal();
+=======
+        sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
+>>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535
     }
 
     public void setup() {
@@ -101,7 +108,6 @@ public class GoogleFitAdapter implements FitnessService {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
-                                activity.numStepsToGoal.setText(String.valueOf(goal-total));
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 

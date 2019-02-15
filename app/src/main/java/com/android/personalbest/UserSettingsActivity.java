@@ -13,17 +13,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 
-public class UserSettings extends AppCompatActivity {
+public class UserSettingsActivity extends AppCompatActivity {
     private Button changeGoal;
     private Button goBackButton;
     private RadioButton walkerOpt;
     private RadioButton runnerOpt;
+<<<<<<< HEAD:app/src/main/java/com/android/personalbest/UserSettings.java
     private CheckBox proposedGoals;
+=======
+    private SharedPrefManager sharedPrefManager;
+>>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535:app/src/main/java/com/android/personalbest/UserSettingsActivity.java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
         changeGoal = findViewById(R.id.changeGoal);
         goBackButton = findViewById(R.id.homeButton);
@@ -31,17 +36,7 @@ public class UserSettings extends AppCompatActivity {
         runnerOpt = findViewById(R.id.runnerOption);
         proposedGoals = findViewById(R.id.appProposedGoals);
 
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
-        if(walker == true){
-            walkerOpt.setChecked(true);
-            runnerOpt.setChecked(false);
-        }
-        else{
-            runnerOpt.setChecked(true);
-            walkerOpt.setChecked(false);
-        }
-
+        setWalkOrRunOption();
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,8 +53,20 @@ public class UserSettings extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean("isWalker", true);
+        setWalkOrRunOption();
+    }
+
+    public void onRadioButtonClicked(View view) {
+        if(walkerOpt.isChecked()){
+            sharedPrefManager.setIsWalker(true);
+        }
+        else{
+            sharedPrefManager.setIsWalker(false);
+        }
+    }
+
+    private void setWalkOrRunOption() {
+        boolean walker = sharedPrefManager.getIsWalker();
         if(walker == true){
             walkerOpt.setChecked(true);
             runnerOpt.setChecked(false);
@@ -68,6 +75,7 @@ public class UserSettings extends AppCompatActivity {
             runnerOpt.setChecked(true);
             walkerOpt.setChecked(false);
         }
+<<<<<<< HEAD:app/src/main/java/com/android/personalbest/UserSettings.java
 
     }
 
@@ -84,5 +92,7 @@ public class UserSettings extends AppCompatActivity {
                 editorWalkerRunner.putBoolean("isWalker", false);
                 editorWalkerRunner.apply();
             }
+=======
+>>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535:app/src/main/java/com/android/personalbest/UserSettingsActivity.java
     }
 }
