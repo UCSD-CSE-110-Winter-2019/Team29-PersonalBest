@@ -36,6 +36,11 @@ public class WalkActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setResult(RESULT_OK, returnElapsedTime());
+
+                //
+                // sharedPrefManager.storeIntentionalWalkStats(int dayOfWeek, int intentionalStepsTaken, float intentionalDistanceInMiles,
+                //                float intentionalMilesPerHour, int intentionalTimeElapsed)
+
                 finish();
             }
         });

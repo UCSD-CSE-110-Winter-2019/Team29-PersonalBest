@@ -99,6 +99,7 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+
     //For getting step data for bar chart
     int getTotalStepsTaken(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
@@ -110,7 +111,8 @@ public class SharedPrefManager {
         return sharedPref.getInt(res.getString(R.string.intentionalStepsTaken) + today, 0);
     }
 
-    //For testing
+
+    //helper methods for testing
     float getIntentionalDistanceInMiles(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getFloat(res.getString(R.string.intentionalDistanceInMiles) + today, 0);
@@ -125,6 +127,7 @@ public class SharedPrefManager {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getInt(res.getString(R.string.intentionalTimeElapsed) + today, 0);
     }
+
 
     //helper method for SharedPreference keys
     String getDayOfWeekAsString(int dayOfWeek) {
