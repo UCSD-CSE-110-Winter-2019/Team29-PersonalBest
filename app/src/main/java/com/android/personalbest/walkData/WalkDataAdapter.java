@@ -3,6 +3,7 @@ package com.android.personalbest.walkData;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
@@ -50,6 +51,7 @@ public class WalkDataAdapter implements WalkData {
     @Override
     public int getCurrentElapsedTime(){
         curElasedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
+        Log.i("curElasedTime",String.valueOf(curElasedTime));
         return curElasedTime;
     }
 

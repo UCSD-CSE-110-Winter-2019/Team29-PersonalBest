@@ -13,37 +13,28 @@ import com.android.personalbest.walkData.WalkDataAdapter;
 
 public class WalkActivity extends AppCompatActivity {
 
+
     public Chronometer chronometer;
     private SharedPrefManager sharedPrefManager;
     private WalkDataAdapter walkDataAdapter;
-
-
     public TextView intentionalStepTextView;
     public TextView milesTextView;
     public TextView MPHTextView;
-
+    private Button endWalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
+
 
         initiateWalkDataTextView();
         walkDataAdapter = new WalkDataAdapter(this);
 
-
-        Button endWalk = (Button)findViewById(R.id.endButton);
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
-
         sharedPrefManager = new SharedPrefManager(this);
 
-        if(walker == true){
-            endWalk.setText(getString(R.string.end_walk));
-        }
-        else{
-            endWalk.setText(getString(R.string.end_run));
-        }
+        endWalk = (Button)findViewById(R.id.endButton);
         endWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,16 +42,15 @@ public class WalkActivity extends AppCompatActivity {
                 finish();
             }
         });
+        setEndWalkText();
 
         walkDataAdapter.updateWalkStepInRealTime();
-
-
-
 
         //finish() destroys this activity and returns to main activity
         //To return data to main activity, use setResult()
         //so, when finish() is called, result is passed back on the onActivityResult
     }
+
 
 
     @Override
@@ -75,7 +65,6 @@ public class WalkActivity extends AppCompatActivity {
         else{
             endWalk.setText(getString(R.string.end_run));
         }
-
     }
 
 
@@ -85,7 +74,16 @@ public class WalkActivity extends AppCompatActivity {
         milesTextView = findViewById(R.id.miles);
         MPHTextView = findViewById(R.id.MPH);
         chronometer = findViewById(R.id.chronometer);
+    }
 
+    private void setEndWalkText() {
+        boolean walker = sharedPrefManager.getIsWalker();
+        if(walker == true){
+            endWalk.setText(getString(R.string.end_walk));
+        }
+        else{
+            endWalk.setText(getString(R.string.end_run));
+        }
 
     }
 }

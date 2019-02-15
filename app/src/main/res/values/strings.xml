@@ -3,12 +3,13 @@
     <!-- General -->
     <string name="app_name">PersonalBest</string>
     <!-- Sign In -->
+    <string name="login">LogInStatus</string>
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
-    <string name="steps_to_go">STEPS TO GO:</string>
+    <string name="steps_goal">GOAL:</string>
     <string name="start_walk">Start Walk</string>
     <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
@@ -84,7 +85,6 @@
     <string name="intentionalDistanceInMiles">intentionalDistanceInMiles</string>
     <string name="intentionalMilesPerHour">intentionalMilesPerHour</string>
     <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
-
     <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
 
 </resources>

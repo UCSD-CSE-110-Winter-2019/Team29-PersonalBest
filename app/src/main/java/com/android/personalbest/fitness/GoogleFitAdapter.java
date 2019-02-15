@@ -1,9 +1,11 @@
 package com.android.personalbest.fitness;
 
 
+
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
@@ -35,9 +37,9 @@ public class GoogleFitAdapter implements FitnessService {
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
-        sharedPrefManager = new SharedPrefManager(activity);
-        goal = sharedPrefManager.getGoal();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
+        sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
+        goal = sharedPrefManager.getGoal();
 
     }
 
@@ -108,7 +110,6 @@ public class GoogleFitAdapter implements FitnessService {
 
                                 activity.numStepDone.setText(String.valueOf(total));
 
-                                activity.numStepsToGoal.setText(String.valueOf(goal-total));
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 

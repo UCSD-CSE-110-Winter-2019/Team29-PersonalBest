@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,15 +12,16 @@ public class InputHeightActivity extends AppCompatActivity {
 
     private Button doneButton;
     private EditText userHeight;
+    private SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_height);
 
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
-
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,24 +49,11 @@ public class InputHeightActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.empty_input, Toast.LENGTH_SHORT).show();
                 }
 
-                //Save valid height input
                 if (validHeight) {
-                    SharedPreferences sharedPref = getSharedPreferences(getString(R.string.user_prefs), MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-
-
-                    //Save height and default step goal in shared pref
-                    editor.putInt(getString(R.string.height), Integer.parseInt(userHeight.getText().toString()));
-                    editor.putInt(getString(R.string.goal), getResources().getInteger(R.integer.default_goal));
-                    editor.putBoolean(getString(R.string.first_time), true);
-                    editor.apply();
-
-                    //creating sharedpreference to keep track of whether user is a walker runner
-                    SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-                    SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                    //default is walker
-                    editorWalkerRunner.putBoolean("isWalker", true);
-                    editorWalkerRunner.apply();
+                    sharedPrefManager.setHeight(Integer.parseInt(userHeight.getText().toString()));
+                    sharedPrefManager.setGoal(getResources().getInteger(R.integer.default_goal));
+                    sharedPrefManager.setFirstTime(true);
+                    sharedPrefManager.setIsWalker(true);
 
                     startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
                 }

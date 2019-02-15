@@ -51,11 +51,11 @@ public class WalkStatsCalculatorTest {
         assertEquals(expectedMiles, walkStatsCalculator.calculateMiles(numStepsTaken, numStepsInMile), 0.00);
     }
 
-//    @Test
-//    public void testCalculateMilesPerHour() {
-//        float miles = 2.12f;
-//        int minutes = 45;
-//        float expectedMilesPerHour = 2.8f;
-//        assertEquals(expectedMilesPerHour, walkStatsCalculator.calculateMilesPerHour(miles, minutes), 0.00);
-//    }
+    @Test
+    public void testCalculateMilesPerHour() {
+        float miles = 2.12f;
+        int milliseconds  = 2700000;
+        float expectedMilesPerHour = 2.8f;
+        assertEquals(expectedMilesPerHour, walkStatsCalculator.calculateMilesPerHour(miles, milliseconds), 0.00);
+    }
 }
