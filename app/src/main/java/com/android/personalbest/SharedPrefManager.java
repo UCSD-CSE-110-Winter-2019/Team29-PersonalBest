@@ -155,17 +155,14 @@ public class SharedPrefManager {
         return sharedPref.getInt(res.getString(R.string.intentionalStepsTaken) + today, 0);
     }
 
-<<<<<<< HEAD
+
     int getNonIntentionalStepsTaken(int dayOfWeek){
         return getTotalStepsTaken(dayOfWeek) - getIntentionalStepsTaken(dayOfWeek);
     }
 
-    //For testing
-    float getIntentionalDistanceInMiles(int dayOfWeek) {
-=======
     //TODO: For testing
+
     public float getIntentionalDistanceInMiles(int dayOfWeek) {
->>>>>>> 964bcbbaaa700220f959458b4e917f196d9fc535
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getFloat(res.getString(R.string.intentionalDistanceInMiles) + today, 0);
     }

@@ -64,16 +64,6 @@ public class BarChartActivity extends AppCompatActivity {
         entries.add(new BarEntry(6f, fridaySteps));
         entries.add(new BarEntry(7f, saturdaySteps));
 
-        //creating labels for days of the week
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Sunday");
-        labels.add("Monday");
-        labels.add("Tuesday");
-        labels.add("Wednesday");
-        labels.add("Thursday");
-        labels.add("Friday");
-        labels.add("Saturday");
-
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
         BarData data = new BarData(dataSet);
