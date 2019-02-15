@@ -7,5 +7,4 @@
     <integer name="num_feet_in_mile">5280</integer>
     <integer name="num_mins_in_hour">60</integer>
 
-
 </resources>
