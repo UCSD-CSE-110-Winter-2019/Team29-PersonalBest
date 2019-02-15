@@ -42,9 +42,6 @@ public class WalkActivity extends AppCompatActivity {
         setEndWalkText();
         walkDataAdapter.updateWalkStepInRealTime();
 
-        //finish() destroys this activity and returns to main activity
-        //To return data to main activity, use setResult()
-        //so, when finish() is called, result is passed back on the onActivityResult
     }
 
 
