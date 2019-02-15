@@ -1,11 +1,9 @@
 package com.android.personalbest.fitness;
 
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.personalbest.MainActivity;
 import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
@@ -18,9 +16,6 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
-import static android.content.Context.MODE_PRIVATE;
-
 
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
@@ -37,7 +32,7 @@ public class GoogleFitAdapter implements FitnessService {
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
-        sharedPrefManager = new SharedPrefManager(activity);
+        sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
     }
 
     public void setup() {

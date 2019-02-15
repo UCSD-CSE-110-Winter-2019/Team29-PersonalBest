@@ -2,7 +2,6 @@ package com.android.personalbest;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,7 +20,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView numStepDone;
     public TextView numStepsToGoal;
 
-    public SharedPreferences sharedPreferences;
+    private SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +33,13 @@ public class MainPageActivity extends AppCompatActivity {
         numStepDone = findViewById(R.id.numStepDone);
         numStepsToGoal = findViewById(R.id.numStepsToGoal);
 
-        sharedPreferences = getSharedPreferences(getString(R.string.user_prefs),MODE_PRIVATE);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
-        if(walker){
-            startButton.setText(getString(R.string.start_walk));
-        }
-        else{
-            startButton.setText(getString(R.string.start_run));
-        }
+        checkWalkOrRun();
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,15 +66,7 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
-        if(walker == true){
-            startButton.setText(getString(R.string.start_walk));
-        }
-        else{
-            startButton.setText(getString(R.string.start_run));
-        }
-
+        checkWalkOrRun();
     }
 
     public void launchWalkActivity() {
@@ -99,6 +83,17 @@ public class MainPageActivity extends AppCompatActivity {
     public void launchBarChartActivity() {
         Intent walk = new Intent(this, BarChartActivity.class);
         startActivity(walk);
+    }
+
+    private void checkWalkOrRun() {
+
+        boolean walker = sharedPrefManager.getIsWalker();
+        if(walker){
+            startButton.setText(getString(R.string.start_walk));
+        }
+        else{
+            startButton.setText(getString(R.string.start_run));
+        }
     }
 
 }
