@@ -21,13 +21,13 @@ public class WalkStatsCalculatorTest {
         walkStatsCalculator = new WalkStatsCalculator(walkActivity);
     }
 
-//    @Test
-//    public void testCalculateNumStepsInMile1() {
-//        int heightInInches = 65; // 5.5 feet
-//        int expectedNumStepsInMile = 2360; // calculation used: 5280/((65 * 0.413)/12)
-//        assertEquals(expectedNumStepsInMile, walkStatsCalculator.calculateNumStepsInMile(heightInInches));
-//    }
-//
+    @Test
+    public void testCalculateNumStepsInMile1() {
+        int heightInInches = 65; // 5.5 feet
+        int expectedNumStepsInMile = 2360; // calculation used: 5280/((65 * 0.413)/12)
+        assertEquals(expectedNumStepsInMile, walkStatsCalculator.calculateNumStepsInMile(heightInInches));
+    }
+
 //    @Test
 //    public void testCalculateNumStepsInMile2() {
 //        int heightInInches = 74; // 6.2 feet
