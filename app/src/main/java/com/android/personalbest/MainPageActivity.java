@@ -39,7 +39,6 @@ public class MainPageActivity extends AppCompatActivity {
         //Total Step done
         numStepDone = findViewById(R.id.numStepDone);
         sharedPrefManager = new SharedPrefManager(this);
-        numStepDone = findViewById(R.id.numStepDone);
         goal = findViewById(R.id.goal);
 
         googleFitAdapter = new GoogleFitAdapter(this);

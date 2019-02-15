@@ -27,12 +27,9 @@ public class WalkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_walk);
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
-
         initiateWalkDataTextView();
+
         walkDataAdapter = new WalkDataAdapter(this);
-
-        sharedPrefManager = new SharedPrefManager(this);
-
         endWalk = (Button)findViewById(R.id.endButton);
         endWalk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,8 +38,8 @@ public class WalkActivity extends AppCompatActivity {
                 finish();
             }
         });
-        setEndWalkText();
 
+        setEndWalkText();
         walkDataAdapter.updateWalkStepInRealTime();
 
         //finish() destroys this activity and returns to main activity

@@ -1,7 +1,5 @@
 package com.android.personalbest.fitness;
 
-
-
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -19,7 +17,6 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
@@ -28,19 +25,18 @@ public class GoogleFitAdapter implements FitnessService {
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
     private int goal = 0;
-    private GoogleSignInAccount lastSignedInAccount;
 
     private Handler handler;
     private Runnable runnable;
+    private GoogleSignInAccount lastSignedInAccount;
 
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
-        lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         goal = sharedPrefManager.getGoal();
+        lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
     }
-
 
     public void setup() {
 
@@ -56,18 +52,19 @@ public class GoogleFitAdapter implements FitnessService {
                     GoogleSignIn.getLastSignedInAccount(activity),
                     fitnessOptions);
         } else {
+            Log.i(TAG,"ELSE get called()");
             updateStepCount();
             startRecording();
         }
     }
 
     private void startRecording() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
+
         if (lastSignedInAccount == null) {
             return;
         }
 
-        Fitness.getRecordingClient(activity, lastSignedInAccount)
+        Fitness.getRecordingClient(activity,lastSignedInAccount)
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -90,7 +87,9 @@ public class GoogleFitAdapter implements FitnessService {
      */
     public void updateStepCount() {
 
+        Log.i(TAG, "updateStepCount()  get call");
         if (lastSignedInAccount == null) {
+            Log.i(TAG, "lastSignedInAccount == null");
             return;
         }
 
@@ -100,14 +99,13 @@ public class GoogleFitAdapter implements FitnessService {
                         new OnSuccessListener<DataSet>() {
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                Log.d(TAG, dataSet.toString());
-                                     total =
+                                Log.i(TAG, "dataset:"+dataSet.toString());
+                                total =
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
-
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 
@@ -134,17 +132,16 @@ public class GoogleFitAdapter implements FitnessService {
         runnable = new Runnable() {
             @Override
             public void run() {
+
                 updateStepCount();
                 handler.postDelayed(this, 1000);
             }
         };
-
         handler.postDelayed(runnable, 1000);
+
     }
 
     public int getCurrentStep(){
         return total;
     }
 }
-
-
