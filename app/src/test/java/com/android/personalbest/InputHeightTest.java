@@ -1,13 +1,12 @@
 package test;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.personalbest.InputHeightActivity;
 import com.android.personalbest.R;
+import com.android.personalbest.SharedPrefManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +21,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(RobolectricTestRunner.class)
 public class InputHeightTest {
 
-    InputHeightActivity heightInputActivity;
-    Resources res;
+    private InputHeightActivity heightInputActivity;
+    private Resources res;
+    private SharedPrefManager sharedPrefManager;
 
     //added to avoid empty test suite error
     public InputHeightTest() {}
@@ -32,6 +32,7 @@ public class InputHeightTest {
     public void init() {
         heightInputActivity = Robolectric.setupActivity(InputHeightActivity.class);
         res = heightInputActivity.getResources();
+        sharedPrefManager = new SharedPrefManager(heightInputActivity.getApplicationContext());
     }
 
     @Test
@@ -45,8 +46,7 @@ public class InputHeightTest {
         doneButton.performClick();
 
         //Check sharedPref value
-        SharedPreferences sharedPref = heightInputActivity.getSharedPreferences(res.getString(R.string.user_prefs), Context.MODE_PRIVATE);
-        assertEquals(55, sharedPref.getInt(res.getString(R.string.height), 0));
+        assertEquals(55, sharedPrefManager.getHeight());
     }
 
     @Test
@@ -60,8 +60,7 @@ public class InputHeightTest {
         doneButton.performClick();
 
         //Check sharedPref value
-        SharedPreferences sharedPref = heightInputActivity.getSharedPreferences(res.getString(R.string.user_prefs), Context.MODE_PRIVATE);
-        assertEquals(res.getInteger(R.integer.default_goal), sharedPref.getInt(res.getString(R.string.goal), 0));
+        assertEquals(res.getInteger(R.integer.default_goal), sharedPrefManager.getGoal());
     }
 
     //Check and handle invalid height inputs (empty, some thresholds, non-integers)

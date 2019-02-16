@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".BarChartActivity"/>
-        <activity android:name=".UserSettings" />
+        <activity android:name=".UserSettingsActivity" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".InputHeightActivity" >
             <intent-filter>

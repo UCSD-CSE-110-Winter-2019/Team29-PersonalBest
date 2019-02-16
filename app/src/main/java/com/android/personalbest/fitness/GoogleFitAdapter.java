@@ -1,11 +1,9 @@
 package com.android.personalbest.fitness;
 
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.personalbest.MainActivity;
 import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
@@ -19,9 +17,6 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import static android.content.Context.MODE_PRIVATE;
-
-
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
@@ -29,7 +24,7 @@ public class GoogleFitAdapter implements FitnessService {
     private MainPageActivity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
-    private int goal;
+    private int goal = 0;
 
     private Handler handler;
     private Runnable runnable;
@@ -37,9 +32,8 @@ public class GoogleFitAdapter implements FitnessService {
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
-        sharedPrefManager = new SharedPrefManager(activity);
+        sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         goal = sharedPrefManager.getGoal();
-
     }
 
     public void setup() {
@@ -106,7 +100,6 @@ public class GoogleFitAdapter implements FitnessService {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
-                                activity.numStepsToGoal.setText(String.valueOf(goal-total));
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 
