@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.personalbest.fitness.FitnessService;
+import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.fitness.GoogleFitAdapter;
 
 
@@ -15,12 +17,15 @@ public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
     private Button seeBarChart;
     private Button userSettings;
-    private GoogleFitAdapter googleFitAdapter;
+
+    //private GoogleFitAdapter googleFitAdapter;
+    private FitnessService fitnessService;
 
     public TextView numStepDone;
+    public static boolean mock = false;
     private TextView goal;
-
     private SharedPrefManager sharedPrefManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +39,13 @@ public class MainPageActivity extends AppCompatActivity {
         numStepDone = findViewById(R.id.numStepDone);
         goal = findViewById(R.id.goal);
 
+        /*
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
+        */
+
+        fitnessService = FitnessServiceFactory.create(this, mock);
 
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
@@ -95,6 +104,10 @@ public class MainPageActivity extends AppCompatActivity {
         else{
             startButton.setText(getString(R.string.start_run));
         }
+    }
+
+    public void setStepCount(int stepCount) {
+        numStepDone.setText(String.valueOf(stepCount));
     }
 
 }

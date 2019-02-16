@@ -8,6 +8,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.personalbest.fitness.FitnessService;
+import com.android.personalbest.fitness.FitnessServiceFactory;
+import com.android.personalbest.fitness.TestFitnessService;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class InputHeightEspressoTest {
+public class InputHeightEspressoTest extends FitnessServiceFactory {
     @Rule
     public ActivityTestRule<InputHeightActivity> mActivityTestRule = new ActivityTestRule<>(InputHeightActivity.class);
 
@@ -29,6 +31,8 @@ public class InputHeightEspressoTest {
 
     @Test
     public void inputHeightTest() {
+
+        MainPageActivity.mock = true;
 
         Espresso.onView((withId(R.id.userHeight)))
                 .perform(ViewActions.typeText(height));
@@ -51,31 +55,5 @@ public class InputHeightEspressoTest {
 
     }
 
-    private class TestFitnessService implements FitnessService {
-        private static final String TAG = "[TestFitnessService]: ";
-        private MainPageActivity activity;
 
-        //using MainPageActivity like StepCounterActivity
-        public TestFitnessService(MainPageActivity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public int getRequestCode() {
-            return 0;
-        }
-
-        @Override
-        public void setup() {
-            System.out.println("setup");
-        }
-
-        @Override
-        public void updateStepCount() {
-            System.out.println("update steps");
-
-        }
-    }
 }
-
-

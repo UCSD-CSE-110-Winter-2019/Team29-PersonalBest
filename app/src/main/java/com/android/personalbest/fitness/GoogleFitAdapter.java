@@ -34,6 +34,8 @@ public class GoogleFitAdapter implements FitnessService {
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         goal = sharedPrefManager.getGoal();
+        this.setup();
+        this.updateStepInRealTime();
     }
 
     public void setup() {
