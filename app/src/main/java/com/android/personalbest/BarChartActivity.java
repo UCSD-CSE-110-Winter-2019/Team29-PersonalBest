@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -26,7 +26,7 @@ public class BarChartActivity extends AppCompatActivity {
     private Button userSettingsButton;
     private Button homeButton;
 
-    private BarChart chart;
+    private CombinedChart chart;
 
     private TextView thisWeek;
     private TextView stats;
@@ -123,7 +123,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         //setting up bar chart
         SharedPrefManager pastWeek = new SharedPrefManager(this.getApplicationContext());
-        chart = (BarChart) findViewById(R.id.barChart);
+        chart = findViewById(R.id.barChart);
         chart.setDescription("");
         //removing default grid
         chart.getAxisLeft().setDrawGridLines(false);
@@ -250,14 +250,29 @@ public class BarChartActivity extends AppCompatActivity {
         entries.add(fridayData);
         entries.add(saturdayData);
 
+        ArrayList<Entry> line = new ArrayList<Entry>();
+        line.add(new Entry(1f, sunGoal));
+        line.add(new Entry(2f, monGoal));
+        line.add(new Entry(3f, tuesGoal));
+        line.add(new Entry(4f, wedGoal));
+        line.add(new Entry(5f, thursGoal));
+        line.add(new Entry(6f, friGoal));
+        line.add(new Entry(7f, satGoal));
+        LineDataSet lineDataSet = new LineDataSet(line, "");
+        lineDataSet.setColor(Color.RED);
+        LineData lineData = new LineData(lineDataSet);
+
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
-        CombinedData combinedData = new CombinedData();
         int[] colors = new int[]{Color.CYAN, Color.GREEN};
         dataSet.setColors(colors);
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.75f);
-        chart.setData(data);
+        CombinedData combinedData = new CombinedData();
+        combinedData.setData(data);
+        combinedData.setData(lineData);
+        chart.setData(combinedData);
+        //chart.setData(data);
         //chart.setData(lineData());
         chart.getXAxis().setAxisMaxValue(data.getXMax() + 0.25f);
         chart.getXAxis().setAxisMinValue(data.getXMin() - 0.25f);
@@ -348,29 +363,16 @@ public class BarChartActivity extends AppCompatActivity {
 
     }
 
-    @Override
+    /**@Override
     protected void onStart() {
         super.onStart();
-        chart = (BarChart) findViewById(R.id.barChart);
+        chart = findViewById(R.id.barChart);
 
-    }
+    }**/
 
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettingsActivity.class);
         startActivity(settings);
     }
 
-    public LineData lineData(){
-        ArrayList<Entry> line = new ArrayList<Entry>();
-        line.add(new Entry(1f, sunGoal));
-        line.add(new Entry(2f, monGoal));
-        line.add(new Entry(3f, tuesGoal));
-        line.add(new Entry(4f, wedGoal));
-        line.add(new Entry(5f, thursGoal));
-        line.add(new Entry(6f, friGoal));
-        line.add(new Entry(7f, satGoal));
-        LineDataSet lineDataSet = new LineDataSet(line, "");
-        LineData lineData = new LineData(lineDataSet);
-        return lineData;
-    }
 }
