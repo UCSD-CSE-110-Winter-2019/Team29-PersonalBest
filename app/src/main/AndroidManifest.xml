@@ -15,25 +15,17 @@
         <activity android:name=".BarChartActivity"/>
         <activity android:name=".UserSettingsActivity" />
         <activity android:name=".WalkActivity" />
-        <activity android:name=".InputHeightActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".InputHeightActivity" />
         <activity
             android:name=".MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
     </application>
 </manifest>

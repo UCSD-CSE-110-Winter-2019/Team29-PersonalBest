@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 
-import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -9,17 +8,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
-
-import com.android.personalbest.R;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -29,19 +17,25 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class InputHeightTest {
+public class SignInTest {
 
     @Rule
-    public ActivityTestRule<InputHeightActivity> mActivityTestRule = new ActivityTestRule<>(InputHeightActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void inputHeightTest() {
+    public void signInTest() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -51,25 +45,36 @@ public class InputHeightTest {
             e.printStackTrace();
         }
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.userHeight), withText("inches"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        editText.check(matches(withText("inches")));
-
         ViewInteraction button = onView(
-                allOf(withId(R.id.done),
-                        childAtPosition(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.sign_in_button),
                                 childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
+                                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                                        0)),
+                        0),
                         isDisplayed()));
         button.check(matches(isDisplayed()));
+
+        ViewInteraction button2 = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.sign_in_button),
+                                childAtPosition(
+                                        IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class),
+                                        0)),
+                        0),
+                        isDisplayed()));
+        button2.check(matches(isDisplayed()));
+
+        ViewInteraction ip = onView(
+                allOf(withText("Sign in"),
+                        childAtPosition(
+                                allOf(withId(R.id.sign_in_button),
+                                        childAtPosition(
+                                                withClassName(is("android.support.constraint.ConstraintLayout")),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        ip.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
