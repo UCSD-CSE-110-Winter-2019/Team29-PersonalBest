@@ -4,6 +4,5 @@ public interface FitnessService {
     int getRequestCode();
 
     void updateStepCount();
-    //void getCurrentStep();
 
 }
