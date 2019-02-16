@@ -45,4 +45,9 @@ public class TestFitnessService implements FitnessService {
         System.out.println("update steps");
         activity.addToStepCount(500);
     }
+
+    @Override
+    public int getCurrentStep() {
+        return Integer.parseInt(activity.numStepDone.getText().toString());
+    }
 }

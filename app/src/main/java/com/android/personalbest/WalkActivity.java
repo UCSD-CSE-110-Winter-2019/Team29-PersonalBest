@@ -1,18 +1,25 @@
 package com.android.personalbest;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
+
+import com.android.personalbest.walkData.WalkDataAdapter;
+
 
 public class WalkActivity extends AppCompatActivity {
 
-    private Button endWalk;
-    private Chronometer chronometer;
+
+    public Chronometer chronometer;
     private SharedPrefManager sharedPrefManager;
+    private WalkDataAdapter walkDataAdapter;
+    public TextView intentionalStepTextView;
+    public TextView milesTextView;
+    public TextView MPHTextView;
+    private Button endWalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,29 +27,20 @@ public class WalkActivity extends AppCompatActivity {
         setContentView(R.layout.activity_walk);
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
-        chronometer = findViewById(R.id.chronometer);
-        //set the base of the chronometer to be the current system's clock
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        //start timer
-        chronometer.start();
+        initiateWalkDataTextView();
+
+        walkDataAdapter = new WalkDataAdapter(this);
         endWalk = (Button)findViewById(R.id.endButton);
-        setEndWalkText();
         endWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setResult(RESULT_OK, returnElapsedTime());
-
-                //
-                // sharedPrefManager.storeIntentionalWalkStats(int dayOfWeek, int intentionalStepsTaken, float intentionalDistanceInMiles,
-                //                float intentionalMilesPerHour, int intentionalTimeElapsed)
-
+                setResult(RESULT_OK, walkDataAdapter.returnElapsedTime());
                 finish();
             }
         });
 
-        //finish() destroys this activity and returns to main activity
-        //To return data to main activity, use setResult()
-        //so, when finish() is called, result is passed back on the onActivityResult
+        setEndWalkText();
+        walkDataAdapter.updateWalkStepInRealTime();
     }
 
     @Override
@@ -51,14 +49,11 @@ public class WalkActivity extends AppCompatActivity {
         setEndWalkText();
     }
 
-    //method to be called when user clicks "end walk"
-    //returns the time elapsed
-    private Intent returnElapsedTime() {
-        chronometer.stop();
-        long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-        Intent intent = new Intent();
-        intent.putExtra(getString(R.string.time_elapsed), elapsedTime);
-        return intent;
+    public void initiateWalkDataTextView() {
+        intentionalStepTextView = findViewById(R.id.intentionalStep);
+        milesTextView = findViewById(R.id.miles);
+        MPHTextView = findViewById(R.id.MPH);
+        chronometer = findViewById(R.id.chronometer);
     }
 
     private void setEndWalkText() {
@@ -69,5 +64,6 @@ public class WalkActivity extends AppCompatActivity {
         else{
             endWalk.setText(getString(R.string.end_run));
         }
+
     }
 }

@@ -62,5 +62,6 @@ public class UserSettingsActivity extends AppCompatActivity {
             runnerOpt.setChecked(true);
             walkerOpt.setChecked(false);
         }
+
     }
 }

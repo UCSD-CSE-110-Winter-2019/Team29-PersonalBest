@@ -115,7 +115,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/displaySteps"
+        android:id="@+id/intentionalStep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="29dp"
@@ -126,7 +126,6 @@
         android:layout_marginBottom="290dp"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:text="@string/_0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +133,7 @@
 
 
     <TextView
-        android:id="@+id/displayMiles"
+        android:id="@+id/miles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="321dp"
@@ -152,7 +151,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/displayMilesPerHour"
+        android:id="@+id/MPH"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="285dp"
