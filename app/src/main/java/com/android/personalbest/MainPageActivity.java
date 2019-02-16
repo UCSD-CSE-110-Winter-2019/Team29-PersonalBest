@@ -20,7 +20,6 @@ public class MainPageActivity extends AppCompatActivity {
     private Button userSettings;
     private GoogleFitAdapter googleFitAdapter;
     private int curStep;
-    private int yesterdayDailySteps;
 
     public TextView numStepDone;
     private TextView goal;
@@ -34,7 +33,6 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         goal = findViewById(R.id.goal);
-        yesterdayDailySteps = sharedPrefManager.getTotalStepsTaken(Calendar.getInstance().get(Calendar.DAY_OF_WEEK - 1));
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);

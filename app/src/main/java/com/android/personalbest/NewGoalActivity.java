@@ -89,7 +89,7 @@ public class NewGoalActivity extends AppCompatActivity {
         acceptCustomGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                int newGoal = Integer.parseInt(customSteps.getText().toString());
+                int newGoal = Integer.parseInt(customSteps.getText().toString().trim());
 
                 Log.e("hi",Integer.parseInt(customSteps.getText().toString().trim()) + "");
                 if(newGoal <= 0){

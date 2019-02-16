@@ -8,7 +8,7 @@
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
-    <string name="blank">" "</string>
+    <string name="blank">""</string>
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_goal">GOAL:</string>
