@@ -22,7 +22,7 @@ public class MainPageActivity extends AppCompatActivity {
     private FitnessService fitnessService;
 
     public TextView numStepDone;
-    public static boolean mock = false;
+    public static boolean mock = true;
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 
@@ -106,8 +106,10 @@ public class MainPageActivity extends AppCompatActivity {
         }
     }
 
-    public void setStepCount(int stepCount) {
-        numStepDone.setText(String.valueOf(stepCount));
+    public void addToStepCount(int steps) {
+        int completedSteps = Integer.parseInt(numStepDone.getText().toString());
+        int totalSteps = completedSteps + steps;
+        numStepDone.setText(String.valueOf(totalSteps));
     }
 
 }

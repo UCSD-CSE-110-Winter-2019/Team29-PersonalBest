@@ -14,6 +14,7 @@
     <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
+    <string name="update_steps">UPDATE STEPS</string>
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>

@@ -11,6 +11,7 @@ import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.fitness.TestFitnessService;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,9 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
     private String height = "65";
     private String startText = "Start Walk";
     private String defaultGoal = "5000";
+
+    @Before
+
 
     @Test
     public void inputHeightTest() {
