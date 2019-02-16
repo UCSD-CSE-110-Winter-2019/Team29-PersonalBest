@@ -88,7 +88,6 @@ public class MainPageActivity extends AppCompatActivity {
         startActivity(walk);
     }
 
-
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettingsActivity.class);
         startActivity(settings);
@@ -100,7 +99,6 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void checkWalkOrRun() {
-
         boolean walker = sharedPrefManager.getIsWalker();
         if(walker){
             startButton.setText(getString(R.string.start_walk));
