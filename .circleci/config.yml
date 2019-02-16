@@ -77,8 +77,7 @@ workflows:
   build_and_android_test:
     jobs:
     - build
-    - android_test
-    test:
+    - android_test:
           requires:
             - build
           filters:
