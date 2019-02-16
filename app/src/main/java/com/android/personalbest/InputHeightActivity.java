@@ -33,7 +33,6 @@ public class InputHeightActivity extends AppCompatActivity {
                 int height;
                 boolean validHeight = false;
 
-                //Check for invalid input
                 if (!input.matches("")) {
                     height = Integer.parseInt(userHeight.getText().toString());
                     //Invalid range
