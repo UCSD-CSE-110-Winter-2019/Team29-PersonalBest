@@ -78,6 +78,9 @@ workflows:
     jobs:
     - build
     - android_test
-    filters:
-      branches:
-        only: master
+    test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
