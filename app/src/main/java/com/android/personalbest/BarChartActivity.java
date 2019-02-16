@@ -19,7 +19,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import java.util.ArrayList;
+import java.util.*;
+
 
 public class BarChartActivity extends AppCompatActivity {
 
@@ -106,16 +107,14 @@ public class BarChartActivity extends AppCompatActivity {
         userSettingsButton = findViewById(R.id.usersettings);
         homeButton = findViewById(R.id.homebutton);
 
-        //initializing textViews
+        //initializing stats textViews
         thisWeek = findViewById(R.id.thisweek);
         thisWeek.setVisibility(View.VISIBLE);
         stats = findViewById(R.id.stats);
-
         totalSteps = findViewById(R.id.totalsteps);
         totalTime = findViewById(R.id.totaltime);
         averageMPH = findViewById(R.id.averagemph);
         totalDistance = findViewById(R.id.totaldistance);
-
         stepsNumber = findViewById(R.id.stepsnumber);
         timeNumber = findViewById(R.id.timenumber);
         MPHNumber = findViewById(R.id.mphnumber);
@@ -132,7 +131,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         //getting total number of steps for each day (intentional)
         ArrayList<BarEntry> entries = new ArrayList<>();
-        /**sundayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SUNDAY);
+        sundayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SUNDAY);
         mondayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.MONDAY);
         tuesdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.TUESDAY);
         wednesdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.WEDNESDAY);
@@ -147,91 +146,45 @@ public class BarChartActivity extends AppCompatActivity {
         wednesdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.WEDNESDAY);
         thursdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.THURSDAY);
         fridayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.FRIDAY);
-        saturdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.SATURDAY);**/
+        saturdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.SATURDAY);
 
         //getting total MPH for each day
-        /**sunMPH = pastWeek.getIntentionalMilesPerHour(Calendar.SUNDAY);
+        sunMPH = pastWeek.getIntentionalMilesPerHour(Calendar.SUNDAY);
         monMPH = pastWeek.getIntentionalMilesPerHour(Calendar.MONDAY);
         tuesMPH = pastWeek.getIntentionalMilesPerHour(Calendar.TUESDAY);
         wedMPH = pastWeek.getIntentionalMilesPerHour(Calendar.WEDNESDAY);
         thursMPH = pastWeek.getIntentionalMilesPerHour(Calendar.THURSDAY);
         friMPH = pastWeek.getIntentionalMilesPerHour(Calendar.FRIDAY);
-        satMPH = pastWeek.getIntentionalMilesPerHour(Calendar.SATURDAY);**/
+        satMPH = pastWeek.getIntentionalMilesPerHour(Calendar.SATURDAY);
 
-        /**sunTime = pastWeek.getIntentionalTimeElapsed(Calendar.SUNDAY);
+        //getting time elapsed for each day
+        sunTime = pastWeek.getIntentionalTimeElapsed(Calendar.SUNDAY);
         monTime = pastWeek.getIntentionalTimeElapsed(Calendar.MONDAY);
         tuesTime = pastWeek.getIntentionalTimeElapsed(Calendar.TUESDAY);
         wedTime = pastWeek.getIntentionalTimeElapsed(Calendar.WEDNESDAY);
         thursTime = pastWeek.getIntentionalTimeElapsed(Calendar.THURSDAY);
         friTime = pastWeek.getIntentionalTimeElapsed(Calendar.FRIDAY);
-        satTime = pastWeek.getIntentionalTimeElapsed(Calendar.SATURDAY);**/
+        satTime = pastWeek.getIntentionalTimeElapsed(Calendar.SATURDAY);
 
-        /**sunMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.SUNDAY);
+        //getting total miles for each day
+        sunMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.SUNDAY);
         monMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.MONDAY);
         tuesMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.TUESDAY);
         wedMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.WEDNESDAY);
         thursMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.THURSDAY);
         friMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.FRIDAY);
-        satMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.SATURDAY);**/
+        satMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.SATURDAY);
 
-        /**sunGoal = pastWeek.getGoalForCertainDay(Calendar.SUNDAY);
-         monGoal = pastWeek.getGoalForCertainDay(Calendar.MONDAY);
-         tuesGoal = pastWeek.getGoalForCertainDay(Calendar.TUESDAY);
-         wedGoal = pastWeek.getGoalForCertainDay(Calendar.WEDNESDAY);
-         thursGoal = pastWeek.getGoalForCertainDay(Calendar.THURSDAY);
-         friGoal = pastWeek.getGoalForCertainDay(Calendar.FRIDAY);
-         satGoal = pastWeek.getGoalForCertainDay(Calendar.SATURDAY);**/
+        //getting total number of goals for each day
+        sunGoal = pastWeek.getGoalForCertainDay(Calendar.SUNDAY);
+        monGoal = pastWeek.getGoalForCertainDay(Calendar.MONDAY);
+        tuesGoal = pastWeek.getGoalForCertainDay(Calendar.TUESDAY);
+        wedGoal = pastWeek.getGoalForCertainDay(Calendar.WEDNESDAY);
+        thursGoal = pastWeek.getGoalForCertainDay(Calendar.THURSDAY);
+        friGoal = pastWeek.getGoalForCertainDay(Calendar.FRIDAY);
+        satGoal = pastWeek.getGoalForCertainDay(Calendar.SATURDAY);
 
-        sunMiles = 50;
-        monMiles = 10;
-        tuesMiles = 12;
-        wedMiles = 90;
-        thursMiles = 34;
-        friMiles = 51;
-        satMiles = 3;
-
-
-        sunMPH = 10;
-        monMPH = 0;
-        tuesMPH = 4;
-        wedMPH = 3;
-        thursMPH = 7;
-        friMPH = 2;
-        satMPH = 9;
-
-        sunTime = 100;
-        monTime = 210;
-        tuesTime = 32;
-        wedTime = 276;
-        thursTime = 20;
-        friTime = 92;
-        satTime = 69;
-
-        sundayIntentionalSteps = 1000;
-        mondayIntentionalSteps = 5000;
-        tuesdayIntentionalSteps = 2450;
-        wednesdayIntentionalSteps = 3000;
-        thursdayIntentionalSteps = 500;
-        fridayIntentionalSteps = 10275;
-        saturdayIntentionalSteps = 8010;
-
-        sundayNonIntentional = 500;
-        mondayNonIntentional = 10000;
-        tuesdayNonIntentional = 20;
-        wednesdayNonIntentional = 1000;
-        thursdayNonIntentional = 250;
-        fridayNonIntentional = 70;
-        saturdayNonIntentional = 2000;
-
-        sunGoal = 10;
-        monGoal = 100;
-        tuesGoal = 1000;
-        wedGoal = 210;
-        thursGoal = 269;
-        friGoal = 420;
-        satGoal = 96;
-
-
+        //putting together steps for bar chart
         sundayData = new BarEntry(1f, new float[] { sundayIntentionalSteps, sundayNonIntentional });
         mondayData = new BarEntry(2f, new float[] { mondayIntentionalSteps, mondayNonIntentional });
         tuesdayData = new BarEntry(3f, new float[] { tuesdayIntentionalSteps, tuesdayNonIntentional });
@@ -239,7 +192,6 @@ public class BarChartActivity extends AppCompatActivity {
         thursdayData = new BarEntry(5f, new float[] { thursdayIntentionalSteps, thursdayNonIntentional });
         fridayData = new BarEntry(6f, new float[] { fridayIntentionalSteps, fridayNonIntentional });
         saturdayData = new BarEntry(7f, new float[] { saturdayIntentionalSteps, saturdayNonIntentional });
-
 
         //setting up entries
         entries.add(sundayData);
@@ -272,12 +224,11 @@ public class BarChartActivity extends AppCompatActivity {
         combinedData.setData(data);
         combinedData.setData(lineData);
         chart.setData(combinedData);
-        //chart.setData(data);
-        //chart.setData(lineData());
         chart.getXAxis().setAxisMaxValue(data.getXMax() + 0.25f);
         chart.getXAxis().setAxisMinValue(data.getXMin() - 0.25f);
 
 
+        //onclicklistener for bar chart
         chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
@@ -346,6 +297,7 @@ public class BarChartActivity extends AppCompatActivity {
                 //do nothing
             }
         });
+
         //onclicklisteners for buttons
         userSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,13 +314,6 @@ public class BarChartActivity extends AppCompatActivity {
         });
 
     }
-
-    /**@Override
-    protected void onStart() {
-        super.onStart();
-        chart = findViewById(R.id.barChart);
-
-    }**/
 
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettingsActivity.class);
