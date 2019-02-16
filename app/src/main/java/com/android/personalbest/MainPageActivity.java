@@ -21,9 +21,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView numStepDone;
     private TextView goal;
 
-
     private SharedPrefManager sharedPrefManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

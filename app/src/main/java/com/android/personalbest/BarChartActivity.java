@@ -155,6 +155,7 @@ public class BarChartActivity extends AppCompatActivity {
         SharedPrefManager pastWeek = new SharedPrefManager(this.getApplicationContext());
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
+
         //removing default grid
         chart.getAxisLeft().setDrawGridLines(false);
         chart.getXAxis().setDrawGridLines(false);
