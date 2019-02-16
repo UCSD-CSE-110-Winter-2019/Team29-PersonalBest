@@ -22,7 +22,6 @@
     <string name="goal_reached">"Congratulations! Do you want to set a new step goal?"</string>
     <string name="yes">"Yes"</string>
     <string name="no">"Not Now"</string>
-    <string name="subgoal_reached">"You've significantly improved your daily step count. Keep up the good work!"</string>
     <string name="custom_goal">"Custom goal:"</string>
     <string name="custom_goal_hint">"Enter a custom goal:"</string>
     <string name="suggested_goal">"Suggested goal:"</string>
