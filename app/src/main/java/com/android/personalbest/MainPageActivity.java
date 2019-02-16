@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -119,6 +118,5 @@ public class MainPageActivity extends AppCompatActivity {
             startButton.setText(getString(R.string.start_run));
         }
     }
-
 }
 

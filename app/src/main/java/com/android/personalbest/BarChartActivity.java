@@ -128,6 +128,7 @@ public class BarChartActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
+        //reset bar chart every time this activity is opened
         setUpBarChart();
     }
 
