@@ -312,7 +312,6 @@ public class BarChartActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     public void launchUserSettings() {

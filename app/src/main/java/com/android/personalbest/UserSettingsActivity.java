@@ -68,7 +68,6 @@ public class UserSettingsActivity extends AppCompatActivity {
             runnerOpt.setChecked(true);
             walkerOpt.setChecked(false);
         }
-
     }
 
    /** public void onRadioButtonClicked(View view) {
