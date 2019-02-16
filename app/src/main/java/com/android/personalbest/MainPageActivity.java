@@ -22,7 +22,7 @@ public class MainPageActivity extends AppCompatActivity {
     private FitnessService fitnessService;
 
     public TextView numStepDone;
-    public static boolean mock = true;
+    public static boolean mock = false;
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 
@@ -46,6 +46,7 @@ public class MainPageActivity extends AppCompatActivity {
         */
 
         fitnessService = FitnessServiceFactory.create(this, mock);
+
 
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
