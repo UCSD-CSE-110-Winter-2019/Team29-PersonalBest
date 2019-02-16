@@ -50,9 +50,7 @@ public class SharedPrefManager {
     }
 
     public int getHeight() {
-
-        return sharedPref.getInt(res.getString(R.string.height), context.MODE_PRIVATE);
-
+        return sharedPref.getInt(res.getString(R.string.height), 0);
     }
 
     public void setGoal(int goal) {
@@ -73,11 +71,17 @@ public class SharedPrefManager {
         return sharedPref.getBoolean(res.getString(R.string.walker_option), true);
     }
 
+    /* Daily step count */
+
+    public int getNumSteps() {
+       return sharedPref.getInt(res.getString(R.string.totalStep), 0);
+    }
+
     /* Calculating intentional walk stats */
 
     //TODO: is this ever used?
     public void storeNumStepsInMile(int numStepsInMile) {
-        editor.putInt(res.getString(R.string.num_steps_in_mile), context.MODE_PRIVATE);
+        editor.putInt(res.getString(R.string.num_steps_in_mile), 0);
         editor.apply();
     }
 
@@ -104,7 +108,6 @@ public class SharedPrefManager {
         else {
             editor.putFloat(res.getString(R.string.intentionalMilesPerHour) + today, intentionalMilesPerHour);
         }
-
         editor.apply();
     }
 
@@ -148,6 +151,8 @@ public class SharedPrefManager {
     }
 
     //TODO: For getting step data for bar chart
+
+
     public int getTotalStepsTaken(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getInt(res.getString(R.string.totalStepsTaken) + today, 0);
