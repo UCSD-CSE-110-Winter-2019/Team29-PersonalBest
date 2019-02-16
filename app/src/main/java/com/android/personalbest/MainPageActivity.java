@@ -2,6 +2,7 @@ package com.android.personalbest;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,12 +35,24 @@ public class MainPageActivity extends AppCompatActivity {
         numStepDone = findViewById(R.id.numStepDone);
         goal = findViewById(R.id.goal);
 
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
+        if(walker){
+            startButton.setText(getString(R.string.start_walk));
+        }
+        else{
+            startButton.setText(getString(R.string.start_run));
+        }
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
+
+        googleFitAdapter = new GoogleFitAdapter(this);
+        googleFitAdapter.setup();
+        googleFitAdapter.updateStepInRealTime();
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
