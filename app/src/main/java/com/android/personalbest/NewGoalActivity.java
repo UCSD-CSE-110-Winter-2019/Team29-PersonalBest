@@ -2,12 +2,16 @@ package com.android.personalbest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.util.Calendar;
 
 public class NewGoalActivity extends AppCompatActivity {
 
@@ -19,12 +23,15 @@ public class NewGoalActivity extends AppCompatActivity {
     private EditText customSteps;
     private TextView suggestedStepsPrompt;
     private TextView customStepsPrompt;
+    private SharedPrefManager sharedPrefManager;
+    int today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_goal);
 
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         yes = (Button) findViewById(R.id.yesButton);
         no = (Button) findViewById(R.id.noButton);
         acceptSuggestedGoal = (Button) findViewById(R.id.accept_suggested_goal);
@@ -57,5 +64,42 @@ public class NewGoalActivity extends AppCompatActivity {
         acceptSuggestedGoal.setVisibility(View.VISIBLE);
         acceptCustomGoal.setVisibility(View.VISIBLE);
         no.setVisibility(View.INVISIBLE);
+
+        suggestedSteps.setText(String.valueOf(sharedPrefManager.getGoal() + 500));
+        Calendar calendar = Calendar.getInstance();
+        today = calendar.get(Calendar.DAY_OF_WEEK);
+
+        activateSuggestedButton();
+        activateCustomButton();
+    }
+
+    private void activateSuggestedButton() {
+        acceptSuggestedGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                int newGoal = sharedPrefManager.getGoal() + 500;
+                sharedPrefManager.setGoal(newGoal);
+                sharedPrefManager.storeGoal(today, newGoal);
+                finish();
+            }
+        });
+    }
+
+    private void activateCustomButton() {
+        acceptCustomGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                int newGoal = Integer.parseInt(customSteps.getText().toString());
+
+                Log.e("hi",Integer.parseInt(customSteps.getText().toString().trim()) + "");
+                if(newGoal <= 0){
+                    Toast.makeText(getApplicationContext(), "Please enter a number greater than zero", Toast.LENGTH_SHORT).show();
+                } else {
+                    sharedPrefManager.setGoal(newGoal);
+                    sharedPrefManager.storeGoal(today, newGoal);
+                }
+                finish();
+            }
+        });
     }
 }
