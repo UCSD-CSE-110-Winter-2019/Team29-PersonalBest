@@ -19,7 +19,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class BarChartActivity extends AppCompatActivity {
@@ -103,6 +104,35 @@ public class BarChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart);
 
+        userSettingsButton = findViewById(R.id.usersettings);
+        homeButton = findViewById(R.id.homebutton);
+
+        setUpBarChart();
+
+        //onclicklisteners for buttons
+        userSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                launchUserSettings();
+            }
+        });
+
+        homeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        setUpBarChart();
+    }
+
+    public void setUpBarChart(){
+
         //initializing buttons
         userSettingsButton = findViewById(R.id.usersettings);
         homeButton = findViewById(R.id.homebutton);
@@ -139,7 +169,7 @@ public class BarChartActivity extends AppCompatActivity {
         fridayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.FRIDAY);
         saturdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SATURDAY);
 
-         //getting total number of steps for each day (nonintentional)
+        //getting total number of steps for each day (nonintentional)
         sundayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.SUNDAY);
         mondayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.MONDAY);
         tuesdayNonIntentional = pastWeek.getNonIntentionalStepsTaken(Calendar.TUESDAY);
@@ -298,22 +328,7 @@ public class BarChartActivity extends AppCompatActivity {
             }
         });
 
-        //onclicklisteners for buttons
-        userSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                launchUserSettings();
-            }
-        });
-
-        homeButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                finish();
-            }
-        });
     }
-
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettingsActivity.class);
         startActivity(settings);

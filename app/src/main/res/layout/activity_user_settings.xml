@@ -129,7 +129,4 @@
             android:textSize="20sp" />
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/goalinput" />
-
 </android.support.constraint.ConstraintLayout>

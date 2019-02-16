@@ -1,12 +1,19 @@
 package com.android.personalbest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
+import java.util.*;
+
 
 public class UserSettingsActivity extends AppCompatActivity {
     private Button changeGoal;
@@ -35,44 +42,47 @@ public class UserSettingsActivity extends AppCompatActivity {
                 launchMainActivity();
             }
         });
-        /**changeGoal.setOnClickListener(new View.OnClickListener() {
+        changeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(UserSettingsActivity.this);
-
-                final EditText edittext = findViewById(R.id.goalinput);
-                //dialog.setMessage("Enter Your Message");
-                dialog.setTitle("Input a New Goal");
+                final EditText edittext = new EditText(UserSettingsActivity.this);
+                //cannot enter any character except integers
+                edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+                dialog.setTitle("Enter Your New Goal");
                 dialog.setView(edittext);
-
                 dialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //String YouEditTextValue = Integer.parseInt(edittext.getText().toString());
-                        //int newGoal = Integer.parseInt(edittext.getText().toString());
-                        //do nothing after
+                        SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
+                        int newGoal = Integer.parseInt(edittext.getText().toString());
+                        if(newGoal <= 0){
+                            Toast.makeText(getApplicationContext(), "Please enter a number greater than zero", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Calendar calendar = Calendar.getInstance();
+                            int today = calendar.get(Calendar.DAY_OF_WEEK);
+                            pastWeek.storeGoal(today, newGoal);
+                            pastWeek.setGoal(newGoal);
+                            Toast.makeText(getApplicationContext(), "Goal updated!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //launchUserSettings();
+                        //do nothing
                     }
                 });
 
                 dialog.show();
 
             }
-        });**/
+        });
     }
 
     public void launchMainActivity() {
         Intent walk = new Intent(this, MainPageActivity.class);
         startActivity(walk);
-    }
-
-    public void launchUserSettings() {
-        Intent settings = new Intent(this, UserSettingsActivity.class);
-        startActivity(settings);
     }
 
     @Override
