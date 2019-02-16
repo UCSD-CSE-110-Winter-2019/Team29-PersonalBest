@@ -1,10 +1,13 @@
 package com.android.personalbest;
 
+import android.app.Activity;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.android.personalbest.fitness.FitnessService;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -46,6 +49,32 @@ public class InputHeightEspressoTest {
         Espresso.onView(withId(R.id.goal))
                 .check(matches(withText(defaultGoal)));
 
+    }
+
+    private class TestFitnessService implements FitnessService {
+        private static final String TAG = "[TestFitnessService]: ";
+        private MainPageActivity activity;
+
+        //using MainPageActivity like StepCounterActivity
+        public TestFitnessService(MainPageActivity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public int getRequestCode() {
+            return 0;
+        }
+
+        @Override
+        public void setup() {
+            System.out.println("setup");
+        }
+
+        @Override
+        public void updateStepCount() {
+            System.out.println("update steps");
+
+        }
     }
 }
 
