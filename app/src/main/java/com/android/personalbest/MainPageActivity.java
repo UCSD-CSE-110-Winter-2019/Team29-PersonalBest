@@ -16,11 +16,14 @@ public class MainPageActivity extends AppCompatActivity {
     private Button seeBarChart;
     private Button userSettings;
     private GoogleFitAdapter googleFitAdapter;
+    private int curStep;
 
     public TextView numStepDone;
     private TextView goal;
 
+
     private SharedPrefManager sharedPrefManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,11 @@ public class MainPageActivity extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
+
+
+        //Total Step done
         numStepDone = findViewById(R.id.numStepDone);
+        sharedPrefManager = new SharedPrefManager(this);
         goal = findViewById(R.id.goal);
 
         googleFitAdapter = new GoogleFitAdapter(this);
@@ -39,11 +46,15 @@ public class MainPageActivity extends AppCompatActivity {
         googleFitAdapter.updateStepInRealTime();
 
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
+
         checkWalkOrRun();
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                curStep = googleFitAdapter.getCurrentStep();
+                sharedPrefManager.editor.putInt(getString(R.string.step_count_before_switch_to_start_walk_activity),curStep);
+                sharedPrefManager.editor.apply();
                 launchWalkActivity();
             }
         });
@@ -72,6 +83,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void launchWalkActivity() {
         Intent walk = new Intent(this, WalkActivity.class);
+
         startActivity(walk);
     }
 

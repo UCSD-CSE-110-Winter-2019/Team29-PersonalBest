@@ -54,8 +54,8 @@ public class WalkStatsCalculatorTest {
     @Test
     public void testCalculateMilesPerHour() {
         float miles = 2.12f;
-        int minutes = 45;
+        int milliseconds  = 2700000;
         float expectedMilesPerHour = 2.8f;
-        assertEquals(expectedMilesPerHour, walkStatsCalculator.calculateMilesPerHour(miles, minutes), 0.00);
+        assertEquals(expectedMilesPerHour, walkStatsCalculator.calculateMilesPerHour(miles, milliseconds), 0.00);
     }
 }

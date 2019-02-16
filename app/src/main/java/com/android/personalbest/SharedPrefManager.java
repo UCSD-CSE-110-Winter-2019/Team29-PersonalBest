@@ -10,8 +10,9 @@ public class SharedPrefManager {
 
     public SharedPreferences sharedPref;
     public SharedPreferences.Editor editor;
-    Resources res;
-    Context context;
+    public Resources res;
+    public Context context;
+
 
     public SharedPrefManager(Context context) {
         this.context = context;
@@ -49,7 +50,9 @@ public class SharedPrefManager {
     }
 
     public int getHeight() {
-        return sharedPref.getInt(res.getString(R.string.height), 0);
+
+        return sharedPref.getInt(res.getString(R.string.height), context.MODE_PRIVATE);
+
     }
 
     public void setGoal(int goal) {
