@@ -8,6 +8,7 @@
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
+    <string name="blank">" "</string>
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_goal">GOAL:</string>
@@ -22,8 +23,11 @@
     <string name="yes">"Yes"</string>
     <string name="no">"Not Now"</string>
     <string name="subgoal_reached">"You've significantly improved your daily step count. Keep up the good work!"</string>
-    <string name="custom_goal">"Enter a custom goal:"</string>
-    <string name="suggested_goal">"Accept the suggested goal:"</string>
+    <string name="custom_goal">"Custom goal:"</string>
+    <string name="custom_goal_hint">"Enter a custom goal:"</string>
+    <string name="suggested_goal">"Suggested goal:"</string>
+    <string name="pick_suggested_goal">"Accept suggested goal"</string>
+    <string name="pick_custom_goal">"Accept custom goal"</string>
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>

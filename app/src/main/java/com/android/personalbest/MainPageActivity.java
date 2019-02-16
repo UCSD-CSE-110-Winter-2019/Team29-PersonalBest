@@ -49,9 +49,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         //check for encouragement message
         if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal()) {
-            //TODO: prompt for new goal
-        } else if (sharedPrefManager.getNumSteps() > yesterdayDailySteps) {
-            //TODO: prompt for subgoal if after 8pm
+            launchNewGoalActivity();
         }
 
         //set button listeners
@@ -98,7 +96,6 @@ public class MainPageActivity extends AppCompatActivity {
         startActivity(walk);
     }
 
-
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettingsActivity.class);
         startActivity(settings);
@@ -109,8 +106,12 @@ public class MainPageActivity extends AppCompatActivity {
         startActivity(walk);
     }
 
-    private void checkWalkOrRun() {
+    public void launchNewGoalActivity() {
+        Intent newGoal = new Intent(this, NewGoalActivity.class);
+        startActivity(newGoal);
+    }
 
+    private void checkWalkOrRun() {
         boolean walker = sharedPrefManager.getIsWalker();
         if(walker){
             startButton.setText(getString(R.string.start_walk));

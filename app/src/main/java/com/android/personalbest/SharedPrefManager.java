@@ -63,7 +63,7 @@ public class SharedPrefManager {
     }
 
     public void setIsWalker(boolean isWalker) {
-        editor.putBoolean("isWalker", isWalker);
+        editor.putBoolean(res.getString(R.string.walker_option), isWalker);
         editor.apply();
     }
 
@@ -71,8 +71,7 @@ public class SharedPrefManager {
         return sharedPref.getBoolean(res.getString(R.string.walker_option), true);
     }
 
-    /* Daily step count */
-
+    /* For encouragement messages */
     public int getNumSteps() {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
@@ -125,9 +124,12 @@ public class SharedPrefManager {
 
     //used to check if subgoal has been met
     //TODO: Called at end of day (store today's step total in yesterday var)
-    public void storeTotalStepsFromTodayAsYesterday(int dayOfWeek, int totalStepsTaken) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        editor.putInt(res.getString(R.string.totalStepsTakenYesterday) + today, totalStepsTaken);
+    public void storeTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
+        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
+    }
+
+    public void getTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
+        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
     }
 
     //called on Saturday end of day so that Sunday starts a new week with an empty bar chart
