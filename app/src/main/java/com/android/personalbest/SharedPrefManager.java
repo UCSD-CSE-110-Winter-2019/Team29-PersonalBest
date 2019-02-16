@@ -65,7 +65,7 @@ public class SharedPrefManager {
     }
 
     public void setIsWalker(boolean isWalker) {
-        editor.putBoolean("isWalker", isWalker);
+        editor.putBoolean(res.getString(R.string.walker_option), isWalker);
         editor.apply();
     }
 
