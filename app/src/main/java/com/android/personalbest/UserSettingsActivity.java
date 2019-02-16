@@ -1,9 +1,7 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -37,18 +35,44 @@ public class UserSettingsActivity extends AppCompatActivity {
                 launchMainActivity();
             }
         });
-        changeGoal.setOnClickListener(new View.OnClickListener() {
+        /**changeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder a_builder = new AlertDialog.Builder(UserSettingsActivity.this);
-                a_builder.setMessage("Input a New Goal");
+                AlertDialog.Builder dialog = new AlertDialog.Builder(UserSettingsActivity.this);
+
+                final EditText edittext = findViewById(R.id.goalinput);
+                //dialog.setMessage("Enter Your Message");
+                dialog.setTitle("Input a New Goal");
+                dialog.setView(edittext);
+
+                dialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //String YouEditTextValue = Integer.parseInt(edittext.getText().toString());
+                        //int newGoal = Integer.parseInt(edittext.getText().toString());
+                        //do nothing after
+                    }
+                });
+
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //launchUserSettings();
+                    }
+                });
+
+                dialog.show();
+
             }
-        });
+        });**/
     }
 
     public void launchMainActivity() {
         Intent walk = new Intent(this, MainPageActivity.class);
         startActivity(walk);
+    }
+
+    public void launchUserSettings() {
+        Intent settings = new Intent(this, UserSettingsActivity.class);
+        startActivity(settings);
     }
 
     @Override
@@ -66,7 +90,7 @@ public class UserSettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void setWalkOrRunOption() {
+    private void setWalkOrRunOption(){
         boolean walker = sharedPrefManager.getIsWalker();
         if(walker == true){
             walkerOpt.setChecked(true);
@@ -76,6 +100,7 @@ public class UserSettingsActivity extends AppCompatActivity {
             runnerOpt.setChecked(true);
             walkerOpt.setChecked(false);
         }
+
     }
 
    /** public void onRadioButtonClicked(View view) {

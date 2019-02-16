@@ -15,9 +15,17 @@
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
 
+
+    <!-- MainPageActivityRun -->
+
+    <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
+
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
+    <string name="intentionalStep">intentionalStep</string>
+
     <string name="end_run">End Run</string>
+
     <string name="time_elapsed">Time Elapsed:</string>
     <string name="mph">MPH:</string>
     <string name="steps">Steps:</string>
@@ -37,6 +45,7 @@
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
 
+
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
     <string name="change_goal">Change Goal</string>
@@ -51,6 +60,15 @@
 
     <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
+
+
+    <!--WalkDataAdapter-->
+    <string name="elapsedTime">timeElapsed</string>
+    <string name="milesInDisplay">mileInDisplay</string>
+    <string name="MPH">MPH</string>
+
+
+
     <string name="_0">0</string>
 
     <!-- DaysOfWeek -->

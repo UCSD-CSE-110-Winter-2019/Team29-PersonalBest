@@ -53,17 +53,19 @@ public class GoogleFitAdapter implements FitnessService {
                     GoogleSignIn.getLastSignedInAccount(activity),
                     fitnessOptions);
         } else {
+            Log.i(TAG,"ELSE get called()");
+            updateStepCount();
             startRecording();
         }
     }
 
     private void startRecording() {
-        GoogleSignInAccount lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
+
         if (lastSignedInAccount == null) {
             return;
         }
 
-        Fitness.getRecordingClient(activity, GoogleSignIn.getLastSignedInAccount(activity))
+        Fitness.getRecordingClient(activity,lastSignedInAccount)
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -85,7 +87,9 @@ public class GoogleFitAdapter implements FitnessService {
      * current timezone.
      */
     public void updateStepCount() {
+        Log.i(TAG, "updateStepCount()  get call");
         if (lastSignedInAccount == null) {
+            Log.i(TAG, "lastSignedInAccount == null");
             return;
         }
 
@@ -95,8 +99,8 @@ public class GoogleFitAdapter implements FitnessService {
                         new OnSuccessListener<DataSet>() {
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                Log.d(TAG, dataSet.toString());
-                                     total =
+                                Log.i(TAG, "dataset:"+dataSet.toString());
+                                total =
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
@@ -128,7 +132,7 @@ public class GoogleFitAdapter implements FitnessService {
         runnable = new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, " updateStepCount() is calling ");
+
                 updateStepCount();
                 handler.postDelayed(this, 1000);
             }
@@ -136,6 +140,8 @@ public class GoogleFitAdapter implements FitnessService {
         handler.postDelayed(runnable, 1000);
 
     }
+
+    public int getCurrentStep(){
+        return total;
+    }
 }
-
-

@@ -11,10 +11,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -29,14 +27,23 @@ public class MainActivity extends AppCompatActivity {
 
     private int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
+
+    //TAG for Log
     private String TAG = "MainActivity";
+
+    //Firebase authentication
     private FirebaseAuth mAuth;
+
+
 
     private boolean login = false;
 
+    //Determind if user enter his/her stride length
     private boolean haveInputtedHeight = false;
 
+
     private SharedPrefManager sharedPrefManager;
+
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(TAG,"Log in button is pressed");
                 signIn();
             }
         });
@@ -121,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         signInButton.setVisibility(View.GONE);
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
         startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
 
     }
