@@ -27,9 +27,8 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
     public ActivityTestRule<InputHeightActivity> mActivityTestRule = new ActivityTestRule<>(InputHeightActivity.class);
 
     private String height = "65";
-    private String startText = "Start Walk";
+    private String startWalkText = "Start Walk";
     private String defaultGoal = "5000";
-
 
     @Test
     public void inputHeightTest() {
@@ -49,13 +48,11 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
 
         //Check for the green "Start Walk" button
         Espresso.onView(withId(R.id.startButton))
-                .check(matches(withText(startText)));
+                .check(matches(withText(startWalkText)));
 
         //Check for default goal
         Espresso.onView(withId(R.id.goal))
                 .check(matches(withText(defaultGoal)));
-
     }
-
 
 }

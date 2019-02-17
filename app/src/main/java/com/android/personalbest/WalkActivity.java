@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.android.personalbest.walkData.WalkDataAdapter;
 
 import java.util.Calendar;
-import java.time.Duration;
 
 
 public class WalkActivity extends AppCompatActivity {
