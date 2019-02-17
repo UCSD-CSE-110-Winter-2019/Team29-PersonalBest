@@ -24,7 +24,6 @@ public class GoogleFitAdapter implements FitnessService {
     private MainPageActivity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
-    private int goal = 0;
 
     private Handler handler;
     private Runnable runnable;
@@ -34,7 +33,6 @@ public class GoogleFitAdapter implements FitnessService {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
-        goal = sharedPrefManager.getGoal();
         this.setup();
         this.updateStepInRealTime();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);

@@ -50,9 +50,7 @@ public class SharedPrefManager {
     }
 
     public int getHeight() {
-
-        return sharedPref.getInt(res.getString(R.string.height), context.MODE_PRIVATE);
-
+        return sharedPref.getInt(res.getString(R.string.height), 0);
     }
 
     public void setGoal(int goal) {
@@ -73,10 +71,24 @@ public class SharedPrefManager {
         return sharedPref.getBoolean(res.getString(R.string.walker_option), true);
     }
 
+    /* For encouragement messages */
+    public int getNumSteps() {
+       return sharedPref.getInt(res.getString(R.string.totalStep), 0);
+    }
+
+    public void setGoalChangedToday(boolean goalChangedToday) {
+        editor.putBoolean(res.getString(R.string.goal_changed), goalChangedToday);
+        editor.apply();
+    }
+
+    public boolean getGoalChangedToday() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_changed), false);
+    }
+
     /* Calculating intentional walk stats */
 
     public void storeNumStepsInMile(int numStepsInMile) {
-        editor.putInt(res.getString(R.string.num_steps_in_mile), context.MODE_PRIVATE);
+        editor.putInt(res.getString(R.string.num_steps_in_mile), 0);
         editor.apply();
     }
 
@@ -103,7 +115,6 @@ public class SharedPrefManager {
         else {
             editor.putFloat(res.getString(R.string.intentionalMilesPerHour) + today, intentionalMilesPerHour);
         }
-
         editor.apply();
     }
 
@@ -123,9 +134,12 @@ public class SharedPrefManager {
 
     //used to check if subgoal has been met
     //TODO: Called at end of day (store today's step total in yesterday var)
-    public void storeTotalStepsFromTodayAsYesterday(int dayOfWeek, int totalStepsTaken) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        editor.putInt(res.getString(R.string.totalStepsTakenYesterday) + today, totalStepsTaken);
+    public void storeTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
+        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
+    }
+
+    public void getTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
+        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
     }
 
     //called on Saturday end of day so that Sunday starts a new week with an empty bar chart
