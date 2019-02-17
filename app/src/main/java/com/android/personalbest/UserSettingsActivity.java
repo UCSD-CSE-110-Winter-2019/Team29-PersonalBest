@@ -65,7 +65,7 @@ public class UserSettingsActivity extends AppCompatActivity {
                         SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
                         int newGoal = Integer.parseInt(edittext.getText().toString());
                         if(newGoal <= 0){
-                            Toast.makeText(getApplicationContext(), getString(R.string.please), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.input_zero), Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Calendar calendar = Calendar.getInstance();
