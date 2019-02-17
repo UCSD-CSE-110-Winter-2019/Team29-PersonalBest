@@ -20,6 +20,9 @@ public class TestFitnessService implements FitnessService {
         goal = sharedPrefManager.getGoal();
         activity.numStepDone.setText("0");
         this.setup();
+
+        //Button to quickly update/mock steps
+        /*
         updateSteps = activity.findViewById(R.id.updateSteps);
         updateSteps.setVisibility(View.VISIBLE);
         updateSteps.setOnClickListener(new View.OnClickListener() {
@@ -27,7 +30,7 @@ public class TestFitnessService implements FitnessService {
             public void onClick(View view){
                 updateStepCount();
             }
-        });
+        });*/
     }
 
     @Override

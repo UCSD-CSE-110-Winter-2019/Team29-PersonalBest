@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.android.personalbest.walkData.WalkDataAdapter;
 
+import java.util.Calendar;
+import java.time.Duration;
+
 
 public class WalkActivity extends AppCompatActivity {
 
@@ -35,6 +38,7 @@ public class WalkActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setResult(RESULT_OK, walkDataAdapter.returnElapsedTime());
+                storeWalkStats();
                 finish();
             }
         });
@@ -64,6 +68,24 @@ public class WalkActivity extends AppCompatActivity {
         else{
             endWalk.setText(getString(R.string.end_run));
         }
+    }
 
+    private void storeWalkStats() {
+        intentionalStepTextView = findViewById(R.id.intentionalStep);
+        milesTextView = findViewById(R.id.miles);
+        MPHTextView = findViewById(R.id.MPH);
+        chronometer = findViewById(R.id.chronometer);
+
+        int intentionalStepsTaken = Integer.parseInt(intentionalStepTextView.getText().toString());
+        float intentionalDistanceInMiles = Float.parseFloat(milesTextView.getText().toString());
+        float intentionalMilesPerHour = Float.parseFloat(MPHTextView.getText().toString());
+
+        int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
+
+        //could change to a float? but then have to change stuff in bar chart
+        int intentionalTimeElapsed = elapsedTimeInMilliseconds/60000;
+
+        sharedPrefManager.storeIntentionalWalkStats(Calendar.DAY_OF_WEEK, intentionalStepsTaken, intentionalDistanceInMiles,
+                intentionalMilesPerHour, intentionalTimeElapsed);
     }
 }
