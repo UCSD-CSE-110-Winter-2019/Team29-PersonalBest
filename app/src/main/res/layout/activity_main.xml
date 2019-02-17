@@ -31,7 +31,7 @@
         android:layout_marginEnd="70dp"
         android:layout_marginRight="70dp"
         android:layout_marginBottom="416dp"
-        android:text="@string/app_name"
+        android:text="@string/app_name_all_caps"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

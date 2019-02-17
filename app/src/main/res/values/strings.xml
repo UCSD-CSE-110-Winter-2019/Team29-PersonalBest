@@ -1,7 +1,8 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">PERSONAL BEST</string>
+    <string name="app_name">PersonalBest</string>
+    <string name="app_name_all_caps">PERSONAL BEST</string>
 
     <!-- Sign In -->
     <string name="login">LogInStatus</string>

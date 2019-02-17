@@ -12,6 +12,7 @@ import com.android.personalbest.WalkActivity;
 public class TestFitnessService implements FitnessService {
     private MainPageActivity mainPageActivity;
     private SharedPrefManager sharedPrefManager;
+    private int total = 0;
     private int goal = 0;
     private boolean seeUpdateStepsButton = false; //Set to true for manually updating steps
     Button mainUpdateStepsButton;
@@ -23,8 +24,10 @@ public class TestFitnessService implements FitnessService {
     public TestFitnessService(MainPageActivity activity) {
         this.mainPageActivity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
+        total = sharedPrefManager.getNumSteps();
         goal = sharedPrefManager.getGoal();
-        activity.numStepDone.setText("0");
+
+        activity.numStepDone.setText("" + total);
         this.setup();
         this.updateStepInRealTime();
 
