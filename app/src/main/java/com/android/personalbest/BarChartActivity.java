@@ -107,19 +107,9 @@ public class BarChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart);
 
-        userSettingsButton = findViewById(R.id.usersettings);
         homeButton = findViewById(R.id.homebutton);
 
         setUpBarChart();
-
-        //onclicklisteners for buttons
-        userSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                launchUserSettings();
-            }
-        });
-
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -138,7 +128,6 @@ public class BarChartActivity extends AppCompatActivity {
     public void setUpBarChart(){
 
         //initializing buttons
-        userSettingsButton = findViewById(R.id.usersettings);
         homeButton = findViewById(R.id.homebutton);
 
         //initializing stats textViews

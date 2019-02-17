@@ -48,7 +48,7 @@ public class UserSettingsActivity extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchMainActivity();
+                finish();
             }
         });
         changeGoal.setOnClickListener(new View.OnClickListener() {
@@ -64,16 +64,11 @@ public class UserSettingsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
                         int newGoal = Integer.parseInt(edittext.getText().toString());
-                        if(newGoal <= 0){
-                            Toast.makeText(getApplicationContext(), getString(R.string.input_zero), Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            Calendar calendar = Calendar.getInstance();
-                            int today = calendar.get(Calendar.DAY_OF_WEEK);
-                            pastWeek.storeGoal(today, newGoal);
-                            pastWeek.setGoal(newGoal);
-                            Toast.makeText(getApplicationContext(), getString(R.string.updated), Toast.LENGTH_SHORT).show();
-                        }
+                        Calendar calendar = Calendar.getInstance();
+                        int today = calendar.get(Calendar.DAY_OF_WEEK);
+                        pastWeek.storeGoal(today, newGoal);
+                        pastWeek.setGoal(newGoal);
+                        Toast.makeText(getApplicationContext(), getString(R.string.updated), Toast.LENGTH_SHORT).show();
                     }
                 });
 
