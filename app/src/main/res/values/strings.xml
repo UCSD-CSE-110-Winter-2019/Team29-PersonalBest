@@ -110,6 +110,7 @@
     <string name="totalTime">Total Time:</string>
     <string name="totalSteps">Total Steps Taken:</string>
     <string name="nonIntentional">Non Intentional Steps:</string>
+    <string name="intentional">Intentional Steps:</string>
     <string name="sun">SUN</string>
     <string name="mon">MON</string>
     <string name="tues">TUES</string>
