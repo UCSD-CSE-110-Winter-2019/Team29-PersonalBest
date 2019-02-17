@@ -27,7 +27,7 @@ public class TestFitnessService implements FitnessService {
         total = sharedPrefManager.getNumSteps();
         goal = sharedPrefManager.getGoal();
 
-        activity.numStepDone.setText("" + total);
+        activity.numStepDone.setText(Integer.toString(total));
         this.setup();
         this.updateStepInRealTime();
 
