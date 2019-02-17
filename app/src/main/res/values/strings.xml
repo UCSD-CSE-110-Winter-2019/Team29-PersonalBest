@@ -105,6 +105,17 @@
     <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
     <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
     <string name="emptyString"></string>
-
+    <string name="totalDistance">Total Distance:</string>
+    <string name="averageMPH">Average MPH:</string>
+    <string name="totalTime">Total Time:</string>
+    <string name="totalSteps">Total Steps Taken:</string>
+    <string name="nonIntentional">Non Intentional Steps:</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tues">TUES</string>
+    <string name="wed">WED</string>
+    <string name="thurs">THURS</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
 
 </resources>
