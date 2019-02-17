@@ -132,6 +132,11 @@ public class SharedPrefManager {
         editor.putInt(res.getString(R.string.goal) + today, goal);
     }
 
+    public int getGoalForCertainDay(int dayOfWeek){
+        String today = getDayOfWeekAsString(dayOfWeek);
+        return sharedPref.getInt("goal" + today,0 );
+    }
+
     //used to check if subgoal has been met
     //TODO: Called at end of day (store today's step total in yesterday var)
     public void storeTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
@@ -171,6 +176,11 @@ public class SharedPrefManager {
         return sharedPref.getInt(res.getString(R.string.intentionalStepsTaken) + today, 0);
     }
 
+    public int getNonIntentionalStepsTaken(int dayOfWeek){
+        return getTotalStepsTaken(dayOfWeek) - getIntentionalStepsTaken(dayOfWeek);
+    }
+
+    //TODO: For testing
     public float getIntentionalDistanceInMiles(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getFloat(res.getString(R.string.intentionalDistanceInMiles) + today, 0);
