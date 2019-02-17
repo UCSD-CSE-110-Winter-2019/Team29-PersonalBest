@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowToast;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,21 +27,6 @@ public class ChangeGoalTest {
         userSettings = Robolectric.setupActivity(UserSettingsActivity.class);
         mainPage = Robolectric.setupActivity(MainPageActivity.class);
         pastWeek = new SharedPrefManager(mainPage);
-    }
-
-    @Test
-    public void testInvalidGoalUpdate() {
-        Button changeGoal = userSettings.findViewById(R.id.changeGoal);
-        changeGoal.performClick();
-        EditText userInput = userSettings.edittext;
-        userInput.setText("0");
-
-        AlertDialog dialog = userSettings.dialogBox;
-        Button OKButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
-        OKButton.performClick();
-
-        String latestToast = ShadowToast.getTextOfLatestToast();
-        assertEquals("Please enter a number greater than zero", latestToast);
     }
 
     @Test
