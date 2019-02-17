@@ -22,7 +22,7 @@ public class TestFitnessService implements FitnessService {
         this.setup();
 
         //Button to quickly update/mock steps
-        //Comment out for espresso tests
+        //Comment out during espresso tests
         /*
         updateSteps = activity.findViewById(R.id.updateSteps);
         updateSteps.setVisibility(View.VISIBLE);

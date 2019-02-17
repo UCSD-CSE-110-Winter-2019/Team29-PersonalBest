@@ -25,7 +25,7 @@ public class MainPageActivity extends AppCompatActivity {
     private int curStep;
 
     public TextView numStepDone;
-    public static boolean mock = false;
+    public static boolean mock = true;
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 
@@ -139,6 +139,8 @@ public class MainPageActivity extends AppCompatActivity {
         int completedSteps = Integer.parseInt(numStepDone.getText().toString());
         int totalSteps = completedSteps + steps;
         numStepDone.setText(String.valueOf(totalSteps));
+        sharedPrefManager.editor.putInt(getString(R.string.totalStep), totalSteps);
+        sharedPrefManager.editor.apply();
     }
 
 }
