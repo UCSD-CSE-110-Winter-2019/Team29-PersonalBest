@@ -81,8 +81,6 @@ public class WalkActivity extends AppCompatActivity {
         float intentionalMilesPerHour = Float.parseFloat(MPHTextView.getText().toString());
 
         int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
-
-        //Consider changing to float but may cause excessive refactoring in bar chart activity
         int intentionalTimeElapsed = elapsedTimeInMilliseconds/60000;
 
         sharedPrefManager.storeIntentionalWalkStats(Calendar.DAY_OF_WEEK, intentionalStepsTaken, intentionalDistanceInMiles,
