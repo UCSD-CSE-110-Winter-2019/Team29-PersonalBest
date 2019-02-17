@@ -25,7 +25,7 @@ public class MainPageActivity extends AppCompatActivity {
     private int curStep;
 
     public TextView numStepDone;
-    public static boolean mock = true;
+    public static boolean mock = false;
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 
@@ -43,16 +43,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
         goal = findViewById(R.id.goal);
 
-        /*
-        googleFitAdapter = new GoogleFitAdapter(this);
-
-        //update UI: steps, goal, walk/run status
-        googleFitAdapter.setup();
-        googleFitAdapter.updateStepInRealTime();
-        */
-
         fitnessService = FitnessServiceFactory.create(this, mock);
-
 
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
