@@ -28,7 +28,10 @@ public class BarChartActivity extends AppCompatActivity {
     private Button userSettingsButton;
     private Button homeButton;
 
-    private CombinedChart chart;
+    public CombinedChart chart;
+    public ArrayList<BarEntry> entries;
+    public ArrayList<Entry> line;
+    public SharedPrefManager pastWeek;
 
     private TextView thisWeek;
     private TextView stats;
@@ -152,7 +155,7 @@ public class BarChartActivity extends AppCompatActivity {
         distanceNumber = findViewById(R.id.distancenumber);
 
         //setting up bar chart
-        SharedPrefManager pastWeek = new SharedPrefManager(this.getApplicationContext());
+        pastWeek = new SharedPrefManager(this.getApplicationContext());
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
 
@@ -162,7 +165,7 @@ public class BarChartActivity extends AppCompatActivity {
         chart.setScaleEnabled(false);
 
         //getting total number of steps for each day (intentional)
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        entries = new ArrayList<>();
         sundayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SUNDAY);
         mondayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.MONDAY);
         tuesdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.TUESDAY);
@@ -234,7 +237,7 @@ public class BarChartActivity extends AppCompatActivity {
         entries.add(fridayData);
         entries.add(saturdayData);
 
-        ArrayList<Entry> line = new ArrayList<Entry>();
+        line = new ArrayList<Entry>();
         line.add(new Entry(1f, sunGoal));
         line.add(new Entry(2f, monGoal));
         line.add(new Entry(3f, tuesGoal));

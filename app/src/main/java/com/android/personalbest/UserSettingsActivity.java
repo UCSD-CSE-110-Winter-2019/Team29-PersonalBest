@@ -48,7 +48,7 @@ public class UserSettingsActivity extends AppCompatActivity {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                launchMainActivity();
             }
         });
         changeGoal.setOnClickListener(new View.OnClickListener() {
