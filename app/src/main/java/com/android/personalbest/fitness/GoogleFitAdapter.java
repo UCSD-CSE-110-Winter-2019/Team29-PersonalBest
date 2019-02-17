@@ -127,6 +127,7 @@ public class GoogleFitAdapter implements FitnessService {
         return GOOGLE_FIT_PERMISSIONS_REQUEST_CODE;
     }
 
+    @Override
     public void updateStepInRealTime(){
         handler = new Handler();
         runnable = new Runnable() {

@@ -25,7 +25,7 @@ public class MainPageActivity extends AppCompatActivity {
     private int curStep;
 
     public TextView numStepDone;
-    public static boolean mock = true; //change to true for testing purposes
+    public static boolean mock = false; //change to true for testing purposes
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 

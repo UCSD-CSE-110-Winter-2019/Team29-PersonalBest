@@ -5,4 +5,5 @@ public interface FitnessService {
     void setup();
     void updateStepCount();
     int getCurrentStep();
+    void updateStepInRealTime();
 }

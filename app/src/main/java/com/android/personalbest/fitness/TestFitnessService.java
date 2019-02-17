@@ -1,5 +1,6 @@
 package com.android.personalbest.fitness;
 
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,9 +13,11 @@ public class TestFitnessService implements FitnessService {
     private MainPageActivity mainPageActivity;
     private SharedPrefManager sharedPrefManager;
     private int goal = 0;
-    private boolean seeUpdateStepsButton = true; //Set to true for manually updating steps
+    private boolean seeUpdateStepsButton = false; //Set to true for manually updating steps
     Button mainUpdateStepsButton;
-    Button walkUpdateStepsButton;
+
+    private Handler handler;
+    private Runnable runnable;
 
     //using MainPageActivity like StepCounterActivity
     public TestFitnessService(MainPageActivity activity) {
@@ -23,6 +26,7 @@ public class TestFitnessService implements FitnessService {
         goal = sharedPrefManager.getGoal();
         activity.numStepDone.setText("0");
         this.setup();
+        this.updateStepInRealTime();
 
         //Button to quickly update/mock steps
         if (seeUpdateStepsButton) {
@@ -56,5 +60,18 @@ public class TestFitnessService implements FitnessService {
     @Override
     public int getCurrentStep() {
         return sharedPrefManager.getNumSteps();
+    }
+
+    @Override
+    public void updateStepInRealTime(){
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                updateStepCount();
+                handler.postDelayed(this, 10000);
+            }
+        };
+        handler.postDelayed(runnable, 10000);
     }
 }
