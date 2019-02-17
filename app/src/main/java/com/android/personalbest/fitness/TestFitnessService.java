@@ -6,32 +6,35 @@ import android.widget.Button;
 import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
+import com.android.personalbest.WalkActivity;
 
 public class TestFitnessService implements FitnessService {
-    private MainPageActivity activity;
+    private MainPageActivity mainPageActivity;
     private SharedPrefManager sharedPrefManager;
     private int goal = 0;
-    Button updateSteps;
+    private boolean seeUpdateStepsButton = false; //Set to true for manually updating steps
+    Button mainUpdateStepsButton;
+    Button walkUpdateStepsButton;
 
     //using MainPageActivity like StepCounterActivity
     public TestFitnessService(MainPageActivity activity) {
-        this.activity = activity;
+        this.mainPageActivity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         goal = sharedPrefManager.getGoal();
         activity.numStepDone.setText("0");
         this.setup();
 
         //Button to quickly update/mock steps
-        //Comment out during espresso tests
-        /*
-        updateSteps = activity.findViewById(R.id.updateSteps);
-        updateSteps.setVisibility(View.VISIBLE);
-        updateSteps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                updateStepCount();
-            }
-        });*/
+        if (seeUpdateStepsButton) {
+            mainUpdateStepsButton = activity.findViewById(R.id.updateSteps);
+            mainUpdateStepsButton.setVisibility(View.VISIBLE);
+            mainUpdateStepsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view){
+                    updateStepCount();
+                }
+            });
+        }
     }
 
     @Override
@@ -47,11 +50,11 @@ public class TestFitnessService implements FitnessService {
     @Override
     public void updateStepCount() {
         System.out.println("update steps");
-        activity.addToStepCount(500);
+        mainPageActivity.addToStepCount(500);
     }
 
     @Override
     public int getCurrentStep() {
-        return Integer.parseInt(activity.numStepDone.getText().toString());
+        return sharedPrefManager.getNumSteps();
     }
 }
