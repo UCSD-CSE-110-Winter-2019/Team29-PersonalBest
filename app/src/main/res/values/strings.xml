@@ -88,6 +88,14 @@
     <string name="Thursday">Thursday</string>
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
+    <string name="sundaystats">Sunday Stats</string>
+    <string name="mondaystats">Monday Stats</string>
+    <string name="tuesdaystats">Tuesday Stats</string>
+    <string name="wednesdaystats">Wednesday Stats</string>
+    <string name="thursdaystats">Thursday Stats</string>
+    <string name="fridaystats">Friday Stats</string>
+    <string name="saturdaystats">Saturday Stats</string>
+
 
     <!-- Bar Chart Stats -->
     <string name="totalStepsTaken">totalStepsTaken</string>
@@ -96,5 +104,7 @@
     <string name="intentionalMilesPerHour">intentionalMilesPerHour</string>
     <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
     <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
+    <string name="emptyString"></string>
+
 
 </resources>

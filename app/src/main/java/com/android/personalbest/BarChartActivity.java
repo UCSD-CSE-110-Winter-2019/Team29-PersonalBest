@@ -274,55 +274,55 @@ public class BarChartActivity extends AppCompatActivity {
                 totalDistance.setVisibility(View.VISIBLE);
 
                 if(e.equals(sundayData)){
-                    stats.setText("Sunday Stats");
-                    stepsNumber.setText((sundayIntentionalSteps + sundayNonIntentional) + "");
-                    timeNumber.setText(sunTime + "");
-                    MPHNumber.setText(sunMPH + "");
-                    distanceNumber.setText(sunMiles + "");
+                    stats.setText(getString(R.string.sundaystats));
+                    stepsNumber.setText((sundayIntentionalSteps + sundayNonIntentional) + getString(R.string.emptyString));
+                    timeNumber.setText(sunTime + getString(R.string.emptyString));
+                    MPHNumber.setText(sunMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(sunMiles + getString(R.string.emptyString));
                 }
                 else if(e.equals(mondayData)){
-                    stats.setText("Monday Stats");
-                    stepsNumber.setText((mondayIntentionalSteps + mondayNonIntentional) + "");
-                    timeNumber.setText(monTime + "");
-                    MPHNumber.setText(monMPH + "");
-                    distanceNumber.setText(monMiles + "");
+                    stats.setText(getString(R.string.mondaystats));
+                    stepsNumber.setText((mondayIntentionalSteps + mondayNonIntentional) + getString(R.string.emptyString));
+                    timeNumber.setText(monTime + getString(R.string.emptyString));
+                    MPHNumber.setText(monMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(monMiles + getString(R.string.emptyString));
                 }
                 else if(e.equals(tuesdayData)){
-                    stats.setText("Tuesday Stats");
-                    stepsNumber.setText((tuesdayIntentionalSteps + tuesdayNonIntentional) + "");
-                    timeNumber.setText(tuesTime + "");
-                    MPHNumber.setText(tuesMPH + "");
-                    distanceNumber.setText(tuesMiles + "");
+                    stats.setText(getString(R.string.tuesdaystats));
+                    stepsNumber.setText((tuesdayIntentionalSteps + tuesdayNonIntentional) + getString(R.string.emptyString));
+                    timeNumber.setText(tuesTime + getString(R.string.emptyString));
+                    MPHNumber.setText(tuesMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(tuesMiles + getString(R.string.emptyString));
 
                 }
                 else if(e.equals(wednesdayData)){
-                    stats.setText("Wednesday Stats");
-                    stepsNumber.setText((wednesdayIntentionalSteps + wednesdayNonIntentional) + "");
-                    timeNumber.setText(wedTime + "");
-                    MPHNumber.setText(wedMPH + "");
-                    distanceNumber.setText(wedMiles + "");
+                    stats.setText(getString(R.string.wednesdaystats));
+                    stepsNumber.setText((wednesdayIntentionalSteps + wednesdayNonIntentional) + getString(R.string.emptyString));
+                    timeNumber.setText(wedTime + getString(R.string.emptyString));
+                    MPHNumber.setText(wedMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(wedMiles + getString(R.string.emptyString));
                 }
                 else if(e.equals(thursdayData)){
-                    stats.setText("Thursday Stats");
-                    stepsNumber.setText((thursdayIntentionalSteps + thursdayNonIntentional) + "");
-                    timeNumber.setText(thursTime + "");
-                    MPHNumber.setText(thursMPH + "");
-                    distanceNumber.setText(thursMiles + "");
+                    stats.setText(getString(R.string.thursdaystats));
+                    stepsNumber.setText((thursdayIntentionalSteps + thursdayNonIntentional) + getString(R.string.emptyString));
+                    timeNumber.setText(thursTime + getString(R.string.emptyString));
+                    MPHNumber.setText(thursMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(thursMiles + getString(R.string.emptyString));
 
                 }
                 else if(e.equals(fridayData)){
-                    stats.setText("Friday Stats");
+                    stats.setText(getString(R.string.fridaystats));
                     stepsNumber.setText((fridayIntentionalSteps + fridayNonIntentional) + "");
-                    timeNumber.setText(friTime + "");
-                    MPHNumber.setText(friMPH + "");
-                    distanceNumber.setText(friMiles + "");
+                    timeNumber.setText(friTime + getString(R.string.emptyString));
+                    MPHNumber.setText(friMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(friMiles + getString(R.string.emptyString));
                 }
                 else{ //if e.equals(saturdayData))
-                    stats.setText("Saturday Stats");
+                    stats.setText(getString(R.string.saturdaystats));
                     stepsNumber.setText((saturdayIntentionalSteps + saturdayNonIntentional) + "");
-                    timeNumber.setText(satTime + "");
-                    MPHNumber.setText(satMPH + "");
-                    distanceNumber.setText(satMiles + "");
+                    timeNumber.setText(satTime + getString(R.string.emptyString));
+                    MPHNumber.setText(satMPH + getString(R.string.emptyString));
+                    distanceNumber.setText(satMiles + getString(R.string.emptyString));
                 }
 
             }

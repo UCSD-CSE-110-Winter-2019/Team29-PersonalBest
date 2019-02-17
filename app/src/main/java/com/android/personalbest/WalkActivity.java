@@ -21,12 +21,12 @@ public class WalkActivity extends AppCompatActivity {
     public TextView milesTextView;
     public TextView MPHTextView;
     private Button endWalk;
-    private static Context context;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WalkActivity.context = getApplicationContext();
+        context = getApplicationContext();
         setContentView(R.layout.activity_walk);
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
@@ -75,7 +75,4 @@ public class WalkActivity extends AppCompatActivity {
 
     }
 
-    public static Context getAppContext() {
-        return WalkActivity.context;
-    }
 }
