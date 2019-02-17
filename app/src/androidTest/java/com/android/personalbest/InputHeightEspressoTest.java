@@ -30,8 +30,6 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
     private String startText = "Start Walk";
     private String defaultGoal = "5000";
 
-    @Before
-
 
     @Test
     public void inputHeightTest() {
