@@ -72,6 +72,7 @@ public class SharedPrefManager {
     }
 
     /* For encouragement messages */
+
     public int getNumSteps() {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
@@ -83,6 +84,15 @@ public class SharedPrefManager {
 
     public boolean getGoalChangedToday() {
         return sharedPref.getBoolean(res.getString(R.string.goal_changed), false);
+    }
+
+    public void setDayInStorage(int dayInStorage) {
+        editor.putInt(res.getString(R.string.day_storage), dayInStorage);
+        editor.apply();
+    }
+
+    public int getDayInStorage() {
+        return sharedPref.getInt(res.getString(R.string.day_storage),-1);
     }
 
     /* Calculating intentional walk stats */

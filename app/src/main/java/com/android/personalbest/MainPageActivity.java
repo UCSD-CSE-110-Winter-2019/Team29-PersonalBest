@@ -4,6 +4,7 @@ package com.android.personalbest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,8 +43,6 @@ public class MainPageActivity extends AppCompatActivity {
         //update UI: steps, goal, walk/run status
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
-        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
-        checkWalkOrRun();
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -71,8 +70,8 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
+    protected void onResume(){
+        super.onResume();
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
         //check for encouragement message
@@ -80,16 +79,11 @@ public class MainPageActivity extends AppCompatActivity {
             launchNewGoalActivity();
             sharedPrefManager.setGoalChangedToday(true);
         }
-    }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        //check for encouragement message
-        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
-            launchNewGoalActivity();
-            sharedPrefManager.setGoalChangedToday(true);
-        }
+        //check if it's a new day & we need to reset stats
+        //if ()
+        Log.e("hello", String.valueOf(Calendar.DAY_OF_WEEK));
+        Log.e("Hi", "" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
     }
 
     public void launchWalkActivity() {
@@ -113,6 +107,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void checkWalkOrRun() {
+        Log.e("Hello", "CHECKED");
         boolean walker = sharedPrefManager.getIsWalker();
         if(walker){
             startButton.setText(getString(R.string.start_walk));
