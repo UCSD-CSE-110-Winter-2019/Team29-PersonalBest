@@ -67,7 +67,7 @@ public class NewGoalActivity extends AppCompatActivity {
 
         suggestedSteps.setText(String.valueOf(sharedPrefManager.getGoal() + 500));
         Calendar calendar = Calendar.getInstance();
-        today = calendar.get(Calendar.DAY_OF_WEEK);
+        today = calendar.get(TimeMachine.getDay());
 
         activateSuggestedButton();
         activateCustomButton();
