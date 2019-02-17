@@ -51,8 +51,7 @@ public class InputHeightActivity extends AppCompatActivity {
 
                 if (validHeight) {
                     sharedPrefManager.setHeight(Integer.parseInt(userHeight.getText().toString()));
-                    //sharedPrefManager.setGoal(getResources().getInteger(R.integer.default_goal));
-                    sharedPrefManager.setGoal(20);
+                    sharedPrefManager.setGoal(getResources().getInteger(R.integer.default_goal));
                     sharedPrefManager.setFirstTime(true);
                     sharedPrefManager.setIsWalker(true);
 
