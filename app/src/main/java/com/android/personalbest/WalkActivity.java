@@ -82,7 +82,7 @@ public class WalkActivity extends AppCompatActivity {
 
         int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
 
-        //could change to a float? but then have to change stuff in bar chart
+        //Consider changing to float but may cause excessive refactoring in bar chart activity
         int intentionalTimeElapsed = elapsedTimeInMilliseconds/60000;
 
         sharedPrefManager.storeIntentionalWalkStats(Calendar.DAY_OF_WEEK, intentionalStepsTaken, intentionalDistanceInMiles,
