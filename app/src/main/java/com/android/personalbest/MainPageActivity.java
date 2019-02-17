@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.personalbest.fitness.GoogleFitAdapter;
+
+import java.util.Calendar;
 
 
 public class MainPageActivity extends AppCompatActivity {
@@ -21,34 +24,28 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView numStepDone;
     private TextView goal;
 
-
     private SharedPrefManager sharedPrefManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //initialize components
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
-
+        goal = findViewById(R.id.goal);
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
-
-
-        //Total Step done
         numStepDone = findViewById(R.id.numStepDone);
-        sharedPrefManager = new SharedPrefManager(this);
-        goal = findViewById(R.id.goal);
-
         googleFitAdapter = new GoogleFitAdapter(this);
+
+        //update UI: steps, goal, walk/run status
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
-
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
-
         checkWalkOrRun();
 
+        //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -65,7 +62,6 @@ public class MainPageActivity extends AppCompatActivity {
                 launchBarChartActivity();
             }
         });
-
         userSettings.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -79,14 +75,27 @@ public class MainPageActivity extends AppCompatActivity {
         super.onStart();
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
+        //check for encouragement message
+        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
+            launchNewGoalActivity();
+            sharedPrefManager.setGoalChangedToday(true);
+        }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //check for encouragement message
+        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
+            launchNewGoalActivity();
+            sharedPrefManager.setGoalChangedToday(true);
+        }
     }
 
     public void launchWalkActivity() {
         Intent walk = new Intent(this, WalkActivity.class);
-
         startActivity(walk);
     }
-
 
     public void launchUserSettings() {
         Intent settings = new Intent(this, UserSettingsActivity.class);
@@ -98,8 +107,12 @@ public class MainPageActivity extends AppCompatActivity {
         startActivity(walk);
     }
 
-    private void checkWalkOrRun() {
+    public void launchNewGoalActivity() {
+        Intent newGoal = new Intent(this, NewGoalActivity.class);
+        startActivity(newGoal);
+    }
 
+    private void checkWalkOrRun() {
         boolean walker = sharedPrefManager.getIsWalker();
         if(walker){
             startButton.setText(getString(R.string.start_walk));

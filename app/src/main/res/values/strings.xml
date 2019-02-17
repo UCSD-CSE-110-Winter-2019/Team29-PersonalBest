@@ -2,11 +2,13 @@
 
     <!-- General -->
     <string name="app_name">PersonalBest</string>
+
     <!-- Sign In -->
     <string name="login">LogInStatus</string>
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
+    <string name="blank">""</string>
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_goal">GOAL:</string>
@@ -14,18 +16,24 @@
     <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
-
-
-    <!-- MainPageActivityRun -->
-
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
+
+    <!-- Encouragement -->
+    <string name="goal_reached">"Congratulations! Do you want to set a new step goal?"</string>
+    <string name="yes">"Yes"</string>
+    <string name="no">"Not Now"</string>
+    <string name="custom_goal">"Custom goal:"</string>
+    <string name="custom_goal_hint">"Enter a custom goal:"</string>
+    <string name="suggested_goal">"Suggested goal:"</string>
+    <string name="pick_suggested_goal">"Accept suggested goal"</string>
+    <string name="pick_custom_goal">"Accept custom goal"</string>
+    <string name="goal_changed">"Goal message shown already today"</string>
+
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
     <string name="intentionalStep">intentionalStep</string>
-
     <string name="end_run">End Run</string>
-
     <string name="time_elapsed">Time Elapsed:</string>
     <string name="mph">MPH:</string>
     <string name="steps">Steps:</string>
@@ -45,10 +53,11 @@
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
 
-
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
     <string name="change_goal">Change Goal</string>
+    <string name="goal_input_empty">Please enter a goal</string>
+    <string name="input_zero">Please enter a number greater than zero</string>
     <string name="app_proposed_goals">App-Proposed Goals</string>
     <string name="home">Home</string>
     <string name="walker_or_runner">Walker or Runner?</string>
@@ -61,14 +70,10 @@
     <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
 
-
     <!--WalkDataAdapter-->
     <string name="elapsedTime">timeElapsed</string>
     <string name="milesInDisplay">mileInDisplay</string>
     <string name="MPH">MPH</string>
-
-
-
     <string name="_0">0</string>
 
     <!-- DaysOfWeek -->
@@ -80,6 +85,7 @@
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
 
+    <!-- Bar Chart Stats -->
     <string name="totalStepsTaken">totalStepsTaken</string>
     <string name="intentionalStepsTaken">intentionalStepsTaken</string>
     <string name="intentionalDistanceInMiles">intentionalDistanceInMiles</string>
