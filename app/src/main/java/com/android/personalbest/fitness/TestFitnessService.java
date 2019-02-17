@@ -12,7 +12,7 @@ public class TestFitnessService implements FitnessService {
     private MainPageActivity mainPageActivity;
     private SharedPrefManager sharedPrefManager;
     private int goal = 0;
-    private boolean seeUpdateStepsButton = false; //Set to true for manually updating steps
+    private boolean seeUpdateStepsButton = true; //Set to true for manually updating steps
     Button mainUpdateStepsButton;
     Button walkUpdateStepsButton;
 
