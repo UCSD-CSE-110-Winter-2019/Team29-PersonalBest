@@ -29,7 +29,6 @@ public class TestFitnessService implements FitnessService {
 
         activity.numStepDone.setText(String.valueOf(total));
         this.setup();
-        this.updateStepInRealTime();
 
         //Button to quickly update/mock steps
         if (seeUpdateStepsButton) {
@@ -41,6 +40,10 @@ public class TestFitnessService implements FitnessService {
                     updateStepCount();
                 }
             });
+        }
+        //Automatic update of steps
+        else {
+            this.updateStepInRealTime();
         }
     }
 

@@ -25,9 +25,10 @@ public class MainPageActivity extends AppCompatActivity {
     private int curStep;
 
     public TextView numStepDone;
-    public static boolean mock = true; //change to true for testing purposes
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
+
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,4 +136,3 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
 }
-
