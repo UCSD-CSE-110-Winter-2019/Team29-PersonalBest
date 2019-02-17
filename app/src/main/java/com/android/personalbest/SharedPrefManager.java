@@ -76,6 +76,15 @@ public class SharedPrefManager {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
 
+    public void setGoalChangedToday(boolean goalChangedToday) {
+        editor.putBoolean(res.getString(R.string.goal_changed), goalChangedToday);
+        editor.apply();
+    }
+
+    public boolean getGoalChangedToday() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_changed), false);
+    }
+
     /* Calculating intentional walk stats */
 
     //TODO: is this ever used?

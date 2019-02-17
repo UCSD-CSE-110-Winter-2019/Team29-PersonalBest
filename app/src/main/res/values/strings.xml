@@ -27,6 +27,8 @@
     <string name="suggested_goal">"Suggested goal:"</string>
     <string name="pick_suggested_goal">"Accept suggested goal"</string>
     <string name="pick_custom_goal">"Accept custom goal"</string>
+    <string name="goal_changed">"Goal message shown already today"</string>
+
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
@@ -54,6 +56,8 @@
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
     <string name="change_goal">Change Goal</string>
+    <string name="goal_input_empty">Please enter a goal</string>
+    <string name="input_zero">Please enter a number greater than zero</string>
     <string name="app_proposed_goals">App-Proposed Goals</string>
     <string name="home">Home</string>
     <string name="walker_or_runner">Walker or Runner?</string>

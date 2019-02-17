@@ -89,16 +89,18 @@ public class NewGoalActivity extends AppCompatActivity {
         acceptCustomGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                int newGoal = Integer.parseInt(customSteps.getText().toString().trim());
-
-                Log.e("hi",Integer.parseInt(customSteps.getText().toString().trim()) + "");
-                if(newGoal <= 0){
-                    Toast.makeText(getApplicationContext(), "Please enter a number greater than zero", Toast.LENGTH_SHORT).show();
-                } else {
-                    sharedPrefManager.setGoal(newGoal);
-                    sharedPrefManager.storeGoal(today, newGoal);
+                if (customSteps.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), R.string.goal_input_empty, Toast.LENGTH_SHORT).show();
+                } else{
+                    int newGoal = Integer.parseInt(customSteps.getText().toString().trim());
+                    if (newGoal <= 0) {
+                        Toast.makeText(getApplicationContext(), R.string.input_zero, Toast.LENGTH_SHORT).show();
+                    } else {
+                        sharedPrefManager.setGoal(newGoal);
+                        sharedPrefManager.storeGoal(today, newGoal);
+                        finish();
+                    }
                 }
-                finish();
             }
         });
     }

@@ -45,11 +45,6 @@ public class MainPageActivity extends AppCompatActivity {
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
 
-        //check for encouragement message
-        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal()) {
-            launchNewGoalActivity();
-        }
-
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +62,6 @@ public class MainPageActivity extends AppCompatActivity {
                 launchBarChartActivity();
             }
         });
-
         userSettings.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -81,12 +75,21 @@ public class MainPageActivity extends AppCompatActivity {
         super.onStart();
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
+        //check for encouragement message
+        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
+            launchNewGoalActivity();
+            sharedPrefManager.setGoalChangedToday(true);
+        }
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        //TODO: add encouragement message
+        //check for encouragement message
+        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
+            launchNewGoalActivity();
+            sharedPrefManager.setGoalChangedToday(true);
+        }
     }
 
     public void launchWalkActivity() {
