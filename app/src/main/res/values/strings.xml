@@ -54,6 +54,11 @@
     <string name="walker_or_runner">Walker or Runner?</string>
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
+    <string name="input_goal">inputGoal</string>
+    <string name="enter">Enter Your New Goal</string>
+    <string name="please">Please enter a number greater than zero</string>
+    <string name="updated">Goal updated!</string>
+    <string name="cancel">Cancel</string>
 
     <!--GoogleFitAdapter-->
     <string name="totalStep">totalStep</string>

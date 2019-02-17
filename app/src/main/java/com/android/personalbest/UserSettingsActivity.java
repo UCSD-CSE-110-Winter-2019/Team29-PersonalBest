@@ -12,7 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import java.util.*;
+
+import java.util.Calendar;
 
 
 public class UserSettingsActivity extends AppCompatActivity {
@@ -22,6 +23,10 @@ public class UserSettingsActivity extends AppCompatActivity {
     private RadioButton runnerOpt;
     private CheckBox proposedGoals;
     private SharedPrefManager sharedPrefManager;
+    public EditText edittext;
+    public AlertDialog.Builder dialog;
+    public AlertDialog dialogBox;
+    private Button startWalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,48 +39,51 @@ public class UserSettingsActivity extends AppCompatActivity {
         walkerOpt = findViewById(R.id.walkerOption);
         runnerOpt = findViewById(R.id.runnerOption);
         proposedGoals = findViewById(R.id.appProposedGoals);
+        edittext = new EditText(UserSettingsActivity.this);
+        dialog = new AlertDialog.Builder(UserSettingsActivity.this);
+        dialogBox = dialog.create();
+
 
         setWalkOrRunOption();
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchMainActivity();
+                finish();
             }
         });
         changeGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(UserSettingsActivity.this);
-                final EditText edittext = new EditText(UserSettingsActivity.this);
+                dialog = new AlertDialog.Builder(UserSettingsActivity.this);
                 //cannot enter any character except integers
                 edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
-                dialog.setTitle("Enter Your New Goal");
+                edittext.setTag(getString(R.string.input_goal));
+                dialog.setTitle(R.string.enter);
                 dialog.setView(edittext);
-                dialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                dialog.setPositiveButton(getString(R.string.done), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
                         int newGoal = Integer.parseInt(edittext.getText().toString());
                         if(newGoal <= 0){
-                            Toast.makeText(getApplicationContext(), "Please enter a number greater than zero", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.please), Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Calendar calendar = Calendar.getInstance();
                             int today = calendar.get(Calendar.DAY_OF_WEEK);
                             pastWeek.storeGoal(today, newGoal);
                             pastWeek.setGoal(newGoal);
-                            Toast.makeText(getApplicationContext(), "Goal updated!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.updated), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //do nothing
                     }
                 });
-
-                dialog.show();
-
+                dialogBox = dialog.create();
+                dialogBox.show();
             }
         });
     }
@@ -112,19 +120,4 @@ public class UserSettingsActivity extends AppCompatActivity {
         }
 
     }
-
-   /** public void onRadioButtonClicked(View view) {
-        if(walkerOpt.isChecked()){
-                SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-                SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                editorWalkerRunner.putBoolean("isWalker", true);
-                editorWalkerRunner.apply();
-            }
-            else{
-                SharedPreferences sharedPrefWalkerRunner = getSharedPreferences("walkerOrRunner", MODE_PRIVATE);
-                SharedPreferences.Editor editorWalkerRunner = sharedPrefWalkerRunner.edit();
-                editorWalkerRunner.putBoolean("isWalker", false);
-                editorWalkerRunner.apply();
-            }
-    }**/
 }
