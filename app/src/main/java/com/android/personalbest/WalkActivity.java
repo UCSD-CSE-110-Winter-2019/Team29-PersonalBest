@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.android.personalbest.walkData.WalkDataAdapter;
 
-import java.util.Calendar;
-
 
 public class WalkActivity extends AppCompatActivity {
 
