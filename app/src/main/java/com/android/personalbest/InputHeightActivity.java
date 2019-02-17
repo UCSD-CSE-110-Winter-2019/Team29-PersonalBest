@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class InputHeightActivity extends AppCompatActivity {
 
     private Button doneButton;
@@ -52,6 +54,7 @@ public class InputHeightActivity extends AppCompatActivity {
                 if (validHeight) {
                     sharedPrefManager.setHeight(Integer.parseInt(userHeight.getText().toString()));
                     sharedPrefManager.setGoal(getResources().getInteger(R.integer.default_goal));
+                    sharedPrefManager.storeGoal(Calendar.DAY_OF_WEEK, getResources().getInteger(R.integer.default_goal));
                     sharedPrefManager.setFirstTime(true);
                     sharedPrefManager.setIsWalker(true);
 
