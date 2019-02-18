@@ -130,6 +130,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void newDay() {
+        Log.i("Main Activity", "New Day");
         int storedDay = sharedPrefManager.getDayInStorage();
         sharedPrefManager.storeGoal(storedDay, sharedPrefManager.getGoal());
         sharedPrefManager.storeTotalSteps(storedDay, sharedPrefManager.getNumSteps());
@@ -147,6 +148,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void exceedsGoal() {
+        Log.i("Main Activity", "exceedsGoal called");
         sharedPrefManager.setGoalExceededToday(true);
         if (!sharedPrefManager.getIgnoreGoal()) {
             sharedPrefManager.setGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -155,6 +157,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void exceedsSubGoal() {
+        Log.i("Main Activity", "exceedsSubGoal called");
         sharedPrefManager.setSubGoalExceededToday(true);
         sharedPrefManager.setSubGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         sharedPrefManager.setSubGoalReached(true);
@@ -166,6 +169,7 @@ public class MainPageActivity extends AppCompatActivity {
             int goalDay = sharedPrefManager.getGoalMessageDay();
 
             if (today == goalDay || today == goalDay + 1) {
+                Log.i("Main Activity", "goal prompt shown");
                 sharedPrefManager.setGoalReached(false);
                 launchNewGoalActivity();
             }
@@ -179,6 +183,7 @@ public class MainPageActivity extends AppCompatActivity {
             int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
 
             if ((today == subGoalDay + 1) || (today == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) {
+                Log.i("Main Activity", "subgoal prompt shown");
                 sharedPrefManager.setSubGoalReached(false);
                 showSubGoalMsg();
             }

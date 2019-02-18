@@ -44,13 +44,15 @@ public class NewGoalActivity extends AppCompatActivity {
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                showGoalPrompts();
+            Log.i("New Goal Activity", "new goal -> yes");
+            showGoalPrompts();
             }
         });
 
         no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                Log.i("New Goal Activity", "new goal -> no");
                 sharedPrefManager.setIgnoreGoal(true);
                 finish();
             }
@@ -77,6 +79,7 @@ public class NewGoalActivity extends AppCompatActivity {
         acceptSuggestedGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                Log.i("New Goal Activity", "suggested goal set");
                 int newGoal = sharedPrefManager.getGoal() + 500;
                 sharedPrefManager.storeGoal(today, newGoal);
                 sharedPrefManager.setGoal(newGoal);
@@ -96,6 +99,7 @@ public class NewGoalActivity extends AppCompatActivity {
                     if (newGoal <= 0) {
                         Toast.makeText(getApplicationContext(), R.string.input_zero, Toast.LENGTH_SHORT).show();
                     } else {
+                        Log.i("New Goal Activity", "custom goal set");
                         sharedPrefManager.storeGoal(today, newGoal);
                         sharedPrefManager.setGoal(newGoal);
                         finish();
