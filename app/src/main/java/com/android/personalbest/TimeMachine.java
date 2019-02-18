@@ -5,7 +5,7 @@ import java.util.Calendar;
 //Used for changing day for testing and demo purposes
 public class TimeMachine {
 
-    private static int today = Calendar.DAY_OF_WEEK;
+    private static int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
     public static int getDay() {
         return today;
