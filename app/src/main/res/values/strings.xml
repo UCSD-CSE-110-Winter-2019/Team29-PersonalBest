@@ -64,6 +64,10 @@
     <string name="walker_or_runner">Walker or Runner?</string>
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
+    <string name="input_goal">inputGoal</string>
+    <string name="enter">Enter Your New Goal</string>
+    <string name="updated">Goal updated!</string>
+    <string name="cancel">Cancel</string>
 
     <!--GoogleFitAdapter-->
     <string name="totalStep">totalStep</string>
@@ -85,6 +89,14 @@
     <string name="Thursday">Thursday</string>
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
+    <string name="sundaystats">Sunday Stats</string>
+    <string name="mondaystats">Monday Stats</string>
+    <string name="tuesdaystats">Tuesday Stats</string>
+    <string name="wednesdaystats">Wednesday Stats</string>
+    <string name="thursdaystats">Thursday Stats</string>
+    <string name="fridaystats">Friday Stats</string>
+    <string name="saturdaystats">Saturday Stats</string>
+
 
     <!-- Bar Chart Stats -->
     <string name="totalStepsTaken">totalStepsTaken</string>
@@ -93,5 +105,19 @@
     <string name="intentionalMilesPerHour">intentionalMilesPerHour</string>
     <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
     <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
+    <string name="emptyString"></string>
+    <string name="totalDistance">Total Distance:</string>
+    <string name="averageMPH">Average MPH:</string>
+    <string name="totalTime">Total Time:</string>
+    <string name="totalSteps">Total Steps Taken:</string>
+    <string name="nonIntentional">Non Intentional Steps:</string>
+    <string name="intentional">Intentional Steps:</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tues">TUES</string>
+    <string name="wed">WED</string>
+    <string name="thurs">THURS</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
 
 </resources>

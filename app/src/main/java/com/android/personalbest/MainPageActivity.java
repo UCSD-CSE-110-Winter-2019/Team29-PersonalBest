@@ -1,7 +1,7 @@
 package com.android.personalbest;
 
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.GoogleFitAdapter;
 
 import java.util.Calendar;
@@ -20,6 +21,8 @@ public class MainPageActivity extends AppCompatActivity {
     private Button userSettings;
     private GoogleFitAdapter googleFitAdapter;
     private int curStep;
+    public static boolean mock = false;
+    private FitnessService fitnessService;
 
     public TextView numStepDone;
     private TextView goal;
@@ -37,9 +40,26 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
+        //sharedPrefManager = new SharedPrefManager(this);
+        goal = findViewById(R.id.goal);
+
+        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
+        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
+        if(walker){
+            startButton.setText(getString(R.string.start_walk));
+        }
+        else{
+            startButton.setText(getString(R.string.start_run));
+        }
+
         googleFitAdapter = new GoogleFitAdapter(this);
 
         //update UI: steps, goal, walk/run status
+        googleFitAdapter.setup();
+        googleFitAdapter.updateStepInRealTime();
+
+
+        googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();
 
@@ -138,6 +158,5 @@ public class MainPageActivity extends AppCompatActivity {
             }
         }
     }
-
 }
 
