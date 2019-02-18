@@ -77,8 +77,8 @@ public class NewGoalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 int newGoal = sharedPrefManager.getGoal() + 500;
-                sharedPrefManager.setGoal(newGoal);
                 sharedPrefManager.storeGoal(today, newGoal);
+                sharedPrefManager.setGoal(newGoal);
                 finish();
             }
         });
@@ -95,8 +95,8 @@ public class NewGoalActivity extends AppCompatActivity {
                     if (newGoal <= 0) {
                         Toast.makeText(getApplicationContext(), R.string.input_zero, Toast.LENGTH_SHORT).show();
                     } else {
-                        sharedPrefManager.setGoal(newGoal);
                         sharedPrefManager.storeGoal(today, newGoal);
+                        sharedPrefManager.setGoal(newGoal);
                         finish();
                     }
                 }

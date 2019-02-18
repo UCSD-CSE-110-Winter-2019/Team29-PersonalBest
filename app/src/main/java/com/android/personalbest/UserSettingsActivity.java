@@ -64,8 +64,7 @@ public class UserSettingsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
                         int newGoal = Integer.parseInt(edittext.getText().toString());
-                        Calendar calendar = Calendar.getInstance();
-                        int today = calendar.get(Calendar.DAY_OF_WEEK);
+                        int today = TimeMachine.getDay();
                         pastWeek.storeGoal(today, newGoal);
                         pastWeek.setGoal(newGoal);
                         Toast.makeText(getApplicationContext(), getString(R.string.updated), Toast.LENGTH_SHORT).show();
