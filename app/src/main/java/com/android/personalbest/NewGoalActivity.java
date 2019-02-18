@@ -66,8 +66,7 @@ public class NewGoalActivity extends AppCompatActivity {
         no.setVisibility(View.INVISIBLE);
 
         suggestedSteps.setText(String.valueOf(sharedPrefManager.getGoal() + 500));
-        Calendar calendar = Calendar.getInstance();
-        today = calendar.get(TimeMachine.getDay());
+        today = TimeMachine.getDay();
 
         activateSuggestedButton();
         activateCustomButton();
