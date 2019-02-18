@@ -53,6 +53,13 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
         //Check for default goal
         Espresso.onView(withId(R.id.goal))
                 .check(matches(withText(defaultGoal)));
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
