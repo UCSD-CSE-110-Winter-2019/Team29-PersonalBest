@@ -111,4 +111,26 @@ public class StoreIntentionalWalkStatsTest {
         assertEquals(0, sharedPrefManager.getIntentionalTimeElapsed(dayOfWeek));
 
     }
+
+    @Test
+    public void testStoreElapsedTimeMilliToMinuteConversion() {
+        int dayOfWeek = Calendar.MONDAY;
+        int intentionalStepsTaken = 5000;
+        float intentionalDistanceInMiles = 5.1f;
+        float intentionalMilesPerHour = 3.3f;
+
+        //testing conversion
+        int intentionalTimeElapsedInMilli = 2101111;
+        int intentionalTimeElapsedInMins = 35;
+        int actualTimeElapsed = intentionalTimeElapsedInMilli/60000;
+
+        sharedPrefManager.storeIntentionalWalkStats(dayOfWeek, intentionalStepsTaken, intentionalDistanceInMiles,
+                intentionalMilesPerHour, actualTimeElapsed);
+
+        assertEquals(intentionalStepsTaken, sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
+        assertEquals(intentionalDistanceInMiles, sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek), 0.00);
+        assertEquals(intentionalMilesPerHour, sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek), 0.00);
+        assertEquals(intentionalTimeElapsedInMins, sharedPrefManager.getIntentionalTimeElapsed(dayOfWeek));
+
+    }
 }

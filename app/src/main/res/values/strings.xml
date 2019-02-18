@@ -2,6 +2,7 @@
 
     <!-- General -->
     <string name="app_name">PersonalBest</string>
+    <string name="app_name_all_caps">PERSONAL BEST</string>
 
     <!-- Sign In -->
     <string name="login">LogInStatus</string>
@@ -16,6 +17,7 @@
     <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
+    <string name="update_steps">UPDATE STEPS</string>
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
 
     <!-- Encouragement -->
@@ -109,7 +111,7 @@
     <string name="averageMPH">Average MPH:</string>
     <string name="totalTime">Total Time:</string>
     <string name="totalSteps">Total Steps Taken:</string>
-    <string name="nonIntentional">Non Intentional Steps:</string>
+    <string name="nonIntentional">Non Intentional Steps</string>
     <string name="intentional">Intentional Steps:</string>
     <string name="sun">SUN</string>
     <string name="mon">MON</string>

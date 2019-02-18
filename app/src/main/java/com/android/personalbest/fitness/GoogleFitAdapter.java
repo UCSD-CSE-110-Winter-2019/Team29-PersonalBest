@@ -34,6 +34,8 @@ public class GoogleFitAdapter implements FitnessService {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
+        this.setup();
+        this.updateStepInRealTime();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
     }
 
@@ -125,6 +127,7 @@ public class GoogleFitAdapter implements FitnessService {
         return GOOGLE_FIT_PERMISSIONS_REQUEST_CODE;
     }
 
+    @Override
     public void updateStepInRealTime(){
         handler = new Handler();
         runnable = new Runnable() {
