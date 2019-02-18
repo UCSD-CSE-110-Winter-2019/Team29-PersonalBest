@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.android.personalbest.fitness.FitnessService;
@@ -43,6 +44,10 @@ public class MainPageActivity extends AppCompatActivity {
         fitnessService = FitnessServiceFactory.create(this, mock);
 
         goal = findViewById(R.id.goal);
+
+        if(BuildConfig.DEBUG){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
 
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
