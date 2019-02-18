@@ -17,15 +17,15 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-public class
-GoogleFitAdapter implements FitnessService {
+
+
+public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
 
     private MainPageActivity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
-    private int goal = 0;
 
     private Handler handler;
     private Runnable runnable;
@@ -35,7 +35,6 @@ GoogleFitAdapter implements FitnessService {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
-        goal = sharedPrefManager.getGoal();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
     }
 
@@ -87,7 +86,6 @@ GoogleFitAdapter implements FitnessService {
      * current timezone.
      */
     public void updateStepCount() {
-
         Log.i(TAG, "updateStepCount()  get call");
         if (lastSignedInAccount == null) {
             Log.i(TAG, "lastSignedInAccount == null");

@@ -2,11 +2,13 @@
 
     <!-- General -->
     <string name="app_name">PersonalBest</string>
+
     <!-- Sign In -->
     <string name="login">LogInStatus</string>
     <string name="done">Done</string>
 
     <!-- MainPageActivity -->
+    <string name="blank">""</string>
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_goal">GOAL:</string>
@@ -14,18 +16,24 @@
     <string name="start_run">Start Run</string>
     <string name="see_bar_chart">See Bar Chart</string>
     <string name="user_settings">User Settings</string>
-
-
-    <!-- MainPageActivityRun -->
-
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
+
+    <!-- Encouragement -->
+    <string name="goal_reached">"Congratulations! Do you want to set a new step goal?"</string>
+    <string name="yes">"Yes"</string>
+    <string name="no">"Not Now"</string>
+    <string name="custom_goal">"Custom goal:"</string>
+    <string name="custom_goal_hint">"Enter a custom goal:"</string>
+    <string name="suggested_goal">"Suggested goal:"</string>
+    <string name="pick_suggested_goal">"Accept suggested goal"</string>
+    <string name="pick_custom_goal">"Accept custom goal"</string>
+    <string name="goal_changed">"Goal message shown already today"</string>
+
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>
     <string name="intentionalStep">intentionalStep</string>
-
     <string name="end_run">End Run</string>
-
     <string name="time_elapsed">Time Elapsed:</string>
     <string name="mph">MPH:</string>
     <string name="steps">Steps:</string>
@@ -45,15 +53,20 @@
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
 
-
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
     <string name="change_goal">Change Goal</string>
+    <string name="goal_input_empty">Please enter a goal</string>
+    <string name="input_zero">Please enter a number greater than zero</string>
     <string name="app_proposed_goals">App-Proposed Goals</string>
     <string name="home">Home</string>
     <string name="walker_or_runner">Walker or Runner?</string>
     <string name="walker_option">Walker</string>
     <string name="runner_option">Runner</string>
+    <string name="input_goal">inputGoal</string>
+    <string name="enter">Enter Your New Goal</string>
+    <string name="updated">Goal updated!</string>
+    <string name="cancel">Cancel</string>
 
     <!--GoogleFitAdapter-->
     <string name="totalStep">totalStep</string>
@@ -61,14 +74,10 @@
     <!-- BarChart -->
     <string name="this_week">THIS WEEK</string>
 
-
     <!--WalkDataAdapter-->
     <string name="elapsedTime">timeElapsed</string>
     <string name="milesInDisplay">mileInDisplay</string>
     <string name="MPH">MPH</string>
-
-
-
     <string name="_0">0</string>
 
     <!-- DaysOfWeek -->
@@ -79,12 +88,35 @@
     <string name="Thursday">Thursday</string>
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
+    <string name="sundaystats">Sunday Stats</string>
+    <string name="mondaystats">Monday Stats</string>
+    <string name="tuesdaystats">Tuesday Stats</string>
+    <string name="wednesdaystats">Wednesday Stats</string>
+    <string name="thursdaystats">Thursday Stats</string>
+    <string name="fridaystats">Friday Stats</string>
+    <string name="saturdaystats">Saturday Stats</string>
 
+
+    <!-- Bar Chart Stats -->
     <string name="totalStepsTaken">totalStepsTaken</string>
     <string name="intentionalStepsTaken">intentionalStepsTaken</string>
     <string name="intentionalDistanceInMiles">intentionalDistanceInMiles</string>
     <string name="intentionalMilesPerHour">intentionalMilesPerHour</string>
     <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
     <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
+    <string name="emptyString"></string>
+    <string name="totalDistance">Total Distance:</string>
+    <string name="averageMPH">Average MPH:</string>
+    <string name="totalTime">Total Time:</string>
+    <string name="totalSteps">Total Steps Taken:</string>
+    <string name="nonIntentional">Non Intentional Steps:</string>
+    <string name="intentional">Intentional Steps:</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tues">TUES</string>
+    <string name="wed">WED</string>
+    <string name="thurs">THURS</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
 
 </resources>
