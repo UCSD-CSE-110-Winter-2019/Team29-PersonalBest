@@ -18,16 +18,16 @@ public class WalkDataAdapter implements WalkData {
     private WalkActivity walkActivity;
     private SharedPrefManager sharedPrefManager;
 
-    private int totalStepBeforeSwitch = 0;
-    private int totalStep = 0;
-    private int intentionalStep = 0;
-    private float miles;
-    private int numberStepInMiles;
-    private float MPH;
+    public int totalStepBeforeSwitch = 0;
+    public int totalStep = 0;
+    public int intentionalStep = 0;
+    public float miles;
+    public int numberStepInMiles;
+    public float MPH;
 
-    private int elapsedTime;
-    private int curElasedTime;
-    private int upDateTimeInterval = 1000;
+    public int elapsedTime;
+    public int curElasedTime;
+    public int upDateTimeInterval = 1000;
 
     private Handler handler;
     private Runnable runnable;
@@ -41,6 +41,7 @@ public class WalkDataAdapter implements WalkData {
 
     }
 
+
     @Override
     public void chronometerStepUp(){
         //set the base of the chronometer to be the current system's clock
@@ -49,8 +50,12 @@ public class WalkDataAdapter implements WalkData {
         walkActivity.chronometer.start();
     }
     @Override
-    public int getCurrentElapsedTime(){
+    public void  setCurrentElapsedTime(){
         curElasedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
+
+    }
+    @Override
+    public int getCurrentElapsedTime(){
 
         return curElasedTime;
     }
@@ -114,7 +119,7 @@ public class WalkDataAdapter implements WalkData {
         runnable = new Runnable() {
             @Override
             public void run() {
-                getCurrentElapsedTime();
+                setCurrentElapsedTime();
                 displayStep();
                 displayMiles();
                 displayMPH();

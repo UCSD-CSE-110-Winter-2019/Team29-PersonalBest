@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
+import com.android.personalbest.fitness.GoogleFitAdapter;
 
 
 public class MainPageActivity extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class MainPageActivity extends AppCompatActivity {
     private Button userSettings;
 
     private FitnessService fitnessService;
+    private GoogleFitAdapter googleFitAdapter;
     private int curStep;
 
     public TextView numStepDone;
@@ -44,6 +46,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         goal = findViewById(R.id.goal);
 
+        //update UI: steps, goal, walk/run status
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker){
