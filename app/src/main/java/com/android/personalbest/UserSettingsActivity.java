@@ -2,7 +2,6 @@ package com.android.personalbest;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -64,7 +63,8 @@ public class UserSettingsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
                         int newGoal = Integer.parseInt(edittext.getText().toString());
-                        int today = TimeMachine.getDay();
+                        int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+                        //int today = TimeMachine.getDay();
                         pastWeek.storeGoal(today, newGoal);
                         pastWeek.setGoal(newGoal);
                         Toast.makeText(getApplicationContext(), getString(R.string.updated), Toast.LENGTH_SHORT).show();
@@ -80,11 +80,6 @@ public class UserSettingsActivity extends AppCompatActivity {
                 dialogBox.show();
             }
         });
-    }
-
-    public void launchMainActivity() {
-        Intent walk = new Intent(this, MainPageActivity.class);
-        startActivity(walk);
     }
 
     @Override
