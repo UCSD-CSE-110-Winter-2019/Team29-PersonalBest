@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.android.personalbest.walkData.WalkDataAdapter;
 
-import java.util.Calendar;
-
 
 public class WalkActivity extends AppCompatActivity {
 
@@ -85,7 +83,7 @@ public class WalkActivity extends AppCompatActivity {
         int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
         int intentionalTimeElapsed = elapsedTimeInMilliseconds/R.integer.num_milli_in_min;
 
-        sharedPrefManager.storeIntentionalWalkStats(Calendar.DAY_OF_WEEK, intentionalStepsTaken, intentionalDistanceInMiles,
+        sharedPrefManager.storeIntentionalWalkStats(TimeMachine.getDay(), intentionalStepsTaken, intentionalDistanceInMiles,
                 intentionalMilesPerHour, intentionalTimeElapsed);
     }
 

@@ -8,13 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
-import com.android.personalbest.fitness.GoogleFitAdapter;
-
-import java.util.Calendar;
 
 
 public class MainPageActivity extends AppCompatActivity {
@@ -75,7 +70,7 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPrefManager.storeTotalSteps(Calendar.DAY_OF_WEEK, Integer.parseInt(numStepDone.getText().toString()));
+                sharedPrefManager.storeTotalSteps(TimeMachine.getDay(), Integer.parseInt(numStepDone.getText().toString()));
                 launchBarChartActivity();
             }
         });
