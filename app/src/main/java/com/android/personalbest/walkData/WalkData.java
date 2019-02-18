@@ -8,6 +8,7 @@ public interface WalkData {
     void displayMiles();
     void displayMPH();
     void chronometerStepUp();
+    void setCurrentElapsedTime();
     int getCurrentElapsedTime();
     Intent returnElapsedTime();
     void updateWalkStepInRealTime();

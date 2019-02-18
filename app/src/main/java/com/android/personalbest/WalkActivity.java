@@ -16,7 +16,7 @@ public class WalkActivity extends AppCompatActivity {
 
     public Chronometer chronometer;
     private SharedPrefManager sharedPrefManager;
-    private WalkDataAdapter walkDataAdapter;
+    public WalkDataAdapter walkDataAdapter;
     public TextView intentionalStepTextView;
     public TextView milesTextView;
     public TextView MPHTextView;
@@ -38,16 +38,14 @@ public class WalkActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setResult(RESULT_OK, walkDataAdapter.returnElapsedTime());
+                storeWalkStats();
                 finish();
             }
         });
 
         setEndWalkText();
         walkDataAdapter.updateWalkStepInRealTime();
-
     }
-
-
 
     @Override
     protected void onStart(){
@@ -55,9 +53,7 @@ public class WalkActivity extends AppCompatActivity {
         setEndWalkText();
     }
 
-
     public void initiateWalkDataTextView() {
-
         intentionalStepTextView = findViewById(R.id.intentionalStep);
         milesTextView = findViewById(R.id.miles);
         MPHTextView = findViewById(R.id.MPH);
@@ -72,7 +68,23 @@ public class WalkActivity extends AppCompatActivity {
         else{
             endWalk.setText(getString(R.string.end_run));
         }
+    }
 
+    private void storeWalkStats() {
+        intentionalStepTextView = findViewById(R.id.intentionalStep);
+        milesTextView = findViewById(R.id.miles);
+        MPHTextView = findViewById(R.id.MPH);
+        chronometer = findViewById(R.id.chronometer);
+
+        int intentionalStepsTaken = Integer.parseInt(intentionalStepTextView.getText().toString());
+        float intentionalDistanceInMiles = Float.parseFloat(milesTextView.getText().toString());
+        float intentionalMilesPerHour = Float.parseFloat(MPHTextView.getText().toString());
+
+        int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
+        int intentionalTimeElapsed = elapsedTimeInMilliseconds/R.integer.num_milli_in_min;
+
+        sharedPrefManager.storeIntentionalWalkStats(TimeMachine.getDay(), intentionalStepsTaken, intentionalDistanceInMiles,
+                intentionalMilesPerHour, intentionalTimeElapsed);
     }
 
 }

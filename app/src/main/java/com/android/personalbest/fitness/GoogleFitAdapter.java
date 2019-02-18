@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
+
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
@@ -34,6 +35,8 @@ public class GoogleFitAdapter implements FitnessService {
 
         this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
+        this.setup();
+        this.updateStepInRealTime();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
     }
 
@@ -132,6 +135,7 @@ public class GoogleFitAdapter implements FitnessService {
         return GOOGLE_FIT_PERMISSIONS_REQUEST_CODE;
     }
 
+    @Override
     public void updateStepInRealTime(){
         handler = new Handler();
         runnable = new Runnable() {

@@ -117,13 +117,12 @@ public class SharedPrefManager {
 
     /* Calculating intentional walk stats */
 
-    //TODO: is this ever used?
     public void storeNumStepsInMile(int numStepsInMile) {
         editor.putInt(res.getString(R.string.num_steps_in_mile), 0);
         editor.apply();
     }
 
-    //TODO: Called when "end walk" button is pressed
+    //Called when "end walk" button is pressed
     public void storeIntentionalWalkStats(int dayOfWeek, int intentionalStepsTaken, float intentionalDistanceInMiles,
                                    float intentionalMilesPerHour, int intentionalTimeElapsed) {
 
@@ -149,13 +148,15 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    //TODO: Called at end of day and every time bar chart is displayed (when the "see bar chart" is clicked)
+    //TODO: Called at end of day
+    // Called every time bar chart is displayed (when the "see bar chart" is clicked)
     public void storeTotalSteps(int dayOfWeek, int totalStepsTaken) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
     }
 
     //Called at end of day
+    //Called when the default goal is set
     public void storeGoal(int dayOfWeek, int goal) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.goal) + today, goal);
@@ -163,7 +164,7 @@ public class SharedPrefManager {
 
     public int getGoalForCertainDay(int dayOfWeek){
         String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getInt("goal" + today,0 );
+        return sharedPref.getInt(res.getString(R.string.goal) + today,0 );
     }
 
     //used to check if subgoal has been met
@@ -196,7 +197,6 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    //TODO: For getting step data for bar chart
     public int getTotalStepsTaken(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getInt(res.getString(R.string.totalStepsTaken) + today, 0);
@@ -210,8 +210,6 @@ public class SharedPrefManager {
     public int getNonIntentionalStepsTaken(int dayOfWeek){
         return getTotalStepsTaken(dayOfWeek) - getIntentionalStepsTaken(dayOfWeek);
     }
-
-    //TODO: For testing
 
     public float getIntentionalDistanceInMiles(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
