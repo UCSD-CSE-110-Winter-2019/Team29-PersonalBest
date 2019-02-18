@@ -46,13 +46,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         goal = findViewById(R.id.goal);
 
-
-        googleFitAdapter = new GoogleFitAdapter(this);
-
         //update UI: steps, goal, walk/run status
-        googleFitAdapter.setup();
-        googleFitAdapter.updateStepInRealTime();
-
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker){
