@@ -34,7 +34,19 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
     @Test
     public void inputHeightTest() {
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         MainPageActivity.mock = true;
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Espresso.onView((withId(R.id.userHeight)))
                 .perform(ViewActions.typeText(height));
