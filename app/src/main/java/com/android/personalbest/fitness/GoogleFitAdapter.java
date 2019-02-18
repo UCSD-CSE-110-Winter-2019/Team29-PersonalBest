@@ -104,6 +104,13 @@ public class GoogleFitAdapter implements FitnessService {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
+                                if (total < sharedPrefManager.getNumSteps()) {
+                                    //total was reset to 0, it's a new day
+                                    activity.newDay();
+                                }
+                                if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getIgnoreGoal()) {
+                                    activity.exceedsGoal();
+                                }
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 

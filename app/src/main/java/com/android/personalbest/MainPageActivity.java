@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.personalbest.fitness.GoogleFitAdapter;
 
@@ -74,16 +73,7 @@ public class MainPageActivity extends AppCompatActivity {
         super.onResume();
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
-        //check for encouragement message
-        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
-            launchNewGoalActivity();
-            sharedPrefManager.setGoalChangedToday(true);
-        }
-
-        //check if it's a new day & we need to reset stats
-        //if ()
-        Log.e("hello", String.valueOf(Calendar.DAY_OF_WEEK));
-        Log.e("Hi", "" + Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+        checkGoalMet();
     }
 
     public void launchWalkActivity() {
@@ -107,13 +97,45 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void checkWalkOrRun() {
-        Log.e("Hello", "CHECKED");
         boolean walker = sharedPrefManager.getIsWalker();
         if(walker){
             startButton.setText(getString(R.string.start_walk));
         }
         else{
             startButton.setText(getString(R.string.start_run));
+        }
+    }
+
+    public void newDay() {
+        int storedDay = sharedPrefManager.getDayInStorage();
+
+        sharedPrefManager.storeGoal(storedDay, sharedPrefManager.getGoal());
+        sharedPrefManager.storeTotalSteps(storedDay, sharedPrefManager.getNumSteps());
+        sharedPrefManager.storeTotalStepsFromYesterday(sharedPrefManager.getNumSteps());
+
+        //check if it's a new week and we need to reset the bar chart
+        if (storedDay == Calendar.SATURDAY) {
+            sharedPrefManager.resetSharedPrefForWeek();
+            sharedPrefManager.setIgnoreGoal(false);
+        }
+
+        sharedPrefManager.setDayInStorage(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+    }
+
+    public void exceedsGoal() {
+        sharedPrefManager.setGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        sharedPrefManager.setGoalReached(true);
+    }
+
+    private void checkGoalMet() {
+        if (sharedPrefManager.getGoalReached() && !sharedPrefManager.getIgnoreGoal()) {
+            int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            int goalDay = sharedPrefManager.getGoalMessageDay();
+
+            if (today == goalDay || today == goalDay + 1) {
+                sharedPrefManager.setIgnoreGoal(true);
+                launchNewGoalActivity();
+            }
         }
     }
 

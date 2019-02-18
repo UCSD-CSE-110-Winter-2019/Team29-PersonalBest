@@ -53,6 +53,7 @@ public class SharedPrefManager {
         return sharedPref.getInt(res.getString(R.string.height), 0);
     }
 
+    //called every time goal is set
     public void setGoal(int goal) {
         editor.putInt(res.getString(R.string.goal), goal);
         editor.apply();
@@ -77,13 +78,31 @@ public class SharedPrefManager {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
 
-    public void setGoalChangedToday(boolean goalChangedToday) {
-        editor.putBoolean(res.getString(R.string.goal_changed), goalChangedToday);
+    public void setGoalMessageDay(int day) {
+        editor.putInt(res.getString(R.string.goal_msg_expires), day);
         editor.apply();
     }
 
-    public boolean getGoalChangedToday() {
-        return sharedPref.getBoolean(res.getString(R.string.goal_changed), false);
+    public int getGoalMessageDay() {
+        return sharedPref.getInt(res.getString(R.string.goal_msg_expires), -1);
+    }
+
+    public void setIgnoreGoal(boolean ignoreGoal) {
+        editor.putBoolean(res.getString(R.string.goal_msg_shown), ignoreGoal);
+        editor.apply();
+    }
+
+    public boolean getIgnoreGoal() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_msg_shown), false);
+    }
+
+    public void setGoalReached(boolean goalReached) {
+        editor.putBoolean(res.getString(R.string.goal_reached), goalReached);
+        editor.apply();
+    }
+
+    public boolean getGoalReached() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_reached), false);
     }
 
     public void setDayInStorage(int dayInStorage) {
@@ -135,7 +154,7 @@ public class SharedPrefManager {
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
     }
 
-    //TODO: Called every time the goal is changed (and when the default goal is set)
+    //Called at end of day
     public void storeGoal(int dayOfWeek, int goal) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.goal) + today, goal);
@@ -143,23 +162,23 @@ public class SharedPrefManager {
 
     //used to check if subgoal has been met
     //TODO: Called at end of day (store today's step total in yesterday var)
-    public void storeTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
+    public void storeTotalStepsFromYesterday(int totalStepsTaken) {
         editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
     }
 
-    public void getTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
-        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
+    public void getTotalStepsFromYesterday() {
+        sharedPref.getInt(res.getString(R.string.totalStepsTakenYesterday), 0);
     }
 
     //called on Saturday end of day so that Sunday starts a new week with an empty bar chart
-    //TODO: make sure you have already stored total steps from today as yesterday before resetting
+    //make sure you have already stored total steps from today as yesterday before resetting
     public void resetSharedPrefForWeek() {
         for (int dayOfWeek = 1; dayOfWeek < 8; dayOfWeek++) {
             resetSharedPrefForDay(dayOfWeek);
         }
     }
 
-    //TODO: helper method for resetting week's shared pref values
+    //helper method for resetting week's shared pref values
     public void resetSharedPrefForDay(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, 0); //remove this hard code
@@ -172,8 +191,6 @@ public class SharedPrefManager {
     }
 
     //TODO: For getting step data for bar chart
-
-
     public int getTotalStepsTaken(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getInt(res.getString(R.string.totalStepsTaken) + today, 0);

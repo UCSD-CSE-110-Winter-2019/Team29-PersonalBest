@@ -27,7 +27,8 @@
     <string name="suggested_goal">"Suggested goal:"</string>
     <string name="pick_suggested_goal">"Accept suggested goal"</string>
     <string name="pick_custom_goal">"Accept custom goal"</string>
-    <string name="goal_changed">"Goal message shown already today"</string>
+    <string name="goal_msg_expires">"Day goal message needs to be shown by"</string>
+    <string name="goal_msg_shown">"Goal congrats message already shown once this week"</string>
     <string name="day_storage">"Day currently stored in SharedPref"</string>
 
     <!-- WalkActivity -->
