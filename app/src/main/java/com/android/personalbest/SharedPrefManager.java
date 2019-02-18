@@ -134,7 +134,7 @@ public class SharedPrefManager {
 
     public int getGoalForCertainDay(int dayOfWeek){
         String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getInt("goal" + today,0 );
+        return sharedPref.getInt(res.getString(R.string.goal) + today,0 );
     }
 
     //used to check if subgoal has been met

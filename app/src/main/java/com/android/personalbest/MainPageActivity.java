@@ -24,7 +24,7 @@ public class MainPageActivity extends AppCompatActivity {
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
