@@ -86,7 +86,6 @@ public class WalkDataAdapter implements WalkData {
         sharedPrefManager.editor.putInt(walkActivity.getString(R.string.intentionalStep),intentionalStep);
         sharedPrefManager.editor.apply();
 
-
     }
 
     @Override
@@ -99,22 +98,16 @@ public class WalkDataAdapter implements WalkData {
 
         sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.milesInDisplay),miles);
         sharedPrefManager.editor.apply();
-
-
-
     }
 
     @Override
     public void displayMPH(){
-
          miles = sharedPrefManager.sharedPref.getFloat(walkActivity.getString(R.string.milesInDisplay),miles);
          MPH = walkStatsCalculator.calculateMilesPerHour(miles,getCurrentElapsedTime());
          walkActivity.MPHTextView.setText(String.valueOf(MPH));
 
          sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.MPH),MPH);
          sharedPrefManager.editor.apply();
-
-
     }
 
     //method to be called when user clicks "end walk"
