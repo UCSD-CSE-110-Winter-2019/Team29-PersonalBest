@@ -14,7 +14,7 @@ public class TestFitnessService implements FitnessService {
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
     private int goal = 0;
-    private boolean seeUpdateStepsButton = false; //Set to true for manually updating steps
+    private boolean seeUpdateStepsButton = true; //Set to true for manually updating steps
     Button mainUpdateStepsButton;
 
     private Handler handler;

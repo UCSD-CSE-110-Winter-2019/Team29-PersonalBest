@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class MainPageActivity extends AppCompatActivity {
     private TextView goal;
     private SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
