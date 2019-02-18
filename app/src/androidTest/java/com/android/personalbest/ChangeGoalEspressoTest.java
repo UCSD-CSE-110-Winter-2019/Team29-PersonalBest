@@ -11,6 +11,7 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +39,23 @@ public class ChangeGoalEspressoTest {
 
     @Rule
     public ActivityTestRule<MainPageActivity> mActivityTestRule = new ActivityTestRule<>(MainPageActivity.class);
+
+    @Before
+    public void beforeTest(){
+        MainPageActivity mainPageActivity = mActivityTestRule.getActivity();
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(mainPageActivity);
+
+        //clear shared pref
+        sharedPrefManager.editor.clear();
+        sharedPrefManager.editor.apply();
+
+        //set values to default from input height
+        sharedPrefManager.setHeight(65);
+        sharedPrefManager.setGoal(mainPageActivity.getResources().getInteger(R.integer.default_goal));
+        sharedPrefManager.storeGoal(TimeMachine.getDay(), mainPageActivity.getResources().getInteger(R.integer.default_goal));
+        sharedPrefManager.setFirstTime(true);
+        sharedPrefManager.setIsWalker(true);
+    }
 
     @Test
     public void dailyStepCountEspressoTest() {
