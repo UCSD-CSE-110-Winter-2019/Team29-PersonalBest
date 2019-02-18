@@ -59,7 +59,7 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RunWalk_BarChart_ChangeGoalEspressoTest {
+public class RunWalkEspressoTest {
 
     private String height = "65";
 
