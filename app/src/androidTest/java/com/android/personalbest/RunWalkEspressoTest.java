@@ -26,6 +26,7 @@
 package com.android.personalbest;
 
 
+import android.content.SharedPreferences;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
@@ -61,23 +62,19 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class RunWalkEspressoTest {
 
-    private String height = "65";
-
     @Rule
-    public ActivityTestRule<InputHeightActivity> mActivityTestRule = new ActivityTestRule<>(InputHeightActivity.class);
+    public ActivityTestRule<EspressoTestActivity> mActivityTestRule = new ActivityTestRule<>(EspressoTestActivity.class);
 
     @Test
-    public void runWalk_BarChart_ChangeGoalEspressoTest() {
+    public void runWalkEspressoTest() {
 
         MainPageActivity.mock = true;
 
-        Espresso.onView((withId(R.id.userHeight)))
-                .perform(ViewActions.typeText(height));
-
-        Espresso.closeSoftKeyboard();
-
-        Espresso.onView(withId(R.id.done))
-                .perform(ViewActions.click());
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Espresso.onView(withId(R.id.startButton))
                 .check(matches(withText(R.string.start_walk)));
