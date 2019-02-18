@@ -1,17 +1,20 @@
 package com.android.personalbest;
 
 import android.app.Activity;
+import android.renderscript.ScriptGroup;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.WindowManager;
 
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.fitness.TestFitnessService;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +26,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class InputHeightEspressoTest extends FitnessServiceFactory {
+
+    @BeforeClass
+    public static void beforeClass(){
+        MainPageActivity.mock = true;
+    }
+
     @Rule
     public ActivityTestRule<InputHeightActivity> mActivityTestRule = new ActivityTestRule<>(InputHeightActivity.class);
 
@@ -33,7 +42,11 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
     @Test
     public void inputHeightTest() {
 
-        MainPageActivity.mock = true;
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Espresso.onView((withId(R.id.userHeight)))
                 .perform(ViewActions.typeText(height));
@@ -53,6 +66,13 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
         //Check for default goal
         Espresso.onView(withId(R.id.goal))
                 .check(matches(withText(defaultGoal)));
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

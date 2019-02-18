@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.android.personalbest.fitness.FitnessService;
@@ -19,20 +20,24 @@ public class MainPageActivity extends AppCompatActivity {
     private Button userSettings;
 
     private FitnessService fitnessService;
-    private GoogleFitAdapter googleFitAdapter;
     private int curStep;
 
     public TextView numStepDone;
-    private TextView goal;
-    private SharedPrefManager sharedPrefManager;
+    public TextView goal;
+    public SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initialize components
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        if(BuildConfig.DEBUG){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         goal = findViewById(R.id.goal);
         startButton = findViewById(R.id.startButton);
@@ -44,9 +49,6 @@ public class MainPageActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(this, mock);
 
-        goal = findViewById(R.id.goal);
-
-        //update UI: steps, goal, walk/run status
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
         if(walker){
