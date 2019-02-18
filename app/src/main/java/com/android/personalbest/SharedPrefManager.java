@@ -256,4 +256,17 @@ public class SharedPrefManager {
                 return "";
         }
     }
+
+    void resetSharedPrefToDefault() {
+        //clear shared pref
+        editor.clear();
+        editor.apply();
+
+        //set values to default from input height
+        setHeight(65);
+        setGoal(res.getInteger(R.integer.default_goal));
+        storeGoal(TimeMachine.getDay(), res.getInteger(R.integer.default_goal));
+        setFirstTime(true);
+        setIsWalker(true);
+    }
 }
