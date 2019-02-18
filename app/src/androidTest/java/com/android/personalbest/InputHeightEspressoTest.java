@@ -1,6 +1,7 @@
 package com.android.personalbest;
 
 import android.app.Activity;
+import android.renderscript.ScriptGroup;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.filters.LargeTest;
