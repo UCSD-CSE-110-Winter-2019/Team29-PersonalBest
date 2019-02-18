@@ -70,7 +70,7 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPrefManager.storeTotalSteps(TimeMachine.getDay(), Integer.parseInt(numStepDone.getText().toString()));
+                sharedPrefManager.storeTotalSteps(TimeMachine.getDay(), sharedPrefManager.getNumSteps());
                 launchBarChartActivity();
             }
         });
