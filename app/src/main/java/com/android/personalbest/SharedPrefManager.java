@@ -115,6 +115,34 @@ public class SharedPrefManager {
         return sharedPref.getBoolean(res.getString(R.string.goal_reached), false);
     }
 
+    public void setSubGoalExceededToday(boolean subgoalExceededToday) {
+        editor.putBoolean(res.getString(R.string.subgoal_exceeded_today), subgoalExceededToday);
+        editor.apply();
+    }
+
+    public boolean getSubGoalExceededToday() {
+        return sharedPref.getBoolean(res.getString(R.string.subgoal_exceeded_today), false);
+    }
+
+    public void setSubGoalMessageDay(int day) {
+        editor.putInt(res.getString(R.string.subgoal_msg_expires), day);
+        editor.apply();
+    }
+
+    public int getSubGoalMessageDay() {
+        return sharedPref.getInt(res.getString(R.string.subgoal_msg_expires), -1);
+    }
+
+
+    public void setSubGoalReached(boolean subGoalReached) {
+        editor.putBoolean(res.getString(R.string.subgoal_reached), subGoalReached);
+        editor.apply();
+    }
+
+    public boolean getSubGoalReached() {
+        return sharedPref.getBoolean(res.getString(R.string.subgoal_reached), false);
+    }
+
     public void setDayInStorage(int dayInStorage) {
         editor.putInt(res.getString(R.string.day_storage), dayInStorage);
         editor.apply();
@@ -177,13 +205,13 @@ public class SharedPrefManager {
     }
 
     //used to check if subgoal has been met
-    //TODO: Called at end of day (store today's step total in yesterday var)
+    //Called at end of day (store today's step total in yesterday var)
     public void storeTotalStepsFromYesterday(int totalStepsTaken) {
         editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
     }
 
-    public void getTotalStepsFromYesterday() {
-        sharedPref.getInt(res.getString(R.string.totalStepsTakenYesterday), 0);
+    public int getTotalStepsFromYesterday() {
+        return sharedPref.getInt(res.getString(R.string.totalStepsTakenYesterday), 0);
     }
 
     //called on Saturday end of day so that Sunday starts a new week with an empty bar chart
