@@ -41,6 +41,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
         goal = findViewById(R.id.goal);
 
+
         googleFitAdapter = new GoogleFitAdapter(this);
         googleFitAdapter.setup();
         googleFitAdapter.updateStepInRealTime();

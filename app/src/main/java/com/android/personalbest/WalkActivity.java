@@ -15,7 +15,7 @@ public class WalkActivity extends AppCompatActivity {
 
     public Chronometer chronometer;
     private SharedPrefManager sharedPrefManager;
-    private WalkDataAdapter walkDataAdapter;
+    public WalkDataAdapter walkDataAdapter;
     public TextView intentionalStepTextView;
     public TextView milesTextView;
     public TextView MPHTextView;
