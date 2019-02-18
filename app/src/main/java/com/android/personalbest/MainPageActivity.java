@@ -23,8 +23,8 @@ public class MainPageActivity extends AppCompatActivity {
     private int curStep;
 
     public TextView numStepDone;
-    private TextView goal;
-    private SharedPrefManager sharedPrefManager;
+    public TextView goal;
+    public SharedPrefManager sharedPrefManager;
 
     public static boolean mock = false; //change to true for testing purposes
 
@@ -48,8 +48,6 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
 
         fitnessService = FitnessServiceFactory.create(this, mock);
-
-        goal = findViewById(R.id.goal);
 
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);

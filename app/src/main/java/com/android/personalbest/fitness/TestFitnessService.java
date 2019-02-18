@@ -28,6 +28,7 @@ public class TestFitnessService implements FitnessService {
         goal = sharedPrefManager.getGoal();
 
         activity.numStepDone.setText(String.valueOf(total));
+        activity.goal.setText(String.valueOf(goal));
         this.setup();
 
         //Button to quickly update/mock steps

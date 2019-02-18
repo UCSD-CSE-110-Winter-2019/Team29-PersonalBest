@@ -26,7 +26,6 @@ import static org.hamcrest.Matchers.allOf;
 
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static org.hamcrest.Matchers.is;
 
@@ -44,17 +43,7 @@ public class ChangeGoalEspressoTest {
     public void beforeTest(){
         MainPageActivity mainPageActivity = mActivityTestRule.getActivity();
         SharedPrefManager sharedPrefManager = new SharedPrefManager(mainPageActivity);
-
-        //clear shared pref
-        sharedPrefManager.editor.clear();
-        sharedPrefManager.editor.apply();
-
-        //set values to default from input height
-        sharedPrefManager.setHeight(65);
-        sharedPrefManager.setGoal(mainPageActivity.getResources().getInteger(R.integer.default_goal));
-        sharedPrefManager.storeGoal(TimeMachine.getDay(), mainPageActivity.getResources().getInteger(R.integer.default_goal));
-        sharedPrefManager.setFirstTime(true);
-        sharedPrefManager.setIsWalker(true);
+        sharedPrefManager.resetSharedPrefToDefault();
     }
 
     @Test
