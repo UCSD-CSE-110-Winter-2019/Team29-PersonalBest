@@ -20,13 +20,13 @@ public class InputHeightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_height);
 
-        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
-        userHeight = findViewById(R.id.userHeight);
-        doneButton = findViewById(R.id.done);
-
         if(BuildConfig.DEBUG){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
+        userHeight = findViewById(R.id.userHeight);
+        doneButton = findViewById(R.id.done);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override

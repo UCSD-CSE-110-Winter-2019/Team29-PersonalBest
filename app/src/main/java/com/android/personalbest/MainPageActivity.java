@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
+import com.android.personalbest.fitness.GoogleFitAdapter;
 
 
 public class MainPageActivity extends AppCompatActivity {
@@ -32,6 +33,11 @@ public class MainPageActivity extends AppCompatActivity {
         //initialize components
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        if(BuildConfig.DEBUG){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         goal = findViewById(R.id.goal);
         startButton = findViewById(R.id.startButton);
@@ -44,10 +50,6 @@ public class MainPageActivity extends AppCompatActivity {
         fitnessService = FitnessServiceFactory.create(this, mock);
 
         goal = findViewById(R.id.goal);
-
-        if(BuildConfig.DEBUG){
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
 
         SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
         boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
