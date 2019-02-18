@@ -124,10 +124,10 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void newDay() {
         int storedDay = sharedPrefManager.getDayInStorage();
-
         sharedPrefManager.storeGoal(storedDay, sharedPrefManager.getGoal());
         sharedPrefManager.storeTotalSteps(storedDay, sharedPrefManager.getNumSteps());
         sharedPrefManager.storeTotalStepsFromYesterday(sharedPrefManager.getNumSteps());
+        sharedPrefManager.setGoalExceededToday(false);
 
         //check if it's a new week and we need to reset the bar chart
         if (storedDay == Calendar.SATURDAY) {
@@ -139,8 +139,11 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void exceedsGoal() {
-        sharedPrefManager.setGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        sharedPrefManager.setGoalReached(true);
+        sharedPrefManager.setGoalExceededToday(true);
+        if (!sharedPrefManager.getIgnoreGoal()) {
+            sharedPrefManager.setGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            sharedPrefManager.setGoalReached(true);
+        }
     }
 
     private void checkGoalMet() {
@@ -149,7 +152,7 @@ public class MainPageActivity extends AppCompatActivity {
             int goalDay = sharedPrefManager.getGoalMessageDay();
 
             if (today == goalDay || today == goalDay + 1) {
-                sharedPrefManager.setIgnoreGoal(true);
+                sharedPrefManager.setGoalReached(false);
                 launchNewGoalActivity();
             }
         }

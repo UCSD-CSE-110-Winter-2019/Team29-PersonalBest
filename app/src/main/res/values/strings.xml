@@ -31,6 +31,7 @@
     <string name="pick_custom_goal">"Accept custom goal"</string>
     <string name="goal_msg_expires">"Day goal message needs to be shown by"</string>
     <string name="goal_msg_shown">"Goal congrats message already shown once this week"</string>
+    <string name="goal_exceeded_today">"Goal exceeded already today"</string>
     <string name="day_storage">"Day currently stored in SharedPref"</string>
 
     <!-- WalkActivity -->

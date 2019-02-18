@@ -79,6 +79,15 @@ public class SharedPrefManager {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
 
+    public void setGoalExceededToday(boolean goalExceededToday) {
+        editor.putBoolean(res.getString(R.string.goal_exceeded_today), goalExceededToday);
+        editor.apply();
+    }
+
+    public boolean getGoalExceededToday() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_exceeded_today), false);
+    }
+
     public void setGoalMessageDay(int day) {
         editor.putInt(res.getString(R.string.goal_msg_expires), day);
         editor.apply();

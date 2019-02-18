@@ -111,7 +111,7 @@ public class GoogleFitAdapter implements FitnessService {
                                     //total was reset to 0, it's a new day
                                     activity.newDay();
                                 }
-                                if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getIgnoreGoal()) {
+                                if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalExceededToday()) {
                                     activity.exceedsGoal();
                                 }
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
