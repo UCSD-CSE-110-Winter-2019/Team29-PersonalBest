@@ -37,10 +37,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.android.personalbest.fitness.TestFitnessService;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,13 +65,16 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class RunWalkEspressoTest {
 
+    @BeforeClass
+    public static void beforeClass(){
+        MainPageActivity.mock = true;
+    }
+
     @Rule
-    public ActivityTestRule<EspressoTestActivity> mActivityTestRule = new ActivityTestRule<>(EspressoTestActivity.class);
+    public ActivityTestRule<MainPageActivity> mActivityTestRule = new ActivityTestRule<>(MainPageActivity.class);
 
     @Test
     public void runWalkEspressoTest() {
-
-        MainPageActivity.mock = true;
 
         try {
             Thread.sleep(5000);
