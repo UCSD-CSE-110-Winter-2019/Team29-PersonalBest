@@ -113,10 +113,12 @@ public class GoogleFitAdapter implements FitnessService {
                                 }
                                 if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalExceededToday()) {
                                     activity.exceedsGoal();
+                                    Log.i(TAG, "Subgoal Exceeded");
                                 }
-                                if (total > (sharedPrefManager.getTotalStepsFromYesterday() + R.integer.subgoal)
+                                if (total > (sharedPrefManager.getTotalStepsFromYesterday() + activity.getResources().getInteger(R.integer.subgoal))
                                     && !sharedPrefManager.getSubGoalExceededToday()) {
                                     activity.exceedsSubGoal();
+                                    Log.i(TAG, "Subgoal Exceeded");
                                 }
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();

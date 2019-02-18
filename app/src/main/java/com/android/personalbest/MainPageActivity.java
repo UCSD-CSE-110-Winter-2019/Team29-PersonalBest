@@ -45,6 +45,7 @@ public class MainPageActivity extends AppCompatActivity {
         numStepDone = findViewById(R.id.numStepDone);
 
         sharedPrefManager = new SharedPrefManager(this);
+        sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mock);
 
@@ -59,6 +60,9 @@ public class MainPageActivity extends AppCompatActivity {
         else{
             startButton.setText(getString(R.string.start_run));
         }
+
+        //TODO: testing
+        sharedPrefManager.storeTotalStepsFromYesterday(500);
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +178,7 @@ public class MainPageActivity extends AppCompatActivity {
             long time = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
             int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
 
-            if ((today == subGoalDay + 1) || (today == subGoalDay && time > R.integer.eight_pm)) {
+            if ((today == subGoalDay + 1) || (today == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) {
                 sharedPrefManager.setSubGoalReached(false);
                 showSubGoalMsg();
             }
@@ -183,8 +187,8 @@ public class MainPageActivity extends AppCompatActivity {
 
     private void showSubGoalMsg() {
         int difference = sharedPrefManager.getNumSteps() - sharedPrefManager.getTotalStepsFromYesterday();
-        int specificSubGoal = (difference / R.integer.subgoal) * 500;
-        Toast.makeText(getApplicationContext(), R.string.subgoal_msg_p1 + specificSubGoal + R.string.subgoal_msg_p2, Toast.LENGTH_LONG).show();
+        int specificSubGoal = (difference / getResources().getInteger(R.integer.subgoal)) * getResources().getInteger(R.integer.subgoal);
+        Toast.makeText(getApplicationContext(), getString(R.string.subgoal_msg_p1) + specificSubGoal + getString(R.string.subgoal_msg_p2), Toast.LENGTH_LONG).show();
     }
 
     public void addToStepCount(int steps) {
