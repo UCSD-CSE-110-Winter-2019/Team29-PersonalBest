@@ -17,6 +17,7 @@ public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
     private Button seeBarChart;
     private Button userSettings;
+    private Button seeFriends;
 
     private FitnessService fitnessService;
     private GoogleFitAdapter googleFitAdapter;
@@ -39,6 +40,7 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart = findViewById(R.id.seeBarChart);
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
+        seeFriends = findViewById(R.id.goToFriBtn);
 
         sharedPrefManager = new SharedPrefManager(this);
 
@@ -77,6 +79,15 @@ public class MainPageActivity extends AppCompatActivity {
                 launchBarChartActivity();
             }
         });
+
+        seeFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchFriendListActivity();
+            }
+        });
+
+
         userSettings.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -125,6 +136,11 @@ public class MainPageActivity extends AppCompatActivity {
     public void launchNewGoalActivity() {
         Intent newGoal = new Intent(this, NewGoalActivity.class);
         startActivity(newGoal);
+    }
+
+    public void launchFriendListActivity(){
+        Intent friendList = new Intent(this,FriendListActivity.class);
+        startActivity(friendList);
     }
 
     private void checkWalkOrRun() {

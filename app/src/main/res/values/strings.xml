@@ -20,6 +20,7 @@
     <string name="update_steps">UPDATE STEPS</string>
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
 
+
     <!-- Encouragement -->
     <string name="goal_reached">"Congratulations! Do you want to set a new step goal?"</string>
     <string name="yes">"Yes"</string>
@@ -120,5 +121,11 @@
     <string name="thurs">THURS</string>
     <string name="fri">FRI</string>
     <string name="sat">SAT</string>
+
+
+    <!--firendList.xml-->
+    <string name="friendListTitle">Friends</string>
+    <string name="add_friend_btn">Add A New Friends</string>
+    <string name="return_home">Return Home</string>
 
 </resources>
