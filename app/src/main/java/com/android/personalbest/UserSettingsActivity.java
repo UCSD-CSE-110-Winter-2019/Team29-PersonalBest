@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 
 public class UserSettingsActivity extends AppCompatActivity {
     private Button changeGoal;
@@ -63,8 +61,7 @@ public class UserSettingsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SharedPrefManager pastWeek = new SharedPrefManager(UserSettingsActivity.this.getApplicationContext());
                         int newGoal = Integer.parseInt(edittext.getText().toString());
-                        int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-                        //int today = TimeMachine.getDay();
+                        int today = TimeMachine.getDay();
                         pastWeek.storeGoal(today, newGoal);
                         pastWeek.setGoal(newGoal);
                         Toast.makeText(getApplicationContext(), getString(R.string.updated), Toast.LENGTH_SHORT).show();
