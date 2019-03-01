@@ -25,16 +25,12 @@ import java.util.Calendar;
 
 public class BarChartActivity extends AppCompatActivity {
 
-    private Button userSettingsButton;
     private Button homeButton;
 
     public CombinedChart chart;
     public ArrayList<BarEntry> entries;
     public ArrayList<Entry> line;
     public SharedPrefManager pastWeek;
-
-    private TextView thisWeek;
-    private TextView stats;
 
     private TextView totalSteps;
     private TextView totalTime;
@@ -131,9 +127,6 @@ public class BarChartActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.homebutton);
 
         //initializing stats textViews
-        thisWeek = findViewById(R.id.thisweek);
-        thisWeek.setVisibility(View.VISIBLE);
-        stats = findViewById(R.id.stats);
         totalSteps = findViewById(R.id.totalsteps);
         totalTime = findViewById(R.id.totaltime);
         averageMPH = findViewById(R.id.averagemph);
@@ -240,7 +233,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
-        int[] colors = new int[]{Color.CYAN, Color.GREEN};
+        int[] colors = new int[]{Color.GREEN, Color.CYAN};
         dataSet.setColors(colors);
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.75f);
@@ -256,7 +249,6 @@ public class BarChartActivity extends AppCompatActivity {
         chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                thisWeek.setVisibility(View.INVISIBLE);
                 totalSteps.setVisibility(View.VISIBLE);
                 totalTime.setVisibility(View.VISIBLE);
                 averageMPH.setVisibility(View.VISIBLE);
@@ -267,7 +259,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = sunTime + getString(R.string.emptyString);
                     String mph = sunMPH + getString(R.string.emptyString);
                     String distance = sunMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.sundaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
@@ -278,7 +269,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = monTime + getString(R.string.emptyString);
                     String mph = monMPH + getString(R.string.emptyString);
                     String distance = monMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.mondaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
@@ -289,7 +279,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = tuesTime + getString(R.string.emptyString);
                     String mph = tuesMPH + getString(R.string.emptyString);
                     String distance = tuesMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.tuesdaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
@@ -300,7 +289,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = wedTime + getString(R.string.emptyString);
                     String mph = wedMPH + getString(R.string.emptyString);
                     String distance = wedMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.wednesdaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
@@ -311,7 +299,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = thursTime + getString(R.string.emptyString);
                     String mph = thursMPH + getString(R.string.emptyString);
                     String distance = thursMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.thursdaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
@@ -323,7 +310,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = friTime + getString(R.string.emptyString);
                     String mph = friMPH + getString(R.string.emptyString);
                     String distance = friMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.fridaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
@@ -334,7 +320,6 @@ public class BarChartActivity extends AppCompatActivity {
                     String time = satTime + getString(R.string.emptyString);
                     String mph = satMPH + getString(R.string.emptyString);
                     String distance = satMiles + getString(R.string.emptyString);
-                    stats.setText(getString(R.string.saturdaystats));
                     stepsNumber.setText(steps);
                     timeNumber.setText(time);
                     MPHNumber.setText(mph);
