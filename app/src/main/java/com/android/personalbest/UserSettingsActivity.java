@@ -2,7 +2,6 @@ package com.android.personalbest;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -12,8 +11,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
-import java.util.Calendar;
 
 
 public class UserSettingsActivity extends AppCompatActivity {
@@ -80,11 +77,6 @@ public class UserSettingsActivity extends AppCompatActivity {
                 dialogBox.show();
             }
         });
-    }
-
-    public void launchMainActivity() {
-        Intent walk = new Intent(this, MainPageActivity.class);
-        startActivity(walk);
     }
 
     @Override
