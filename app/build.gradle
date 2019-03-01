@@ -26,10 +26,7 @@ android {
     lintOptions {
         warningsAsErrors = true
         disable 'UnusedAttribute', 'OldTargetApi'
-
     }
-
-
 }
 
 dependencies {
@@ -43,7 +40,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.google.android.gms:play-services-fitness:16.0.1'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'cogim.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-core:16.0.7'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.1'
