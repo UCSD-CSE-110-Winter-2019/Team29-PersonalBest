@@ -4,14 +4,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
-import com.android.personalbest.fitness.GoogleFitAdapter;
+
+import java.util.Calendar;
 
 
 public class MainPageActivity extends AppCompatActivity {
@@ -46,6 +48,7 @@ public class MainPageActivity extends AppCompatActivity {
         numStepDone = findViewById(R.id.numStepDone);
 
         sharedPrefManager = new SharedPrefManager(this);
+        sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mock);
 
@@ -58,8 +61,8 @@ public class MainPageActivity extends AppCompatActivity {
             startButton.setText(getString(R.string.start_run));
         }
 
-        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
-        checkWalkOrRun();
+        //TODO: testing
+        sharedPrefManager.storeTotalStepsFromYesterday(500);
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -88,25 +91,12 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
-        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
-        checkWalkOrRun();
-        //check for encouragement message
-        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
-            launchNewGoalActivity();
-            sharedPrefManager.setGoalChangedToday(true);
-        }
-    }
-
-    @Override
     protected void onResume(){
         super.onResume();
-        //check for encouragement message
-        if (sharedPrefManager.getNumSteps() > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalChangedToday()) {
-            launchNewGoalActivity();
-            sharedPrefManager.setGoalChangedToday(true);
-        }
+        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
+        checkWalkOrRun();
+        checkGoalMet();
+        checkSubGoalMet();
     }
 
     public void launchWalkActivity() {
@@ -139,6 +129,68 @@ public class MainPageActivity extends AppCompatActivity {
         }
     }
 
+    public void newDay() {
+        int storedDay = sharedPrefManager.getDayInStorage();
+        sharedPrefManager.storeGoal(storedDay, sharedPrefManager.getGoal());
+        sharedPrefManager.storeTotalSteps(storedDay, sharedPrefManager.getNumSteps());
+        sharedPrefManager.storeTotalStepsFromYesterday(sharedPrefManager.getNumSteps());
+        sharedPrefManager.setGoalExceededToday(false);
+        sharedPrefManager.setSubGoalExceededToday(false);
+
+        //check if it's a new week and we need to reset the bar chart
+        if (storedDay == Calendar.SATURDAY) {
+            sharedPrefManager.resetSharedPrefForWeek();
+            sharedPrefManager.setIgnoreGoal(false);
+        }
+
+        sharedPrefManager.setDayInStorage(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+    }
+
+    public void exceedsGoal() {
+        sharedPrefManager.setGoalExceededToday(true);
+        if (!sharedPrefManager.getIgnoreGoal()) {
+            sharedPrefManager.setGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            sharedPrefManager.setGoalReached(true);
+        }
+    }
+
+    public void exceedsSubGoal() {
+        sharedPrefManager.setSubGoalExceededToday(true);
+        sharedPrefManager.setSubGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        sharedPrefManager.setSubGoalReached(true);
+    }
+
+    private void checkGoalMet() {
+        if (sharedPrefManager.getGoalReached() && !sharedPrefManager.getIgnoreGoal()) {
+            int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            int goalDay = sharedPrefManager.getGoalMessageDay();
+
+            if (today == goalDay || today == goalDay + 1) {
+                sharedPrefManager.setGoalReached(false);
+                launchNewGoalActivity();
+            }
+        }
+    }
+
+    private void checkSubGoalMet() {
+        if (sharedPrefManager.getSubGoalReached()) {
+            int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            long time = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
+
+            if ((today == subGoalDay + 1) || (today == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) {
+                sharedPrefManager.setSubGoalReached(false);
+                showSubGoalMsg();
+            }
+        }
+    }
+
+    private void showSubGoalMsg() {
+        int difference = sharedPrefManager.getNumSteps() - sharedPrefManager.getTotalStepsFromYesterday();
+        int specificSubGoal = (difference / getResources().getInteger(R.integer.subgoal)) * getResources().getInteger(R.integer.subgoal);
+        Toast.makeText(getApplicationContext(), getString(R.string.subgoal_msg_p1) + specificSubGoal + getString(R.string.subgoal_msg_p2), Toast.LENGTH_LONG).show();
+    }
+
     public void addToStepCount(int steps) {
         int completedSteps = Integer.parseInt(numStepDone.getText().toString());
         int totalSteps = completedSteps + steps;
@@ -146,5 +198,4 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.editor.putInt(getString(R.string.totalStep), totalSteps);
         sharedPrefManager.editor.apply();
     }
-
 }

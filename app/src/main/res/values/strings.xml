@@ -29,8 +29,15 @@
     <string name="suggested_goal">"Suggested goal:"</string>
     <string name="pick_suggested_goal">"Accept suggested goal"</string>
     <string name="pick_custom_goal">"Accept custom goal"</string>
-    <string name="goal_changed">"Goal message shown already today"</string>
-
+    <string name="goal_msg_expires">"Day goal message needs to be shown by"</string>
+    <string name="goal_msg_shown">"Goal congrats message already shown once this week"</string>
+    <string name="goal_exceeded_today">"Goal exceeded already today"</string>
+    <string name="subgoal_reached">"Subgoal was met"</string>
+    <string name="subgoal_msg_expires">"Day subgoal message needs to be shown by"</string>
+    <string name="subgoal_exceeded_today">"Subgoal exceeded already today"</string>
+    <string name="day_storage">"Day currently stored in SharedPref"</string>
+    <string name="subgoal_msg_p1">"You've increased your daily steps by over "</string>
+    <string name="subgoal_msg_p2">" steps. Keep up the good work!"</string>
 
     <!-- WalkActivity -->
     <string name="end_walk">End Walk</string>

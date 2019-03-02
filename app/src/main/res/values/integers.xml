@@ -7,5 +7,7 @@
     <integer name="num_feet_in_mile">5280</integer>
     <integer name="num_milli_second_in_hour">3600000</integer>
     <integer name="num_milli_in_min">60000</integer>
+    <integer name="subgoal">500</integer>
+    <integer name="eight_pm">20</integer>
 
 </resources>
