@@ -28,7 +28,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = true; //change to true for testing purposes
+    public static boolean mock = false; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +52,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(this, mock);
 
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
-        if(walker){
-            startButton.setText(getString(R.string.start_walk));
-        }
-        else{
-            startButton.setText(getString(R.string.start_run));
-        }
-
-        //TODO: testing
-        sharedPrefManager.storeTotalStepsFromYesterday(500);
+        checkWalkOrRun();
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
