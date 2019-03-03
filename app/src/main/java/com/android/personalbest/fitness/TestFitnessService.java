@@ -7,7 +7,6 @@ import android.widget.Button;
 import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
-import com.android.personalbest.WalkActivity;
 
 public class TestFitnessService implements FitnessService {
     private MainPageActivity mainPageActivity;
@@ -24,7 +23,7 @@ public class TestFitnessService implements FitnessService {
     public TestFitnessService(MainPageActivity activity) {
         this.mainPageActivity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
-        total = sharedPrefManager.getNumSteps();
+        total = sharedPrefManager.getTotalSteps();
         goal = sharedPrefManager.getGoal();
 
         activity.numStepDone.setText(String.valueOf(total));
@@ -66,7 +65,7 @@ public class TestFitnessService implements FitnessService {
 
     @Override
     public int getCurrentStep() {
-        return sharedPrefManager.getNumSteps();
+        return sharedPrefManager.getTotalSteps();
     }
 
     @Override

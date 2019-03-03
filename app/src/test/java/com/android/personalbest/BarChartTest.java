@@ -40,13 +40,13 @@ public class BarChartTest {
         int fridaySteps = 3500;
         int saturdaySteps = 4000;
 
-        sharedPrefManager.storeTotalSteps(Calendar.SUNDAY, sundaySteps);
-        sharedPrefManager.storeTotalSteps(Calendar.MONDAY, mondaySteps);
-        sharedPrefManager.storeTotalSteps(Calendar.TUESDAY, tuesdaySteps);
-        sharedPrefManager.storeTotalSteps(Calendar.WEDNESDAY, wednesdaySteps);
-        sharedPrefManager.storeTotalSteps(Calendar.THURSDAY, thursdaySteps);
-        sharedPrefManager.storeTotalSteps(Calendar.FRIDAY, fridaySteps);
-        sharedPrefManager.storeTotalSteps(Calendar.SATURDAY, saturdaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.SUNDAY, sundaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.MONDAY, mondaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.TUESDAY, tuesdaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.WEDNESDAY, wednesdaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.THURSDAY, thursdaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.FRIDAY, fridaySteps);
+        sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.SATURDAY, saturdaySteps);
 
         ArrayList<BarEntry> entriesTest = new ArrayList<>();
         BarEntry sundayEntry= new BarEntry(1f, new float[] { sharedPrefManager.getIntentionalStepsTaken(Calendar.SUNDAY), sharedPrefManager.getNonIntentionalStepsTaken(Calendar.SUNDAY)});
@@ -86,14 +86,14 @@ public class BarChartTest {
         int today = calendar.get(Calendar.DAY_OF_WEEK);
 
         sharedPrefManager.resetSharedPrefForDay(today);
-        sharedPrefManager.storeGoal(today, goal);
+        sharedPrefManager.storeGoalForDayOfWeek(today, goal);
         sharedPrefManager.setGoal(1500);
 
         Button goToBarChart = mainPage.findViewById(R.id.seeBarChart);
         goToBarChart.performClick();
 
         barChartActivity.pastWeek.resetSharedPrefForDay(today);
-        barChartActivity.pastWeek.storeGoal(today, goal);
+        barChartActivity.pastWeek.storeGoalForDayOfWeek(today, goal);
         sharedPrefManager.setGoal(1500);
 
         //making sure both sharedpreferences stored the goal

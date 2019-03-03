@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.personalbest.MainPageActivity;
-import com.android.personalbest.R;
-import com.android.personalbest.SharedPrefManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;
@@ -22,7 +20,6 @@ public class GoogleFitAdapter implements FitnessService {
     private final String TAG = "GoogleFitAdapter";
 
     private MainPageActivity activity;
-    private SharedPrefManager sharedPrefManager;
     private int total = 0;
 
     private Handler handler;
@@ -32,7 +29,6 @@ public class GoogleFitAdapter implements FitnessService {
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
-        sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         this.setup();
         this.updateStepInRealTime();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
@@ -104,23 +100,7 @@ public class GoogleFitAdapter implements FitnessService {
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                activity.numStepDone.setText(String.valueOf(total));
-                                if (total < sharedPrefManager.getNumSteps()) {
-                                    //total was reset to 0, it's a new day
-                                    activity.newDay();
-                                }
-                                if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalExceededToday()) {
-                                    activity.exceedsGoal();
-                                    Log.i(TAG, "Goal Exceeded");
-                                }
-                                if (total > (sharedPrefManager.getTotalStepsFromYesterday() + activity.getResources().getInteger(R.integer.subgoal))
-                                    && !sharedPrefManager.getSubGoalExceededToday()) {
-                                    activity.exceedsSubGoal();
-                                    Log.i(TAG, "Subgoal Exceeded");
-                                }
-                                sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
-                                sharedPrefManager.editor.apply();
-
+                                activity.totalUpdated(total);
                                 Log.i(TAG, "Total steps: " + total);
                             }
                         })
