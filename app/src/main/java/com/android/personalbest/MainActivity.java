@@ -159,20 +159,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (acct != null) {
             user.put("GMail", acct.getEmail());
-            couldstoreService.getUser().add(user)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error adding document", e);
-                                            }
-                                        });
-
+            couldstoreService.getfriendsList().document("something").set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
         }
     }
 

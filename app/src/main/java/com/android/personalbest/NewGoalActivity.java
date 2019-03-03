@@ -2,16 +2,11 @@ package com.android.personalbest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.Calendar;
 
 public class NewGoalActivity extends AppCompatActivity {
 
@@ -51,6 +46,7 @@ public class NewGoalActivity extends AppCompatActivity {
         no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
+                sharedPrefManager.setIgnoreGoal(true);
                 finish();
             }
         });

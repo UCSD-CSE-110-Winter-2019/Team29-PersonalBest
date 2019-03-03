@@ -17,8 +17,6 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-
-
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
@@ -107,6 +105,19 @@ public class GoogleFitAdapter implements FitnessService {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                                 activity.numStepDone.setText(String.valueOf(total));
+                                if (total < sharedPrefManager.getNumSteps()) {
+                                    //total was reset to 0, it's a new day
+                                    activity.newDay();
+                                }
+                                if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalExceededToday()) {
+                                    activity.exceedsGoal();
+                                    Log.i(TAG, "Goal Exceeded");
+                                }
+                                if (total > (sharedPrefManager.getTotalStepsFromYesterday() + activity.getResources().getInteger(R.integer.subgoal))
+                                    && !sharedPrefManager.getSubGoalExceededToday()) {
+                                    activity.exceedsSubGoal();
+                                    Log.i(TAG, "Subgoal Exceeded");
+                                }
                                 sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
                                 sharedPrefManager.editor.apply();
 

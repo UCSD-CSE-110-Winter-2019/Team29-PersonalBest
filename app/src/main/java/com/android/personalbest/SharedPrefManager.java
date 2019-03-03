@@ -53,7 +53,9 @@ public class SharedPrefManager {
         return sharedPref.getInt(res.getString(R.string.height), 0);
     }
 
+    //called every time goal is set
     public void setGoal(int goal) {
+        setGoalReached(false);
         editor.putInt(res.getString(R.string.goal), goal);
         editor.apply();
     }
@@ -72,17 +74,82 @@ public class SharedPrefManager {
     }
 
     /* For encouragement messages */
+
     public int getNumSteps() {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
 
-    public void setGoalChangedToday(boolean goalChangedToday) {
-        editor.putBoolean(res.getString(R.string.goal_changed), goalChangedToday);
+    public void setGoalExceededToday(boolean goalExceededToday) {
+        editor.putBoolean(res.getString(R.string.goal_exceeded_today), goalExceededToday);
         editor.apply();
     }
 
-    public boolean getGoalChangedToday() {
-        return sharedPref.getBoolean(res.getString(R.string.goal_changed), false);
+    public boolean getGoalExceededToday() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_exceeded_today), false);
+    }
+
+    public void setGoalMessageDay(int day) {
+        editor.putInt(res.getString(R.string.goal_msg_expires), day);
+        editor.apply();
+    }
+
+    public int getGoalMessageDay() {
+        return sharedPref.getInt(res.getString(R.string.goal_msg_expires), -1);
+    }
+
+    public void setIgnoreGoal(boolean ignoreGoal) {
+        editor.putBoolean(res.getString(R.string.goal_msg_shown), ignoreGoal);
+        editor.apply();
+    }
+
+    public boolean getIgnoreGoal() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_msg_shown), false);
+    }
+
+    public void setGoalReached(boolean goalReached) {
+        editor.putBoolean(res.getString(R.string.goal_reached), goalReached);
+        editor.apply();
+    }
+
+    public boolean getGoalReached() {
+        return sharedPref.getBoolean(res.getString(R.string.goal_reached), false);
+    }
+
+    public void setSubGoalExceededToday(boolean subgoalExceededToday) {
+        editor.putBoolean(res.getString(R.string.subgoal_exceeded_today), subgoalExceededToday);
+        editor.apply();
+    }
+
+    public boolean getSubGoalExceededToday() {
+        return sharedPref.getBoolean(res.getString(R.string.subgoal_exceeded_today), false);
+    }
+
+    public void setSubGoalMessageDay(int day) {
+        editor.putInt(res.getString(R.string.subgoal_msg_expires), day);
+        editor.apply();
+    }
+
+    public int getSubGoalMessageDay() {
+        return sharedPref.getInt(res.getString(R.string.subgoal_msg_expires), -1);
+    }
+
+
+    public void setSubGoalReached(boolean subGoalReached) {
+        editor.putBoolean(res.getString(R.string.subgoal_reached), subGoalReached);
+        editor.apply();
+    }
+
+    public boolean getSubGoalReached() {
+        return sharedPref.getBoolean(res.getString(R.string.subgoal_reached), false);
+    }
+
+    public void setDayInStorage(int dayInStorage) {
+        editor.putInt(res.getString(R.string.day_storage), dayInStorage);
+        editor.apply();
+    }
+
+    public int getDayInStorage() {
+        return sharedPref.getInt(res.getString(R.string.day_storage),-1);
     }
 
     /* Calculating intentional walk stats */
@@ -125,7 +192,7 @@ public class SharedPrefManager {
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
     }
 
-    //Called every time the goal is changed
+    //Called at end of day
     //Called when the default goal is set
     public void storeGoal(int dayOfWeek, int goal) {
         String today = getDayOfWeekAsString(dayOfWeek);
@@ -138,23 +205,24 @@ public class SharedPrefManager {
     }
 
     //used to check if subgoal has been met
-    //TODO: Called at end of day (store today's step total in yesterday var)
-    public void storeTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
+    //Called at end of day (store today's step total in yesterday var)
+    public void storeTotalStepsFromYesterday(int totalStepsTaken) {
         editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
     }
 
-    public void getTotalStepsFromTodayAsYesterday(int totalStepsTaken) {
-        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
+    public int getTotalStepsFromYesterday() {
+        return sharedPref.getInt(res.getString(R.string.totalStepsTakenYesterday), 0);
     }
 
     //called on Saturday end of day so that Sunday starts a new week with an empty bar chart
-    //TODO: make sure you have already stored total steps from today as yesterday before resetting
+    //make sure you have already stored total steps from today as yesterday before resetting
     public void resetSharedPrefForWeek() {
         for (int dayOfWeek = 1; dayOfWeek < 8; dayOfWeek++) {
             resetSharedPrefForDay(dayOfWeek);
         }
     }
 
+    //helper method for resetting week's shared pref values
     public void resetSharedPrefForDay(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, 0); //remove this hard code
@@ -180,7 +248,6 @@ public class SharedPrefManager {
         return getTotalStepsTaken(dayOfWeek) - getIntentionalStepsTaken(dayOfWeek);
     }
 
-    //TODO: For testing
     public float getIntentionalDistanceInMiles(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
         return sharedPref.getFloat(res.getString(R.string.intentionalDistanceInMiles) + today, 0);
@@ -216,5 +283,18 @@ public class SharedPrefManager {
             default:
                 return "";
         }
+    }
+
+    void resetSharedPrefToDefault() {
+        //clear shared pref
+        editor.clear();
+        editor.apply();
+
+        //set values to default from input height
+        setHeight(65);
+        setGoal(res.getInteger(R.integer.default_goal));
+        storeGoal(TimeMachine.getDay(), res.getInteger(R.integer.default_goal));
+        setFirstTime(true);
+        setIsWalker(true);
     }
 }

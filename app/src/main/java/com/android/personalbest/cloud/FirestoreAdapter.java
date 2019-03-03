@@ -4,19 +4,19 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FirestoreAdapter implements CouldstoreService{
-    private String COLLECTION_KEY = "userInfo";
+    private String COLLECTION_KEY = "friendsList";
 
-    public CollectionReference user;
+    public CollectionReference friendsList;
 
     @Override
     public void setup(){
-        user = FirebaseFirestore.getInstance()
+        friendsList = FirebaseFirestore.getInstance()
                 .collection(COLLECTION_KEY);
 
     }
 
     @Override
-    public CollectionReference getUser() {
-        return user;
+    public CollectionReference getfriendsList() {
+        return friendsList;
     }
 }
