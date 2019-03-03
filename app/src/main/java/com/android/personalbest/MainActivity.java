@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
+import com.android.personalbest.cloud.CouldstoreService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -14,12 +16,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPrefManager sharedPrefManager;
 
 
+    private CouldstoreService couldstoreService;
+
+
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
         login = sharedPrefManager.getLogin();
         haveInputtedHeight = sharedPrefManager.getFirstTime();
+
+
+        couldstoreService = CloudstoreServiceFactory.create();
+        couldstoreService.setup();
+
+
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
@@ -120,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             sharedPrefManager.setLogin(true);
                             updateUI(user);
+
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                         }
@@ -131,8 +149,31 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setVisibility(View.GONE);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        getUserInfo(acct);
         startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
 
+    }
+
+    private void getUserInfo( GoogleSignInAccount acct){
+        Map<String, Object> user = new HashMap<>();
+
+        if (acct != null) {
+            user.put("GMail", acct.getEmail());
+            couldstoreService.getUser().add(user)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error adding document", e);
+                                            }
+                                        });
+
+        }
     }
 
 }

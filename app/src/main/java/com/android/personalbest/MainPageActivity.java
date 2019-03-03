@@ -46,6 +46,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(this, mock);
 
+
         goal = findViewById(R.id.goal);
 
         //update UI: steps, goal, walk/run status
