@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -51,18 +50,6 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mock);
-
-        SharedPreferences sharedPrefWalkRun = getSharedPreferences(getString(R.string.walker_or_runner), MODE_PRIVATE);
-        boolean walker = sharedPrefWalkRun.getBoolean(getString(R.string.walker_option), true);
-        if(walker){
-            startButton.setText(getString(R.string.start_walk));
-        }
-        else{
-            startButton.setText(getString(R.string.start_run));
-        }
-
-        //TODO: testing
-        sharedPrefManager.storeTotalStepsFromYesterday(500);
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
