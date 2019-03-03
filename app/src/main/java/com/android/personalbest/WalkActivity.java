@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,12 +20,10 @@ public class WalkActivity extends AppCompatActivity {
     public TextView milesTextView;
     public TextView MPHTextView;
     private Button endWalk;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
         setContentView(R.layout.activity_walk);
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
 
@@ -83,7 +80,7 @@ public class WalkActivity extends AppCompatActivity {
         int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
         int intentionalTimeElapsed = elapsedTimeInMilliseconds/R.integer.num_milli_in_min;
 
-        sharedPrefManager.storeIntentionalWalkStats(TimeMachine.getDay(), intentionalStepsTaken, intentionalDistanceInMiles,
+        sharedPrefManager.storeIntentionalWalkStats(TimeMachine.getDayOfWeek(), intentionalStepsTaken, intentionalDistanceInMiles,
                 intentionalMilesPerHour, intentionalTimeElapsed);
     }
 
