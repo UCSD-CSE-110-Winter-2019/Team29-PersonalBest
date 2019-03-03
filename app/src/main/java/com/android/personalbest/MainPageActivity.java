@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -51,8 +50,6 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mock);
-
-        checkWalkOrRun();
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
