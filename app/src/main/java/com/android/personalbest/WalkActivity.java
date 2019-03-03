@@ -80,7 +80,7 @@ public class WalkActivity extends AppCompatActivity {
         int elapsedTimeInMilliseconds = walkDataAdapter.getCurrentElapsedTime();
         int intentionalTimeElapsed = elapsedTimeInMilliseconds/R.integer.num_milli_in_min;
 
-        sharedPrefManager.storeIntentionalWalkStats(TimeMachine.getDay(), intentionalStepsTaken, intentionalDistanceInMiles,
+        sharedPrefManager.storeIntentionalWalkStats(TimeMachine.getDayOfWeek(), intentionalStepsTaken, intentionalDistanceInMiles,
                 intentionalMilesPerHour, intentionalTimeElapsed);
     }
 

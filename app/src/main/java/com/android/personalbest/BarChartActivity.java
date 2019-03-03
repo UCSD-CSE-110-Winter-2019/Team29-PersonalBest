@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -335,9 +334,4 @@ public class BarChartActivity extends AppCompatActivity {
         });
 
     }
-    public void launchUserSettings() {
-        Intent settings = new Intent(this, UserSettingsActivity.class);
-        startActivity(settings);
-    }
-
 }

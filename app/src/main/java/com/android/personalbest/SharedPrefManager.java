@@ -75,7 +75,11 @@ public class SharedPrefManager {
 
     /* For encouragement messages */
 
-    public int getNumSteps() {
+    public void setTotalSteps(int numSteps) {
+        editor.putInt(res.getString(R.string.totalStep), numSteps);
+        editor.apply();
+    }
+    public int getTotalSteps() {
        return sharedPref.getInt(res.getString(R.string.totalStep), 0);
     }
 
@@ -143,13 +147,31 @@ public class SharedPrefManager {
         return sharedPref.getBoolean(res.getString(R.string.subgoal_reached), false);
     }
 
-    public void setDayInStorage(int dayInStorage) {
+    public void setDayOfWeekInStorage(int dayInStorage) {
         editor.putInt(res.getString(R.string.day_storage), dayInStorage);
         editor.apply();
     }
 
-    public int getDayInStorage() {
+    public int getDayOfWeekInStorage() {
         return sharedPref.getInt(res.getString(R.string.day_storage),-1);
+    }
+
+    public void setDayOfMonthInStorage(int dayInStorage) {
+        editor.putInt(res.getString(R.string.day_month_storage), dayInStorage);
+        editor.apply();
+    }
+
+    public int getDayOfMonthInStorage() {
+        return sharedPref.getInt(context.getString(R.string.day_month_storage),-1);
+    }
+
+    public void setMonthInStorage(int dayInStorage) {
+        editor.putInt(context.getString(R.string.month_storage), dayInStorage);
+        editor.apply();
+    }
+
+    public int getMonthInStorage() {
+        return sharedPref.getInt(res.getString(R.string.month_storage),-1);
     }
 
     /* Calculating intentional walk stats */
@@ -187,14 +209,14 @@ public class SharedPrefManager {
 
     //Called at end of day
     // Called every time bar chart is displayed (when the "see bar chart" is clicked)
-    public void storeTotalSteps(int dayOfWeek, int totalStepsTaken) {
+    public void storeTotalStepsForDayOfWeek(int dayOfWeek, int totalStepsTaken) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
     }
 
     //Called at end of day
     //Called when the default goal is set
-    public void storeGoal(int dayOfWeek, int goal) {
+    public void storeGoalForDayOfWeek(int dayOfWeek, int goal) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.goal) + today, goal);
     }
@@ -293,7 +315,7 @@ public class SharedPrefManager {
         //set values to default from input height
         setHeight(65);
         setGoal(res.getInteger(R.integer.default_goal));
-        storeGoal(TimeMachine.getDay(), res.getInteger(R.integer.default_goal));
+        storeGoalForDayOfWeek(TimeMachine.getDayOfWeek(), res.getInteger(R.integer.default_goal));
         setFirstTime(true);
         setIsWalker(true);
     }
