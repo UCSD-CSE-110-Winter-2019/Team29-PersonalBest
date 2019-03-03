@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
+import com.android.personalbest.notifications.GoalNotification;
 
 import java.util.Calendar;
 
@@ -27,7 +28,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +139,8 @@ public class MainPageActivity extends AppCompatActivity {
         if (!sharedPrefManager.getIgnoreGoal()) {
             sharedPrefManager.setGoalMessageDay(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             sharedPrefManager.setGoalReached(true);
+            GoalNotification goalNotif = new GoalNotification(this);
+            goalNotif.sendNotif("Personal Best: Goal Met", "Congrats! You met your goal.");
         }
     }
 
