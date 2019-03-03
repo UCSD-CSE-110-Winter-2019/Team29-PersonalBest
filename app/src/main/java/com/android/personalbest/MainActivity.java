@@ -34,16 +34,12 @@ public class MainActivity extends AppCompatActivity {
     //Firebase authentication
     private FirebaseAuth mAuth;
 
-
-
     private boolean login = false;
 
     //Determind if user enter his/her stride length
     private boolean haveInputtedHeight = false;
 
-
     private SharedPrefManager sharedPrefManager;
-
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
