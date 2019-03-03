@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -18,12 +17,10 @@ public class UserSettingsActivity extends AppCompatActivity {
     private Button goBackButton;
     private RadioButton walkerOpt;
     private RadioButton runnerOpt;
-    private CheckBox proposedGoals;
     private SharedPrefManager sharedPrefManager;
     public EditText edittext;
     public AlertDialog.Builder dialog;
     public AlertDialog dialogBox;
-    private Button startWalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,6 @@ public class UserSettingsActivity extends AppCompatActivity {
         goBackButton = findViewById(R.id.homeButton);
         walkerOpt = findViewById(R.id.walkerOption);
         runnerOpt = findViewById(R.id.runnerOption);
-        proposedGoals = findViewById(R.id.appProposedGoals);
         edittext = new EditText(UserSettingsActivity.this);
         dialog = new AlertDialog.Builder(UserSettingsActivity.this);
         dialogBox = dialog.create();
