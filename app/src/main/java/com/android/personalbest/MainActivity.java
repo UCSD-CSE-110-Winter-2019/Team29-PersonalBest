@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
-import com.android.personalbest.cloud.CouldstoreService;
+import com.android.personalbest.cloud.CloudstoreService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,7 +24,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPrefManager sharedPrefManager;
 
     //use to create firebase database instance
-    private CouldstoreService couldstoreService;
+    private CloudstoreService couldstoreService;
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
@@ -145,17 +144,17 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setVisibility(View.GONE);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        getUserInfo(acct);
+        storeFriendsList(acct);
         startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
 
     }
 
-    private void getUserInfo( GoogleSignInAccount acct){
+    private void storeFriendsList( GoogleSignInAccount acct){
         Map<String, Object> user = new HashMap<>();
 
         if (acct != null) {
             user.put("GMail", acct.getEmail());
-            couldstoreService.getfriendsList().document("something").set(user)
+            couldstoreService.getFriendsList().document(acct.getEmail()).set(user)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

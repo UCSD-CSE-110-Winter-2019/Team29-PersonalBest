@@ -2,10 +2,10 @@ package com.android.personalbest.cloud;
 
 import com.google.firebase.firestore.CollectionReference;
 
-public interface CouldstoreService {
+public interface CloudstoreService {
 
     void setup();
-    CollectionReference getfriendsList();
+    CollectionReference getFriendsList();
 
 
 }

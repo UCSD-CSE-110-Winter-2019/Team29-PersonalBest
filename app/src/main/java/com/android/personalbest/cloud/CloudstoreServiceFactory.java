@@ -7,7 +7,7 @@ import android.util.Log;
 public class CloudstoreServiceFactory {
     private static final String TAG = "[cloudServiceFactory]";
 
-    public static CouldstoreService create() {
+    public static CloudstoreService create() {
         Log.i(TAG, "Creating CloudstoreService");
 
             return new FirestoreAdapter();

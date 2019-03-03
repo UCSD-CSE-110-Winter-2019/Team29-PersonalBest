@@ -3,7 +3,7 @@ package com.android.personalbest.cloud;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class FirestoreAdapter implements CouldstoreService{
+public class FirestoreAdapter implements CloudstoreService {
     private String COLLECTION_KEY = "friendsList";
 
     public CollectionReference friendsList;
@@ -16,7 +16,7 @@ public class FirestoreAdapter implements CouldstoreService{
     }
 
     @Override
-    public CollectionReference getfriendsList() {
+    public CollectionReference getFriendsList() {
         return friendsList;
     }
 }
