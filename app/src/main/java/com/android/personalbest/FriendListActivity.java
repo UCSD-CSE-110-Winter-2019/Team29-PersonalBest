@@ -1,5 +1,7 @@
 package com.android.personalbest;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,8 @@ public class FriendListActivity extends AppCompatActivity {
 
     public ListView listView;
     private Button returnHomeBtn;
+    private Button addFriendsBtn;
+    private  ArrayList<String> friendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,31 +25,9 @@ public class FriendListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
+        addFriendsBtn = findViewById(R.id.addFriBtn);
 
-        ArrayList<String> friendList = new ArrayList<>();
-        friendList.add("Lu");
-        friendList.add("Nidi");
-        friendList.add("Sarah");
-        friendList.add("Lavanya");
-        friendList.add("Lu");
-        friendList.add("Nidi");
-        friendList.add("Sarah");
-        friendList.add("Lavanya");
-        friendList.add("Lu");
-        friendList.add("Nidi");
-        friendList.add("Sarah");
-        friendList.add("Lavanya");
-
-        friendList.add("Lu");
-        friendList.add("Nidi");
-        friendList.add("Sarah");
-        friendList.add("Lavanya");
-
-        friendList.add("Lu");
-        friendList.add("Nidi");
-        friendList.add("Sarah");
-        friendList.add("Lavanya");
-
+        friendList = new ArrayList<>();
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
@@ -57,5 +39,26 @@ public class FriendListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        addFriendsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSignUpFriendPageActivity();
+            }
+        });
+    }
+
+    private void launchSignUpFriendPageActivity(){
+        Intent addFriends = new Intent(this,SignUpFriendPageActivity.class);
+        startActivity(addFriends);
+    }
+
+    public void upDateFriendListArray(String friendEmail){
+        friendList.add(friendEmail);
+    }
+
+    public void upDataeFriednListUI(Context context,ArrayList<String> friendList){
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,friendList);
+        listView.setAdapter(arrayAdapter);
     }
 }

@@ -64,11 +64,8 @@ public class MainActivity extends AppCompatActivity {
         login = sharedPrefManager.getLogin();
         haveInputtedHeight = sharedPrefManager.getFirstTime();
 
-
+        //initialize couldstoreService
         couldstoreService = CloudstoreServiceFactory.create();
-        couldstoreService.setup();
-
-
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
@@ -144,29 +141,18 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setVisibility(View.GONE);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        storeFriendsList(acct);
+        registerAppUserInCloud(acct);
         startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
 
     }
 
-    private void storeFriendsList( GoogleSignInAccount acct){
-        Map<String, Object> user = new HashMap<>();
+    private void registerAppUserInCloud( GoogleSignInAccount acct){
+        Map<String, Object> friend = new HashMap<>();
 
         if (acct != null) {
-            user.put("GMail", acct.getEmail());
-            couldstoreService.getFriendsList().document(acct.getEmail()).set(user)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+            sharedPrefManager.setCurrentAppUserEmail(acct.getEmail());
+            friend.put(acct.getEmail(),true);
+            couldstoreService.registerFriendsInCloud(acct.getEmail(),friend);
         }
     }
 

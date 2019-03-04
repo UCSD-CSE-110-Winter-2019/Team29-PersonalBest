@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.util.Calendar;
 
 public class SharedPrefManager {
@@ -20,6 +22,15 @@ public class SharedPrefManager {
         sharedPref = context.getSharedPreferences(res.getString(R.string.user_prefs), context.MODE_PRIVATE);
         editor = sharedPref.edit();
         editor.apply();
+    }
+
+    public void setCurrentAppUserEmail(String curUserEmail) {
+        editor.putString(res.getString(R.string.current_user_email),curUserEmail);
+        editor.apply();
+    }
+
+    public String getCurrentAppUserEmail(){
+        return sharedPref.getString(res.getString(R.string.current_user_email),"");
     }
 
     /* Google Fit API Sign in */
