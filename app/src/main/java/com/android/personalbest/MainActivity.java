@@ -25,8 +25,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.android.personalbest.cloud.FirestoreAdapter.setAppUserInCloud;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPrefManager sharedPrefManager;
 
     //use to create firebase database instance
-    private CloudstoreService couldstoreService;
+
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
@@ -64,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
         login = sharedPrefManager.getLogin();
         haveInputtedHeight = sharedPrefManager.getFirstTime();
 
-        //initialize couldstoreService
-        couldstoreService = CloudstoreServiceFactory.create();
+
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
@@ -146,13 +149,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void registerAppUserInCloud( GoogleSignInAccount acct){
         Map<String, Object> friend = new HashMap<>();
 
+
         if (acct != null) {
             sharedPrefManager.setCurrentAppUserEmail(acct.getEmail());
-            friend.put(acct.getEmail(),true);
-            couldstoreService.registerFriendsInCloud(acct.getEmail(),friend);
+            friend.put(this.getString(R.string.current_user_email),acct.getEmail());
+            friend.put(this.getString(R.string.sent_friend_request_list), Arrays.asList());
+            friend.put(this.getString(R.string.friend_list), Arrays.asList());
+            setAppUserInCloud(acct.getEmail(),friend);
         }
     }
 

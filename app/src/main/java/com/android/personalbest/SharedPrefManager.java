@@ -4,9 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
+import com.android.personalbest.cloud.FirestoreAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SharedPrefManager {
 
@@ -24,13 +29,47 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+
+    /*User Information*/
+    //store current app UserEmail
     public void setCurrentAppUserEmail(String curUserEmail) {
         editor.putString(res.getString(R.string.current_user_email),curUserEmail);
         editor.apply();
     }
 
+    //return current app user email
     public String getCurrentAppUserEmail(){
         return sharedPref.getString(res.getString(R.string.current_user_email),"");
+    }
+
+
+    public void setFriendListSet(List<Object> friendList){
+
+        Set<String>friendListSet = getFriendListSet();
+
+        for(Object friend: friendList){
+            friendListSet.add((String) friend);
+        }
+
+        editor.putStringSet(res.getString(R.string.friend_list_set),friendListSet);
+        editor.apply();;
+    }
+
+    //return friendListSet
+    public Set<String> getFriendListSet(){
+        return sharedPref.getStringSet(res.getString(R.string.friend_list_set),new HashSet<String>());
+    }
+
+
+    //
+    public void setAppUserStatus(boolean appUserStatus){
+        editor.putBoolean(res.getString(R.string.is_app_user),false);
+        editor.apply();
+    }
+
+    //
+    public boolean getAppUserStatus(){
+        return sharedPref.getBoolean(res.getString(R.string.is_app_user),false);
     }
 
     /* Google Fit API Sign in */

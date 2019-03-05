@@ -62,7 +62,9 @@
     <string name="height">height</string>
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
-    <string name="current_user_email">curUserEmail</string>
+    <string name="current_user_email">currentAppUserEmail</string>
+    <string name="friend_list_set">friendListSet</string>
+    <string name="is_app_user">isAppUser</string>
 
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
@@ -135,6 +137,10 @@
     <string name="addBtn">Add</string>
     <string name="add_friend_info">Add a new friend \n by enter his/her email address</string>
     <string name="return_Friend">Go Back To FriendList</string>
+
+    <!--FireStoreAdapter-->
+    <string name="sent_friend_request_list">sentRequestFriendList</string>
+    <string name="friend_list">friendList</string>
 
 
 </resources>

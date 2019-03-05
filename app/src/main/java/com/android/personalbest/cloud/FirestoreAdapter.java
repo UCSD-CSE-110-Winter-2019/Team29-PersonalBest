@@ -3,41 +3,40 @@ package com.android.personalbest.cloud;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.personalbest.SharedPrefManager;
+import com.android.personalbest.R;
+import com.android.personalbest.SignUpFriendPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
 import java.util.Map;
 
+
+
 public class FirestoreAdapter implements CloudstoreService {
-    private String COLLECTION_KEY = "appUserList";
-    private String TAG = " FirestoreAdapter ";
-    private boolean isAppUser;
-    private boolean userHasAFriend;
-    private boolean friendHasUser;
-    public CollectionReference currentAppUser;
-    private SharedPrefManager sharedPrefManager;
+    private static String COLLECTION_KEY = "appUserList";
+    private static String TAG = " FirestoreAdapter ";
+    private boolean userAddAFriend = false;
+    private boolean friendAddUser = false;
+    public static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);;
+    private boolean isAppUser = false;
+    private SignUpFriendPageActivity signUpFriendPageActivity;
 
 
-    public FirestoreAdapter(){
 
-        setup();
-
-    }
-
-
-    @Override
-    public void setup(){
-        currentAppUser = FirebaseFirestore.getInstance()
-                .collection(COLLECTION_KEY);
+    public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
+        this.signUpFriendPageActivity = signUpFriendPageActivity;
 
     }
+
 
     @Override
     public CollectionReference getCurrentAppUser() {
@@ -46,29 +45,151 @@ public class FirestoreAdapter implements CloudstoreService {
 
 
     @Override
-    public boolean appUserCheck(final String friendEmail) {
-        isAppUser =false;
+    public void appUserCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String friendEmail) {
+
         currentAppUser.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        //this.onuserCheckcomplete
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getId() == friendEmail){
-                                    isAppUser = true;
+                                if(document.getId().equals(friendEmail)){
+                                    setAppUserStatus(true);
                                 }
-                                Log.i(TAG, document.getId() + " => " + document.getData());
+                                //Log.i(TAG, document.getId() + " => " + document.getData());
+
                             }
+                            //  pass success message to observer
+                            signUpFriendPageActivity.onUserCheckCompleted();
+
                         } else {
                             Log.i(TAG, "Error getting documents: ", task.getException());
+                            //  pass failure message to observer
                         }
                     }
-                });
-        return isAppUser;
+
+                }
+
+                );
     }
 
     @Override
-    public void registerFriendsInCloud(String appUser, Map<String, Object> friend) {
+    public void addToSentRequestFriendList(String currentAppUserEmail, String friendEmail) {
+
+            currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.sent_friend_request_list),
+                    FieldValue.arrayUnion(friendEmail));
+
+    }
+
+
+    @Override
+    public void isUserAddFriendCheck(final String currentAppUserEmail, final String friendEmail) {
+
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                List<Object> userSentRequestFriendList = (List<Object>)document.getData().get("sentRequestFriendList");
+                                for(Object friend: userSentRequestFriendList){
+                                    if (friend.equals(friendEmail)){
+                                        setUserAddFriendStatus(true);
+                                    }
+                                }
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                            signUpFriendPageActivity.onUserAddFriendCheckCompleted();
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+        Log.i(TAG,"isUserAddFriendCheck get call \n");
+
+    }
+
+    @Override
+    public void isFriendAddUserCheck(final String currentAppUserEmail, final String friendEmail) {
+
+        Log.i(TAG,"isFriendAddUserCheck get call \n");
+        currentAppUser.document(friendEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                List<Object> friendListSentRequestFriendList = (List<Object>)document.getData().get("sentRequestFriendList");
+                                for(Object friend: friendListSentRequestFriendList){
+                                    if (friend.equals(currentAppUserEmail)){
+                                        setFriendAddUserStatus(true);
+                                    }
+                                }
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                            signUpFriendPageActivity.onFriendAddUserCheckCompleted();
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+    @Override
+    public boolean weAreBothFriendCheck(String currentAppUserEmail, String friendEmail) {
+
+        return getUserAddFriendStatus() && getFriendAddUserStatus();
+    }
+
+    @Override
+    public void upDateAppUserFriendList(String appUser, String friendEmail) {
+        currentAppUser.document(appUser).update("friendList", FieldValue.arrayUnion(friendEmail));
+    }
+
+    @Override
+    public void getFriendList(String currentAppUserEmail) {
+
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                List<Object> userFriendList = (List<Object>)document.getData().get("friendList");
+                                signUpFriendPageActivity.onUserAddFriendCheckCompleted();
+                                signUpFriendPageActivity.onGetFriendListCompleted(userFriendList);
+
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+
+
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+
+    }
+
+    public static void setAppUserInCloud(String appUser, Map<String, Object> friend) {
+
        currentAppUser.document(appUser).set(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -84,55 +205,53 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    @Override
-    public boolean isUserFriend(String currentAppUserEmail, final String friendEmail) {
-        userHasAFriend =false;
-        currentAppUser.whereEqualTo(currentAppUserEmail, true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getData().get(friendEmail).equals(true)){
-                                    userHasAFriend = true;
-                                }
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        return userHasAFriend;
 
+
+    @Override
+    public void setAppUserStatus(boolean appUserStatus) {
+        isAppUser = appUserStatus;
+    }
+
+
+    @Override
+    public boolean getAppUserStatus() {
+        return isAppUser;
     }
 
     @Override
-    public boolean isFriendWithUser(final String currentAppUserEmail, String friendEmail) {
-        friendHasUser = false;
-        currentAppUser.whereEqualTo(friendEmail, true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(document.getData().get(currentAppUserEmail).equals(true)) {
-                                    friendHasUser = true;
-                                }
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-        return userHasAFriend;
+    public void setUserAddFriendStatus(boolean userAddFriendStatus) {
+        userAddAFriend = userAddFriendStatus;
     }
 
     @Override
-    public boolean weAreBothFriendCheck(String currentAppUserEmail, String friendEmail) {
-        return (isUserFriend(currentAppUserEmail,friendEmail) && isFriendWithUser(currentAppUserEmail,friendEmail));
+    public boolean getUserAddFriendStatus() {
+        return userAddAFriend;
     }
+
+    @Override
+    public void setFriendAddUserStatus(boolean friendAddUserStatus) {
+        friendAddUser = friendAddUserStatus;
+    }
+
+    @Override
+    public boolean getFriendAddUserStatus() {
+        return  friendAddUser;
+    }
+
+    @Override
+    public void resetUserAddFriendProcess() {
+        setAppUserStatus(false);
+        setUserAddFriendStatus(false);
+        setFriendAddUserStatus(false);
+    }
+
+
 }
+
+//    String queryResult =  currentAppUser.whereEqualTo("currentAppUserEmail",
+//            friendEmail).whereArrayContains("sentRequestFriendList",
+//            currentAppUserEmail).toString();
+//        Log.i(TAG,"isFriendAddUserCheck get call \n");
+//                Log.i(TAG,"queryResult in isFriendAddUserCheck => "+ queryResult);
+//                Log.i(TAG,currentAppUserEmail +" ==? " + queryResult + currentAppUserEmail.equals(queryResult));
+//                return currentAppUserEmail.equals(queryResult);
