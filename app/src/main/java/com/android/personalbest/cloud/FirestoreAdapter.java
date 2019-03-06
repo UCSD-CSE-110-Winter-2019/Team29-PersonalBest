@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,6 @@ public class FirestoreAdapter implements CloudstoreService {
     private SignUpFriendPageActivity signUpFriendPageActivity;
 
 
-
     public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
         this.signUpFriendPageActivity = signUpFriendPageActivity;
 
@@ -43,7 +43,6 @@ public class FirestoreAdapter implements CloudstoreService {
         return currentAppUser;
     }
 
-
     @Override
     public void appUserCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String friendEmail) {
 
@@ -51,27 +50,23 @@ public class FirestoreAdapter implements CloudstoreService {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        //this.onuserCheckcomplete
+
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 if(document.getId().equals(friendEmail)){
                                     setAppUserStatus(true);
                                 }
                                 //Log.i(TAG, document.getId() + " => " + document.getData());
-
                             }
                             //  pass success message to observer
                             signUpFriendPageActivity.onUserCheckCompleted();
-
                         } else {
                             Log.i(TAG, "Error getting documents: ", task.getException());
                             //  pass failure message to observer
                         }
                     }
 
-                }
-
-                );
+                });
     }
 
     @Override
@@ -81,7 +76,6 @@ public class FirestoreAdapter implements CloudstoreService {
                     FieldValue.arrayUnion(friendEmail));
 
     }
-
 
     @Override
     public void isUserAddFriendCheck(final String currentAppUserEmail, final String friendEmail) {
@@ -94,7 +88,7 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> userSentRequestFriendList = (List<Object>)document.getData().get("sentRequestFriendList");
+                                List<Object> userSentRequestFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.sent_friend_request_list));
                                 for(Object friend: userSentRequestFriendList){
                                     if (friend.equals(friendEmail)){
                                         setUserAddFriendStatus(true);
@@ -127,7 +121,7 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> friendListSentRequestFriendList = (List<Object>)document.getData().get("sentRequestFriendList");
+                                List<Object> friendListSentRequestFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.sent_friend_request_list));
                                 for(Object friend: friendListSentRequestFriendList){
                                     if (friend.equals(currentAppUserEmail)){
                                         setFriendAddUserStatus(true);
@@ -154,7 +148,7 @@ public class FirestoreAdapter implements CloudstoreService {
 
     @Override
     public void upDateAppUserFriendList(String appUser, String friendEmail) {
-        currentAppUser.document(appUser).update("friendList", FieldValue.arrayUnion(friendEmail));
+        currentAppUser.document(appUser).update(signUpFriendPageActivity.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
     }
 
     @Override
@@ -169,9 +163,10 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> userFriendList = (List<Object>)document.getData().get("friendList");
+                                List<Object> userFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.friend_list));
+
                                 signUpFriendPageActivity.onUserAddFriendCheckCompleted();
-                                signUpFriendPageActivity.onGetFriendListCompleted(userFriendList);
+                                signUpFriendPageActivity.onGetFriendListCompleted(convertObjectToString(userFriendList));
 
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
@@ -204,8 +199,6 @@ public class FirestoreAdapter implements CloudstoreService {
                     }
                 });
     }
-
-
 
     @Override
     public void setAppUserStatus(boolean appUserStatus) {
@@ -245,13 +238,14 @@ public class FirestoreAdapter implements CloudstoreService {
         setFriendAddUserStatus(false);
     }
 
+    private List<String> convertObjectToString(List<Object> userFriendList){
+        List<String> userFriendListInString = new ArrayList<>();
+        for(Object friend: userFriendList){
+            userFriendListInString.add((String) friend);
+        }
+        return  userFriendListInString;
+    }
+
 
 }
 
-//    String queryResult =  currentAppUser.whereEqualTo("currentAppUserEmail",
-//            friendEmail).whereArrayContains("sentRequestFriendList",
-//            currentAppUserEmail).toString();
-//        Log.i(TAG,"isFriendAddUserCheck get call \n");
-//                Log.i(TAG,"queryResult in isFriendAddUserCheck => "+ queryResult);
-//                Log.i(TAG,currentAppUserEmail +" ==? " + queryResult + currentAppUserEmail.equals(queryResult));
-//                return currentAppUserEmail.equals(queryResult);

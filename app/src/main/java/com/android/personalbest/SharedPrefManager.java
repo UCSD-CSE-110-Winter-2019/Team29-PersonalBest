@@ -3,11 +3,6 @@ package com.android.personalbest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-
-import com.android.personalbest.cloud.FirestoreAdapter;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -43,9 +38,9 @@ public class SharedPrefManager {
     }
 
 
-    public void setFriendListSet(List<Object> friendList){
+    public void setFriendListSet(List<String> friendList){
 
-        Set<String>friendListSet = getFriendListSet();
+        Set<String>friendListSet = new HashSet<>();
 
         for(Object friend: friendList){
             friendListSet.add((String) friend);
@@ -57,20 +52,9 @@ public class SharedPrefManager {
 
     //return friendListSet
     public Set<String> getFriendListSet(){
-        return sharedPref.getStringSet(res.getString(R.string.friend_list_set),new HashSet<String>());
+        return sharedPref.getStringSet(res.getString(R.string.friend_list_set),null);
     }
 
-
-    //
-    public void setAppUserStatus(boolean appUserStatus){
-        editor.putBoolean(res.getString(R.string.is_app_user),false);
-        editor.apply();
-    }
-
-    //
-    public boolean getAppUserStatus(){
-        return sharedPref.getBoolean(res.getString(R.string.is_app_user),false);
-    }
 
     /* Google Fit API Sign in */
 

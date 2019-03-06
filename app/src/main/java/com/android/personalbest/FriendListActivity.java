@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Set;
 
@@ -57,9 +59,15 @@ public class FriendListActivity extends AppCompatActivity {
         startActivity(addFriends);
     }
 
-
+    //get friendList from sharePreManager, pass data and display the friendlist in listView
     private void setFriendListUI(){
-        Set<String>friendListSet = sharedPrefManager.getFriendListSet();
+        Set<String>friendListSet;
+        if(sharedPrefManager.getFriendListSet() == null){
+            friendListSet = new HashSet<>();
+
+        }else {
+            friendListSet = sharedPrefManager.getFriendListSet();
+        }
         ArrayList<String> friendList = new ArrayList<String>();
         if(friendListSet.isEmpty()){
             Log.i(TAG,"friendListSet is empty:");
@@ -70,6 +78,7 @@ public class FriendListActivity extends AppCompatActivity {
                 Log.i(TAG,"I am here in the friendList:"+ friend + "\n");
 
         }
+
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
     }
@@ -80,4 +89,6 @@ public class FriendListActivity extends AppCompatActivity {
         Log.i(TAG,"onResume: setFriendListUI() Get Call");
         setFriendListUI();
     }
+
+
 }

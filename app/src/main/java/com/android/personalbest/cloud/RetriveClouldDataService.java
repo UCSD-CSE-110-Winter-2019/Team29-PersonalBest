@@ -7,6 +7,6 @@ public interface RetriveClouldDataService {
     void onUserCheckCompleted();
     void onUserAddFriendCheckCompleted();
     void onFriendAddUserCheckCompleted();
-    void onGetFriendListCompleted(List<Object> userFriendList);
+    void onGetFriendListCompleted(List<String> userFriendList);
 
 }

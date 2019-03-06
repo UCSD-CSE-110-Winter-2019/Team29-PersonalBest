@@ -12,6 +12,8 @@ import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.android.personalbest.cloud.RetriveClouldDataService;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +54,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
                 Log.i("currentAppUser",sharedPrefManager.getCurrentAppUserEmail());
                 Log.i("InputEmail",friendEmail.getText().toString());
                 addFriendProcess();
-                couldstoreService.setAppUserStatus(false);
+                couldstoreService.resetUserAddFriendProcess();
             }
         });
     }
@@ -78,7 +80,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         couldstoreService.appUserCheck(SignUpFriendPageActivity.this,friendEmail.getText().toString());
     }
 
-    private void addFriend(){
+    private void SentRequestFriendList(){
 
         if(couldstoreService.getAppUserStatus()){
             couldstoreService.addToSentRequestFriendList(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
@@ -89,12 +91,23 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private void addToFriendList(){
 
         if(couldstoreService.getAppUserStatus() && couldstoreService.weAreBothFriendCheck(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString())){
-            Set<String> localFriendList = sharedPrefManager.getFriendListSet();
-            for(String friend: localFriendList){
-                Log.i(TAG," => " + friend +" \n");
+            Set<String> localFriendList;
+            if(sharedPrefManager.getFriendListSet() == null){
+                localFriendList = new HashSet<>();
+            }else {
+                localFriendList = sharedPrefManager.getFriendListSet();
             }
+
+            List<String> friendList = new ArrayList<>();
+
+            for(String friend: localFriendList){
+                friendList.add(friend);
+                Log.i(TAG,friendEmail.getText().toString() + " add to currentAppUser(In local)=> " + sharedPrefManager.getCurrentAppUserEmail());
+            }
+            friendList.add(friendEmail.getText().toString());
+            sharedPrefManager.setFriendListSet(friendList);
             couldstoreService.upDateAppUserFriendList(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
-            Log.i(TAG,friendEmail.getText().toString() + " add to currentAppUser => " + sharedPrefManager.getCurrentAppUserEmail());
+
         }
 
     }
@@ -102,7 +115,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     @Override
     public void onUserCheckCompleted() {
         showAddUserPrompt();
-        addFriend();
+        SentRequestFriendList();
         couldstoreService.isUserAddFriendCheck(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
     }
 
@@ -118,11 +131,11 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     }
 
     @Override
-    public void onGetFriendListCompleted(List<Object> userFriendList) {
+    public void onGetFriendListCompleted(List<String> userFriendList) {
         saveFriendListLocally(userFriendList);
     }
 
-    private void  saveFriendListLocally(List<Object> userFriendList){
+    private void  saveFriendListLocally(List<String> userFriendList){
         sharedPrefManager.setFriendListSet(userFriendList);
     }
 }
