@@ -64,7 +64,6 @@
     <string name="num_steps_in_mile">numStepsInMile</string>
     <string name="current_user_email">currentAppUserEmail</string>
     <string name="friend_list_set">friendListSet</string>
-    <string name="is_app_user">isAppUser</string>
 
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>

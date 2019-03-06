@@ -24,7 +24,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private CloudstoreService couldstoreService;
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
-    private Toast toast;
+
     private String TAG = "SignUpFriendPageActivity";
 
     @Override
@@ -63,17 +63,19 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private void showAddUserPrompt(){
 
         if (couldstoreService.getAppUserStatus()){
-            toast = Toast.makeText(getApplicationContext(),
+            Toast toast = Toast.makeText(getApplicationContext(),
                     "FriendRequestSent (:",
                     Toast.LENGTH_LONG);
+            toast.show();
 
         }else{
-            toast = Toast.makeText(getApplicationContext(),
+            Toast toast = Toast.makeText(getApplicationContext(),
                     "The email address you just enter doesn't match our app user record. Please Try Again!!!" ,
                     Toast.LENGTH_LONG);
+            toast.show();
         }
 
-        toast.show();
+
     }
 
     private void addFriendProcess(){
