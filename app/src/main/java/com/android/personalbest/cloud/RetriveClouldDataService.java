@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface RetriveClouldDataService {
 
-    void onUserCheckCompleted();
+
     void onUserAddFriendCheckCompleted();
     void onFriendAddUserCheckCompleted();
     void onGetFriendListCompleted(List<String> userFriendList);

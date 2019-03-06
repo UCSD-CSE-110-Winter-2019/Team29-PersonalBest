@@ -8,20 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.personalbest.cloud.CloudstoreService;
-import com.android.personalbest.cloud.CloudstoreServiceFactory;
-import com.android.personalbest.cloud.RetriveClouldDataService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static com.android.personalbest.cloud.FirestoreAdapter.addToSentRequestFriendList;
+import static com.android.personalbest.cloud.FirestoreAdapter.appUserCheck;
+import static com.android.personalbest.cloud.FirestoreAdapter.getAppUserStatus;
 
-public class SignUpFriendPageActivity extends AppCompatActivity implements RetriveClouldDataService {
+public class SignUpFriendPageActivity extends AppCompatActivity  {
 
     private Button returnFriendListBtn;
     private Button addFriendsBtn;
-    private CloudstoreService couldstoreService;
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
 
@@ -33,7 +28,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        couldstoreService = CloudstoreServiceFactory.create(this);
+
 
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
@@ -51,10 +46,10 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         addFriendsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("currentAppUser",sharedPrefManager.getCurrentAppUserEmail());
-                Log.i("InputEmail",friendEmail.getText().toString());
-                addFriendProcess();
-                couldstoreService.resetUserAddFriendProcess();
+                addFriendsBtn.setEnabled(false);
+                returnFriendListBtn.setEnabled(false);
+                sharedPrefManager.setFriendEmail(friendEmail.getText().toString());
+                appUserCheck(SignUpFriendPageActivity.this,sharedPrefManager.getFriendEmail());
             }
         });
     }
@@ -62,15 +57,20 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
    //Promt User if they enter a right email Address
     private void showAddUserPrompt(){
 
-        if (couldstoreService.getAppUserStatus()){
+        if (getAppUserStatus() && !sharedPrefManager.getCurrentAppUserEmail().equals(sharedPrefManager.getFriendEmail())){
             Toast toast = Toast.makeText(getApplicationContext(),
                     "FriendRequestSent (:",
                     Toast.LENGTH_LONG);
             toast.show();
 
-        }else{
+        }else if(!getAppUserStatus() && !sharedPrefManager.getCurrentAppUserEmail().equals(sharedPrefManager.getFriendEmail())) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "The email address you just enter doesn't match our app user record. Please Try Again!!!" ,
+                    Toast.LENGTH_LONG);
+            toast.show();
+        }else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You are adding Yourself==! Find a Friend^^" ,
                     Toast.LENGTH_LONG);
             toast.show();
         }
@@ -78,66 +78,25 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
 
     }
 
-    private void addFriendProcess(){
-        couldstoreService.appUserCheck(SignUpFriendPageActivity.this,friendEmail.getText().toString());
-    }
 
     private void SentRequestFriendList(){
 
-        if(couldstoreService.getAppUserStatus()){
-            couldstoreService.addToSentRequestFriendList(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
+        if(getAppUserStatus()){
+           addToSentRequestFriendList(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
         }
 
     }
 
-    private void addToFriendList(){
 
-        if(couldstoreService.getAppUserStatus() && couldstoreService.weAreBothFriendCheck(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString())){
-            Set<String> localFriendList;
-            if(sharedPrefManager.getFriendListSet() == null){
-                localFriendList = new HashSet<>();
-            }else {
-                localFriendList = sharedPrefManager.getFriendListSet();
-            }
-
-            List<String> friendList = new ArrayList<>();
-
-            for(String friend: localFriendList){
-                friendList.add(friend);
-                Log.i(TAG,friendEmail.getText().toString() + " add to currentAppUser(In local)=> " + sharedPrefManager.getCurrentAppUserEmail());
-            }
-            friendList.add(friendEmail.getText().toString());
-            sharedPrefManager.setFriendListSet(friendList);
-            couldstoreService.upDateAppUserFriendList(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
-
-        }
-
-    }
-
-    @Override
     public void onUserCheckCompleted() {
         showAddUserPrompt();
         SentRequestFriendList();
-        couldstoreService.isUserAddFriendCheck(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
+        addFriendsBtn.setEnabled(true);
+        returnFriendListBtn.setEnabled(true);
+
     }
 
-    @Override
-    public void onUserAddFriendCheckCompleted() {
-        couldstoreService.isFriendAddUserCheck(sharedPrefManager.getCurrentAppUserEmail(),friendEmail.getText().toString());
-    }
 
-    @Override
-    public void onFriendAddUserCheckCompleted() {
-        addToFriendList();
-        couldstoreService.getFriendList(sharedPrefManager.getCurrentAppUserEmail());
-    }
 
-    @Override
-    public void onGetFriendListCompleted(List<String> userFriendList) {
-        saveFriendListLocally(userFriendList);
-    }
 
-    private void  saveFriendListLocally(List<String> userFriendList){
-        sharedPrefManager.setFriendListSet(userFriendList);
-    }
 }

@@ -11,19 +11,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
+import com.android.personalbest.cloud.RetriveClouldDataService;
+import static com.android.personalbest.cloud.FirestoreAdapter.getAppUserStatus;
+import static com.android.personalbest.cloud.FirestoreAdapter.setAppUserStatus;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Set;
 
-public class FriendListActivity extends AppCompatActivity {
+public class FriendListActivity extends AppCompatActivity implements RetriveClouldDataService {
 
     public ListView listView;
     private Button returnHomeBtn;
     private Button addFriendsBtn;
+    private Button refreshFriendListBtn;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "FriendListActivity";
+    private CloudstoreService cloudstoreService;
+
 
 
     @Override
@@ -32,10 +41,12 @@ public class FriendListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_list);
 
         sharedPrefManager = new SharedPrefManager(this);
+        cloudstoreService = CloudstoreServiceFactory.create(this);
 
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);
+        refreshFriendListBtn = findViewById(R.id.refreshBtn);
 
         Log.i(TAG,"onCreate setFriendListUI() Get Call");
         setFriendListUI();
@@ -50,6 +61,14 @@ public class FriendListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 launchSignUpFriendPageActivity();
+            }
+        });
+
+        refreshFriendListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                upDateFriendListProcess();
             }
         });
     }
@@ -91,6 +110,51 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
 
+    private void upDateFriendListProcess(){
+        if(getAppUserStatus()) {
+            cloudstoreService.isUserAddFriendCheck(sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
+        }
+    }
+
+    @Override
+    public void onUserAddFriendCheckCompleted() {
+        cloudstoreService.isFriendAddUserCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
+    }
+
+    @Override
+    public void onFriendAddUserCheckCompleted() {
+        addToFriendList();
+        cloudstoreService.getFriendList(sharedPrefManager.getCurrentAppUserEmail());
+    }
+
+    @Override
+    public void onGetFriendListCompleted(List<String> userFriendList) {
+        setFriendListUI();
+        setAppUserStatus(false);
+        cloudstoreService.resetUserAddFriendProcess();
+    }
 
 
+    private void addToFriendList(){
+
+        if( cloudstoreService.weAreBothFriendCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail())){
+            Set<String> localFriendList;
+            if(sharedPrefManager.getFriendListSet() == null){
+                localFriendList = new HashSet<>();
+            }else {
+                localFriendList = sharedPrefManager.getFriendListSet();
+            }
+
+            List<String> friendList = new ArrayList<>();
+
+            for(String friend: localFriendList){
+                friendList.add(friend);
+            }
+            friendList.add(sharedPrefManager.getFriendEmail());
+            sharedPrefManager.setFriendListSet(friendList);
+            cloudstoreService.upDateAppUserFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
+
+        }
+
+    }
 }
