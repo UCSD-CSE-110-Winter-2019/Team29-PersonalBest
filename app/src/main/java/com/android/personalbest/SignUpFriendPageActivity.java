@@ -2,12 +2,10 @@ package com.android.personalbest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import static com.android.personalbest.cloud.FirestoreAdapter.addToSentRequestFriendList;
 import static com.android.personalbest.cloud.FirestoreAdapter.appUserCheck;
@@ -78,7 +76,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity  {
 
     }
 
-
     private void SentRequestFriendList(){
 
         if(getAppUserStatus()){
@@ -87,7 +84,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity  {
 
     }
 
-
     public void onUserCheckCompleted() {
         showAddUserPrompt();
         SentRequestFriendList();
@@ -95,8 +91,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity  {
         returnFriendListBtn.setEnabled(true);
 
     }
-
-
 
 
 }

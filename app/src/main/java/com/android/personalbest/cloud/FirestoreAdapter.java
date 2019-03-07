@@ -57,10 +57,11 @@ public class FirestoreAdapter implements CloudstoreService {
                                 if(document.getId().equals(friendEmail) ){
                                     setAppUserStatus(true);
                                 }
-                                //Log.i(TAG, document.getId() + " => " + document.getData());
+                                Log.i(TAG, "This will call later");
                             }
                             //  pass success message to observer
                             signUpFriendPageActivity.onUserCheckCompleted();
+
                         } else {
                             Log.i(TAG, "Error getting documents: ", task.getException());
                             //  pass failure message to observer
@@ -68,6 +69,8 @@ public class FirestoreAdapter implements CloudstoreService {
                     }
 
                 });
+
+        Log.i(TAG, "This will call first");
     }
 
 

@@ -1,13 +1,12 @@
 package com.android.personalbest.cloud;
 
-import com.android.personalbest.SignUpFriendPageActivity;
+
 import com.google.firebase.firestore.CollectionReference;
 
-public interface CloudstoreService {
+public interface CloudstoreService  {
 
 
     CollectionReference getCurrentAppUser();
-
 
     void isUserAddFriendCheck(final String currentAppUserEmail, final String friendEmail);
     void isFriendAddUserCheck(String currentAppUserEmail, String friendEmail);
