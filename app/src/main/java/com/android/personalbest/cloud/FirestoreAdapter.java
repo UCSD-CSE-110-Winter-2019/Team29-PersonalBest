@@ -151,8 +151,9 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public void upDateAppUserFriendList(String appUser, String friendEmail) {
-        currentAppUser.document(appUser).update(friendListActivity.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
+    public void upDateAppUserFriendList(String currentAppUserEmail, String friendEmail) {
+        currentAppUser.document(currentAppUserEmail).update(friendListActivity.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
+        currentAppUser.document(friendEmail).update(friendListActivity.getString(R.string.friend_list),FieldValue.arrayUnion(currentAppUserEmail));
     }
 
     @Override
