@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
-import com.android.personalbest.notifications.GoalNotification;
+import com.android.personalbest.notifications.GoalNotificationAdapter;
 
 import java.util.Calendar;
 
@@ -28,7 +28,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void sendGoalNotification() {
-        GoalNotification goalNotif = new GoalNotification(this);
+        GoalNotificationAdapter goalNotif = new GoalNotificationAdapter(this);
         goalNotif.sendNotif(getString(R.string.goalNotifTitle), getString(R.string.goalNotifBody));
     }
 

@@ -7,14 +7,14 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import com.android.personalbest.R;
 
-public class GoalNotification implements INotification {
+public class GoalNotificationAdapter implements INotification {
 
     Context context;
     NotificationManager notificationManager;
     NotificationChannel notificationChannel;
     NotificationCompat.Builder builder;
 
-    public GoalNotification(Context context) {
+    public GoalNotificationAdapter(Context context) {
         this.context = context;
         notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationChannel = new NotificationChannel("ID", "Name", NotificationManager.IMPORTANCE_DEFAULT);
