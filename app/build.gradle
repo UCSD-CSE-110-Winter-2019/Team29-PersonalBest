@@ -25,7 +25,7 @@ android {
     }
     lintOptions {
         warningsAsErrors = true
-        disable 'UnusedAttribute', 'OldTargetApi'
+        disable 'UnusedAttribute', 'OldTargetApi', 'ObsoleteSdkInt'
     }
 }
 
