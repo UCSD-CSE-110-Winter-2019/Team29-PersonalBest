@@ -41,9 +41,12 @@ public class ChangeGoalEspressoTest {
 
     @Before
     public void beforeTest(){
-        MainPageActivity mainPageActivity = mActivityTestRule.getActivity();
-        SharedPrefManager sharedPrefManager = new SharedPrefManager(mainPageActivity);
-        sharedPrefManager.resetSharedPrefToDefault();
+        final MainPageActivity mainPageActivity = mActivityTestRule.getActivity();
+        mainPageActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                mainPageActivity.resetDisplayToDefault();
+            }
+        });
     }
 
     @Test
