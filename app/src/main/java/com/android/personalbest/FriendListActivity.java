@@ -1,10 +1,8 @@
 package com.android.personalbest;
 
-import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,14 +12,14 @@ import android.widget.ListView;
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.android.personalbest.cloud.RetriveClouldDataService;
-import static com.android.personalbest.cloud.FirestoreAdapter.getAppUserStatus;
-import static com.android.personalbest.cloud.FirestoreAdapter.setAppUserStatus;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Observable;
 import java.util.Set;
+
+import static com.android.personalbest.cloud.FirestoreAdapter.getAppUserStatus;
+import static com.android.personalbest.cloud.FirestoreAdapter.setAppUserStatus;
 
 public class FriendListActivity extends AppCompatActivity implements RetriveClouldDataService {
 
@@ -85,6 +83,7 @@ public class FriendListActivity extends AppCompatActivity implements RetriveClou
             friendListSet = new HashSet<>();
 
         }else {
+            Log.i(TAG,"in else statement");
             friendListSet = sharedPrefManager.getFriendListSet();
         }
         ArrayList<String> friendList = new ArrayList<String>();
@@ -112,23 +111,27 @@ public class FriendListActivity extends AppCompatActivity implements RetriveClou
 
     private void upDateFriendListProcess(){
         if(getAppUserStatus()) {
+            Log.i(TAG,"in updatefriendlistprocess 1");
             cloudstoreService.isUserAddFriendCheck(sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
         }
     }
 
     @Override
     public void onUserAddFriendCheckCompleted() {
+        Log.i(TAG,"in onuseraddfriendcheckcompleted 2");
         cloudstoreService.isFriendAddUserCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
     }
 
     @Override
     public void onFriendAddUserCheckCompleted() {
+        Log.i(TAG,"onfriendaddusercheckcompleted 3");
         addToFriendList();
         cloudstoreService.getFriendList(sharedPrefManager.getCurrentAppUserEmail());
     }
 
     @Override
     public void onGetFriendListCompleted(List<String> userFriendList) {
+        Log.i(TAG,"ongetfriendlistcompleted 4");
         setFriendListUI();
         setAppUserStatus(false);
         cloudstoreService.resetUserAddFriendProcess();
@@ -136,6 +139,7 @@ public class FriendListActivity extends AppCompatActivity implements RetriveClou
 
 
     private void addToFriendList(){
+        Log.i(TAG,"addtofriendlist 5");
 
         if( cloudstoreService.weAreBothFriendCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail())){
             Set<String> localFriendList;

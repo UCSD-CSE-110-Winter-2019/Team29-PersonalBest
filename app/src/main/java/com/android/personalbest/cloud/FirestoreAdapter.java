@@ -38,15 +38,12 @@ public class FirestoreAdapter implements CloudstoreService {
 
     }
 
-
     @Override
     public CollectionReference getCurrentAppUser() {
         return currentAppUser;
     }
 
-
     public static void appUserCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String friendEmail) {
-
         currentAppUser.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -69,18 +66,13 @@ public class FirestoreAdapter implements CloudstoreService {
                     }
 
                 });
-
         Log.i(TAG, "This will call first");
     }
 
-
     public static void addToSentRequestFriendList(String currentAppUserEmail, String friendEmail) {
-
             currentAppUser.document(currentAppUserEmail).update("sentRequestFriendList",
                     FieldValue.arrayUnion(friendEmail));
-
     }
-
 
     public void isUserAddFriendCheck(final String currentAppUserEmail, final String friendEmail) {
 
