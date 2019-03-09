@@ -106,6 +106,8 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Add To Friends List Successfully(:",
                     Toast.LENGTH_LONG);
+            couldstoreService.removeFromPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
+            couldstoreService.removeFromPendingFriendList(sharedPrefManager.getFriendEmail(),sharedPrefManager.getCurrentAppUserEmail());
             toast.show();
         }else {
             Log.i(TAG,"user is not in friend pending list");
@@ -114,6 +116,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
             Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(couldstoreService.getUserPendingStatus()));
             Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(couldstoreService.getFriendPendingStatus()));
         }
+        couldstoreService.resetUserAddFriendProcess();
     }
 
 
