@@ -10,9 +10,9 @@ import android.widget.Toast;
 
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
-import com.android.personalbest.cloud.RetriveClouldDataService;
+import com.android.personalbest.cloud.RetrieveCloudDataService;
 
-public class SignUpFriendPageActivity extends AppCompatActivity implements RetriveClouldDataService {
+public class SignUpFriendPageActivity extends AppCompatActivity implements RetrieveCloudDataService {
 
     private Button returnFriendListBtn;
     private Button addFriendsBtn;
