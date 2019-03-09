@@ -63,6 +63,7 @@
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
     <string name="current_user_email">currentAppUserEmail</string>
+    <string name="friend_email">friendEmail</string>
     <string name="friend_list_set">friendListSet</string>
 
     <!-- UserSettings -->
@@ -130,6 +131,7 @@
     <string name="friendListTitle">Friends</string>
     <string name="add_friend_btn">Add A New Friends</string>
     <string name="return_home">Return Home</string>
+    <string name="refresh_friend_list">Refresh Friend List</string>
 
     <!--sign_up_friend_page.xml-->
     <string name="exampleGmail">example@gmail.com</string>
@@ -138,7 +140,7 @@
     <string name="return_Friend">Go Back To FriendList</string>
 
     <!--FireStoreAdapter-->
-    <string name="sent_friend_request_list">sentRequestFriendList</string>
+    <string name="pending_friend_list">pendingFriendList</string>
     <string name="friend_list">friendList</string>
 
 

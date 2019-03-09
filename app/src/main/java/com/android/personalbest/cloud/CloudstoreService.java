@@ -9,21 +9,33 @@ public interface CloudstoreService {
     CollectionReference getCurrentAppUser();
     void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail);
 
-    void addToSentRequestFriendList(String currentAppUserEmail, String friendEmail);
+    void isInUserPendingListCheck(final String currentAppUserEmail, final String friendEmail);
+    void isInFriendPendingListCheck(final String currentAppUserEmail, final String friendEmail);
 
-    void isUserAddFriendCheck(final String currentAppUserEmail, final String friendEmail);
-    void isFriendAddUserCheck(String currentAppUserEmail, String friendEmail);
-    boolean weAreBothFriendCheck(String currentAppUserEmail, String friendEmail);
+    void isInFriendListCheck(final String currentAppUserEmail, final String friendEmail);
 
-    void upDateAppUserFriendList(String appUser,String friendEmail);
+
+    void addToPendingFriendList(String currentAppUserEmail, String friendEmail);
+    void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail);
+    void addToFriendList(String currentAppUserEmail,String friendEmail);
+
+
 
     void setAppUserStatus(boolean appUserStatus);
     boolean getAppUserStatus();
-    void getFriendList(String currentAppUserEmail);
-    void setUserAddFriendStatus(boolean userAddFriendStatus);
-    boolean getUserAddFriendStatus();
-    void setFriendAddUserStatus(boolean friendAddUserStatus);
-    boolean getFriendAddUserStatus();
+
+
+
+    void setUserPendingStatus(boolean userPendingStatus);
+    boolean getUserPendingStatus();
+
+    void setFriendPendingStatus(boolean friendPendingStatus);
+    boolean getFriendPendingStatus();
+
+    void setFriendStatus(boolean friendStatus);
+    boolean getFriendStatus();
+
+
     void resetUserAddFriendProcess();
 
 }

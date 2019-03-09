@@ -37,6 +37,17 @@ public class SharedPrefManager {
         return sharedPref.getString(res.getString(R.string.current_user_email),"");
     }
 
+    //store current app UserEmail
+    public void setFriendEmail(String friendEmail) {
+        editor.putString(res.getString(R.string.friend_email),friendEmail);
+        editor.apply();
+    }
+
+    //return current app user email
+    public String getFriendEmail(){
+        return sharedPref.getString(res.getString(R.string.friend_email),"");
+    }
+
 
     public void setFriendListSet(List<String> friendList){
 

@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
@@ -12,16 +11,19 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Observable;
+
 import java.util.Set;
+
+import static com.android.personalbest.cloud.FirestoreAdapter.getFriendList;
 
 public class FriendListActivity extends AppCompatActivity {
 
     public ListView listView;
     private Button returnHomeBtn;
     private Button addFriendsBtn;
+    private Button refreshFriendListBtn;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "FriendListActivity";
 
@@ -36,6 +38,7 @@ public class FriendListActivity extends AppCompatActivity {
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);
+        refreshFriendListBtn = findViewById(R.id.refreshFriendListBtn);
 
         Log.i(TAG,"onCreate setFriendListUI() Get Call");
         setFriendListUI();
@@ -52,6 +55,14 @@ public class FriendListActivity extends AppCompatActivity {
                 launchSignUpFriendPageActivity();
             }
         });
+        refreshFriendListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
+
+            }
+        });
     }
 
     private void launchSignUpFriendPageActivity(){
@@ -59,36 +70,40 @@ public class FriendListActivity extends AppCompatActivity {
         startActivity(addFriends);
     }
 
-    //get friendList from sharePreManager, pass data and display the friendlist in listView
+    public void onGetFriendListCompleted(List<String> userFriendList){
+
+
+
+        if (userFriendList.isEmpty()){
+            Log.i(TAG,"database FriendList is empty");
+        }else {
+            Log.i(TAG,"database FriendList is not empty");
+            sharedPrefManager.setFriendListSet(userFriendList);
+        }
+
+        setFriendListUI();
+
+
+    }
+
     private void setFriendListUI(){
+
+        ArrayList<String> friendList = new ArrayList<>();
         Set<String>friendListSet;
         if(sharedPrefManager.getFriendListSet() == null){
-            friendListSet = new HashSet<>();
-
-        }else {
+            Log.i(TAG,"local FriendList is empty");
+        }else{
             friendListSet = sharedPrefManager.getFriendListSet();
-        }
-        ArrayList<String> friendList = new ArrayList<String>();
-        if(friendListSet.isEmpty()){
-            Log.i(TAG,"friendListSet is empty:");
-        }
-        for(String friend: friendListSet){
-
+            for(String friend: friendListSet){
                 friendList.add(friend);
-                Log.i(TAG,"I am here in the friendList:"+ friend + "\n");
-
+            }
         }
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,friendList);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(FriendListActivity.this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"onResume: setFriendListUI() Get Call");
-        setFriendListUI();
-    }
 
 
 

@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         if (acct != null) {
             sharedPrefManager.setCurrentAppUserEmail(acct.getEmail());
             friend.put(this.getString(R.string.current_user_email),acct.getEmail());
-            friend.put(this.getString(R.string.sent_friend_request_list), Arrays.asList());
+            friend.put(this.getString(R.string.pending_friend_list), Arrays.asList());
             friend.put(this.getString(R.string.friend_list), Arrays.asList());
             setAppUserInCloud(acct.getEmail(),friend);
         }

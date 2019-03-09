@@ -3,6 +3,7 @@ package com.android.personalbest.cloud;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,8 +26,9 @@ import java.util.Map;
 public class FirestoreAdapter implements CloudstoreService {
     private static String COLLECTION_KEY = "appUserList";
     private static String TAG = " FirestoreAdapter ";
-    private boolean userAddAFriend = false;
-    private boolean friendAddUser = false;
+    private boolean userPendingStatus = false;
+    private boolean friendPendingStatus = false;
+    private boolean friendStatus = false;
     public static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);;
     private boolean isAppUser = false;
     private SignUpFriendPageActivity signUpFriendPageActivity;
@@ -42,6 +44,7 @@ public class FirestoreAdapter implements CloudstoreService {
     public CollectionReference getCurrentAppUser() {
         return currentAppUser;
     }
+
 
     @Override
     public void appUserCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String friendEmail) {
@@ -59,7 +62,7 @@ public class FirestoreAdapter implements CloudstoreService {
                                 //Log.i(TAG, document.getId() + " => " + document.getData());
                             }
                             //  pass success message to observer
-                            signUpFriendPageActivity.onUserCheckCompleted();
+                            signUpFriendPageActivity.onAppUserCheckCompleted();
                         } else {
                             Log.i(TAG, "Error getting documents: ", task.getException());
                             //  pass failure message to observer
@@ -70,15 +73,7 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public void addToSentRequestFriendList(String currentAppUserEmail, String friendEmail) {
-
-            currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.sent_friend_request_list),
-                    FieldValue.arrayUnion(friendEmail));
-
-    }
-
-    @Override
-    public void isUserAddFriendCheck(final String currentAppUserEmail, final String friendEmail) {
+    public void isInUserPendingListCheck(final String currentAppUserEmail, final String friendEmail) {
 
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -88,31 +83,30 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> userSentRequestFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.sent_friend_request_list));
-                                for(Object friend: userSentRequestFriendList){
-                                    if (friend.equals(friendEmail)){
-                                        setUserAddFriendStatus(true);
+                                List<Object> userPendingFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.pending_friend_list));
+                                for(Object pendingFriend: userPendingFriendList){
+                                    if (pendingFriend.equals(friendEmail)){
+                                        setUserPendingStatus(true);
                                     }
                                 }
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                signUpFriendPageActivity.onIsInUserPendingListCheckCompleted();
                             } else {
                                 Log.d(TAG, "No such document");
                             }
-                            signUpFriendPageActivity.onUserAddFriendCheckCompleted();
+
+
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
 
-        Log.i(TAG,"isUserAddFriendCheck get call \n");
-
     }
 
     @Override
-    public void isFriendAddUserCheck(final String currentAppUserEmail, final String friendEmail) {
+    public void isInFriendPendingListCheck(final String currentAppUserEmail, final String friendEmail) {
 
-        Log.i(TAG,"isFriendAddUserCheck get call \n");
         currentAppUser.document(friendEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -121,17 +115,18 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> friendListSentRequestFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.sent_friend_request_list));
-                                for(Object friend: friendListSentRequestFriendList){
-                                    if (friend.equals(currentAppUserEmail)){
-                                        setFriendAddUserStatus(true);
+                                List<Object> friendPendingFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.pending_friend_list));
+                                for(Object pendingFriend: friendPendingFriendList){
+                                    if (pendingFriend.equals(currentAppUserEmail)){
+                                        setFriendPendingStatus(true);
                                     }
                                 }
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                Log.i(TAG, "friendPendingCheck call!!!");
+                                signUpFriendPageActivity.onIsInFriendPendingListCheckCompleted();
                             } else {
                                 Log.d(TAG, "No such document");
                             }
-                            signUpFriendPageActivity.onFriendAddUserCheckCompleted();
+
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
@@ -141,18 +136,60 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public boolean weAreBothFriendCheck(String currentAppUserEmail, String friendEmail) {
+    public void isInFriendListCheck(final String currentAppUserEmail, final String friendEmail) {
 
-        return getUserAddFriendStatus() && getFriendAddUserStatus();
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                List<Object> userFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.friend_list));
+                                for(Object friend: userFriendList){
+                                    if (friend.equals(friendEmail)){
+                                       setFriendStatus(true);
+                                    }
+                                }
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                signUpFriendPageActivity.onIsInFriendListCheckCompleted();
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+
+
+    @Override
+    public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {
+
+        currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
+                FieldValue.arrayUnion(friendEmail));
+
     }
 
     @Override
-    public void upDateAppUserFriendList(String appUser, String friendEmail) {
-        currentAppUser.document(appUser).update(signUpFriendPageActivity.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
+    public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {
+        currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
+                FieldValue.arrayRemove(friendEmail));
     }
 
     @Override
-    public void getFriendList(String currentAppUserEmail) {
+    public void addToFriendList(String currentAppUserEmail, String friendEmail) {
+        currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
+        currentAppUser.document(friendEmail).update(signUpFriendPageActivity.getString(R.string.friend_list), FieldValue.arrayUnion(currentAppUserEmail));
+    }
+
+
+    public static void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
 
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -163,10 +200,9 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> userFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.friend_list));
+                                List<Object> userFriendList = (List<Object>)document.getData().get(friendListActivity.getString(R.string.friend_list));
 
-                                signUpFriendPageActivity.onUserAddFriendCheckCompleted();
-                                signUpFriendPageActivity.onGetFriendListCompleted(convertObjectToString(userFriendList));
+                                friendListActivity.onGetFriendListCompleted(convertObjectToString(userFriendList));
 
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             } else {
@@ -211,34 +247,46 @@ public class FirestoreAdapter implements CloudstoreService {
         return isAppUser;
     }
 
-    @Override
-    public void setUserAddFriendStatus(boolean userAddFriendStatus) {
-        userAddAFriend = userAddFriendStatus;
+    public void setUserPendingStatus(boolean userPendingStatus) {
+        this.userPendingStatus = userPendingStatus;
     }
 
     @Override
-    public boolean getUserAddFriendStatus() {
-        return userAddAFriend;
+    public boolean getUserPendingStatus() {
+        return this.userPendingStatus;
     }
 
     @Override
-    public void setFriendAddUserStatus(boolean friendAddUserStatus) {
-        friendAddUser = friendAddUserStatus;
+    public void setFriendPendingStatus(boolean friendPendingStatus) {
+        this.friendPendingStatus = friendPendingStatus;
     }
 
     @Override
-    public boolean getFriendAddUserStatus() {
-        return  friendAddUser;
+    public boolean getFriendPendingStatus() {
+        return this.friendPendingStatus;
     }
+
+    @Override
+    public void setFriendStatus(boolean friendStatus) {
+        this.friendStatus = friendStatus;
+    }
+
+    @Override
+    public boolean getFriendStatus() {
+        return friendStatus;
+    }
+
 
     @Override
     public void resetUserAddFriendProcess() {
         setAppUserStatus(false);
-        setUserAddFriendStatus(false);
-        setFriendAddUserStatus(false);
+        setFriendStatus(false);
+        setFriendPendingStatus(false);
+        setUserPendingStatus(false);
+
     }
 
-    private List<String> convertObjectToString(List<Object> userFriendList){
+    private static List<String> convertObjectToString(List<Object> userFriendList){
         List<String> userFriendListInString = new ArrayList<>();
         for(Object friend: userFriendList){
             userFriendListInString.add((String) friend);
