@@ -129,15 +129,15 @@
 
     <!--firendList.xml-->
     <string name="friendListTitle">Friends</string>
-    <string name="add_friend_btn">Add A New Friends</string>
+    <string name="add_friend_btn">Add A New Friend</string>
     <string name="return_home">Return Home</string>
-    <string name="refresh_friend_list">Refresh Friend List</string>
+    <string name="refresh_friend_list">Refresh List</string>
 
     <!--sign_up_friend_page.xml-->
     <string name="exampleGmail">example@gmail.com</string>
     <string name="addBtn">Add</string>
-    <string name="add_friend_info">Add a new friend \n by enter his/her email address</string>
-    <string name="return_Friend">Go Back To FriendList</string>
+    <string name="add_friend_info">Add a new friend \n by entering their email address</string>
+    <string name="return_Friend">Go Back To Friends List</string>
 
     <!--FireStoreAdapter-->
     <string name="pending_friend_list">pendingFriendList</string>
