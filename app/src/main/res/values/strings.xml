@@ -20,7 +20,6 @@
     <string name="update_steps">UPDATE STEPS</string>
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
 
-
     <!-- Encouragement -->
     <string name="goal_reached">"Congratulations! Do you want to set a new step goal?"</string>
     <string name="yes">"Yes"</string>
@@ -126,8 +125,7 @@
     <string name="goal_exceeded">Goal Exceeded</string>
     <string name="subgoal_exceeded">Subgoal Exceeded</string>
 
-
-    <!--firendList.xml-->
+    <!--friendList.xml-->
     <string name="friendListTitle">Friends</string>
     <string name="add_friend_btn">Add A New Friend</string>
     <string name="return_home">Return Home</string>
@@ -142,6 +140,5 @@
     <!--FireStoreAdapter-->
     <string name="pending_friend_list">pendingFriendList</string>
     <string name="friend_list">friendList</string>
-
 
 </resources>
