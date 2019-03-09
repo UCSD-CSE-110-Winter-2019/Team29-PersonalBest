@@ -122,4 +122,8 @@
     <string name="goal_exceeded">Goal Exceeded</string>
     <string name="subgoal_exceeded">Subgoal Exceeded</string>
 
+    <!-- Notifications -->
+    <string name="goalNotifTitle">Personal Best: Goal Met</string>
+    <string name="goalNotifBody">Congrats! You met your goal.</string>
+
 </resources>
