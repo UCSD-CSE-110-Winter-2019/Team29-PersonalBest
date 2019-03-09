@@ -39,10 +39,6 @@ public class FirestoreAdapter implements CloudstoreService {
 
     }
 
-    @Override
-    public CollectionReference getCurrentAppUser() {
-        return currentAppUser;
-    }
 
 
     @Override

@@ -5,7 +5,7 @@ import com.google.firebase.firestore.CollectionReference;
 
 public interface CloudstoreService {
 
-    CollectionReference getCurrentAppUser();
+
     void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail);
 
     void isInUserPendingListCheck(final String currentAppUserEmail, final String friendEmail);
