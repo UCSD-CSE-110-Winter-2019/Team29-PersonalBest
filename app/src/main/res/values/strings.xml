@@ -141,4 +141,7 @@
     <string name="pending_friend_list">pendingFriendList</string>
     <string name="friend_list">friendList</string>
 
+    <!-- Notifications -->
+    <string name="goalNotifTitle">Personal Best: Goal Met</string>
+    <string name="goalNotifBody">Congrats! You met your goal.</string>
 </resources>
