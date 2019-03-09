@@ -9,5 +9,4 @@ public interface RetriveClouldDataService {
     void onIsInFriendListCheckCompleted();
     void onIsInFriendPendingListCheckCompleted();
 
-
 }

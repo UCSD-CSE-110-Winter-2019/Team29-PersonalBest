@@ -12,9 +12,6 @@ import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.android.personalbest.cloud.RetriveClouldDataService;
 
-import java.util.List;
-
-
 public class SignUpFriendPageActivity extends AppCompatActivity implements RetriveClouldDataService {
 
     private Button returnFriendListBtn;
@@ -51,6 +48,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
             public void onClick(View v) {
                 sharedPrefManager.setFriendEmail(friendEmail.getText().toString());
                 disableUserInteraction();
+                //check if the input email is in the appUserList
                 couldstoreService.appUserCheck(SignUpFriendPageActivity.this,sharedPrefManager.getFriendEmail());
 
             }
@@ -58,12 +56,16 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     }
 
 
+
     @Override
     public void onAppUserCheckCompleted() {
 
+        //if the input email is in the appUserList check if the inputEmail is in the user pending friendList
         if(couldstoreService.getAppUserStatus()) {
             couldstoreService.isInUserPendingListCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
-        }else {
+        }
+        //If the input email is not in the appUserList prompt the user.
+        else {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "The email address you just enter doesn't match our app user record. Please Try Again!!!",
                     Toast.LENGTH_LONG);
@@ -77,6 +79,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
 
     @Override
     public void onIsInUserPendingListCheckCompleted() {
+        //check if the input email is in user friendList
         couldstoreService.isInFriendListCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
     }
 
@@ -84,6 +87,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     public void onIsInFriendListCheckCompleted() {
 
         // Duplicate Check: Make user the input email not in userPendingList and userFriend
+        // if the input email satisfy the dupliacate check condition, add to the user pendingFriendList
         if(!(couldstoreService.getUserPendingStatus() || couldstoreService.getFriendStatus())){
 
             couldstoreService.addToPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
@@ -91,15 +95,22 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
                     "Add To User Pending FriendList (:",
                     Toast.LENGTH_SHORT);
             toast.show();
+            //check if the user is in friend's pending list
             couldstoreService.isInFriendPendingListCheck(sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
 
         }
+        Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(couldstoreService.getAppUserStatus()));
+        Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(couldstoreService.getUserPendingStatus()));
+        Log.i(TAG,"getFriendStatus() => "+ Boolean.toString(couldstoreService.getFriendStatus()));
+        Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(couldstoreService.getFriendPendingStatus()));
         enableUserInteraction();
 
     }
 
     @Override
     public void onIsInFriendPendingListCheckCompleted() {
+
+        //if user is in friend pending list add them to each other friendlist and remove from each pending friend list
         if(couldstoreService.getFriendPendingStatus()){
             Log.i(TAG,"user is in friend pending list");
             couldstoreService.addToFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
@@ -109,17 +120,13 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
             couldstoreService.removeFromPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             couldstoreService.removeFromPendingFriendList(sharedPrefManager.getFriendEmail(),sharedPrefManager.getCurrentAppUserEmail());
             toast.show();
-        }else {
-            Log.i(TAG,"user is not in friend pending list");
-            Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(couldstoreService.getAppUserStatus()));
-            Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(couldstoreService.getFriendPendingStatus()));
-            Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(couldstoreService.getUserPendingStatus()));
-            Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(couldstoreService.getFriendPendingStatus()));
         }
+
+        Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(couldstoreService.getAppUserStatus()));
+        Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(couldstoreService.getUserPendingStatus()));
+        Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(couldstoreService.getFriendPendingStatus()));
         couldstoreService.resetUserAddFriendProcess();
     }
-
-
 
     private void disableUserInteraction(){
         friendEmail.setEnabled(false);
