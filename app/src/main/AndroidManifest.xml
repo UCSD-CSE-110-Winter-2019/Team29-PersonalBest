@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".FriendListActivity" />
+        <activity android:name=".SignUpFriendPageActivity" />
+        <activity android:name=".NewGoalActivity" />
         <activity android:name=".BarChartActivity" />
         <activity android:name=".UserSettingsActivity" />
         <activity android:name=".WalkActivity" />
@@ -31,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

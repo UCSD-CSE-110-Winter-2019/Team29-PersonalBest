@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,13 +24,12 @@ import java.util.Calendar;
 
 public class BarChartActivity extends AppCompatActivity {
 
-    private Button userSettingsButton;
     private Button homeButton;
 
-    private CombinedChart chart;
-
-    private TextView thisWeek;
-    private TextView stats;
+    public CombinedChart chart;
+    public ArrayList<BarEntry> entries;
+    public ArrayList<Entry> line;
+    public SharedPrefManager pastWeek;
 
     private TextView totalSteps;
     private TextView totalTime;
@@ -104,19 +102,9 @@ public class BarChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart);
 
-        userSettingsButton = findViewById(R.id.usersettings);
         homeButton = findViewById(R.id.homebutton);
 
         setUpBarChart();
-
-        //onclicklisteners for buttons
-        userSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                launchUserSettings();
-            }
-        });
-
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -135,13 +123,9 @@ public class BarChartActivity extends AppCompatActivity {
     public void setUpBarChart(){
 
         //initializing buttons
-        userSettingsButton = findViewById(R.id.usersettings);
         homeButton = findViewById(R.id.homebutton);
 
         //initializing stats textViews
-        thisWeek = findViewById(R.id.thisweek);
-        thisWeek.setVisibility(View.VISIBLE);
-        stats = findViewById(R.id.stats);
         totalSteps = findViewById(R.id.totalsteps);
         totalTime = findViewById(R.id.totaltime);
         averageMPH = findViewById(R.id.averagemph);
@@ -152,7 +136,7 @@ public class BarChartActivity extends AppCompatActivity {
         distanceNumber = findViewById(R.id.distancenumber);
 
         //setting up bar chart
-        SharedPrefManager pastWeek = new SharedPrefManager(this.getApplicationContext());
+        pastWeek = new SharedPrefManager(this.getApplicationContext());
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
 
@@ -162,7 +146,7 @@ public class BarChartActivity extends AppCompatActivity {
         chart.setScaleEnabled(false);
 
         //getting total number of steps for each day (intentional)
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        entries = new ArrayList<>();
         sundayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.SUNDAY);
         mondayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.MONDAY);
         tuesdayIntentionalSteps = pastWeek.getIntentionalStepsTaken(Calendar.TUESDAY);
@@ -234,7 +218,7 @@ public class BarChartActivity extends AppCompatActivity {
         entries.add(fridayData);
         entries.add(saturdayData);
 
-        ArrayList<Entry> line = new ArrayList<Entry>();
+        line = new ArrayList<Entry>();
         line.add(new Entry(1f, sunGoal));
         line.add(new Entry(2f, monGoal));
         line.add(new Entry(3f, tuesGoal));
@@ -248,7 +232,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
-        int[] colors = new int[]{Color.CYAN, Color.GREEN};
+        int[] colors = new int[]{Color.GREEN, Color.CYAN};
         dataSet.setColors(colors);
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.75f);
@@ -264,62 +248,81 @@ public class BarChartActivity extends AppCompatActivity {
         chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                thisWeek.setVisibility(View.INVISIBLE);
                 totalSteps.setVisibility(View.VISIBLE);
                 totalTime.setVisibility(View.VISIBLE);
                 averageMPH.setVisibility(View.VISIBLE);
                 totalDistance.setVisibility(View.VISIBLE);
 
                 if(e.equals(sundayData)){
-                    stats.setText("Sunday Stats");
-                    stepsNumber.setText((sundayIntentionalSteps + sundayNonIntentional) + "");
-                    timeNumber.setText(sunTime + "");
-                    MPHNumber.setText(sunMPH + "");
-                    distanceNumber.setText(sunMiles + "");
+                    String steps = sundayIntentionalSteps + sundayNonIntentional + getString(R.string.emptyString);
+                    String time = sunTime + getString(R.string.emptyString);
+                    String mph = sunMPH + getString(R.string.emptyString);
+                    String distance = sunMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
                 }
                 else if(e.equals(mondayData)){
-                    stats.setText("Monday Stats");
-                    stepsNumber.setText((mondayIntentionalSteps + mondayNonIntentional) + "");
-                    timeNumber.setText(monTime + "");
-                    MPHNumber.setText(monMPH + "");
-                    distanceNumber.setText(monMiles + "");
+                    String steps = mondayIntentionalSteps + mondayNonIntentional + getString(R.string.emptyString);
+                    String time = monTime + getString(R.string.emptyString);
+                    String mph = monMPH + getString(R.string.emptyString);
+                    String distance = monMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
                 }
                 else if(e.equals(tuesdayData)){
-                    stats.setText("Tuesday Stats");
-                    stepsNumber.setText((tuesdayIntentionalSteps + tuesdayNonIntentional) + "");
-                    timeNumber.setText(tuesTime + "");
-                    MPHNumber.setText(tuesMPH + "");
-                    distanceNumber.setText(tuesMiles + "");
-
+                    String steps = tuesdayIntentionalSteps + tuesdayNonIntentional + getString(R.string.emptyString);
+                    String time = tuesTime + getString(R.string.emptyString);
+                    String mph = tuesMPH + getString(R.string.emptyString);
+                    String distance = tuesMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
                 }
                 else if(e.equals(wednesdayData)){
-                    stats.setText("Wednesday Stats");
-                    stepsNumber.setText((wednesdayIntentionalSteps + wednesdayNonIntentional) + "");
-                    timeNumber.setText(wedTime + "");
-                    MPHNumber.setText(wedMPH + "");
-                    distanceNumber.setText(wedMiles + "");
+                    String steps = wednesdayIntentionalSteps + wednesdayNonIntentional + getString(R.string.emptyString);
+                    String time = wedTime + getString(R.string.emptyString);
+                    String mph = wedMPH + getString(R.string.emptyString);
+                    String distance = wedMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
                 }
                 else if(e.equals(thursdayData)){
-                    stats.setText("Thursday Stats");
-                    stepsNumber.setText((thursdayIntentionalSteps + thursdayNonIntentional) + "");
-                    timeNumber.setText(thursTime + "");
-                    MPHNumber.setText(thursMPH + "");
-                    distanceNumber.setText(thursMiles + "");
+                    String steps = thursdayIntentionalSteps + thursdayNonIntentional + getString(R.string.emptyString);
+                    String time = thursTime + getString(R.string.emptyString);
+                    String mph = thursMPH + getString(R.string.emptyString);
+                    String distance = thursMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
 
                 }
                 else if(e.equals(fridayData)){
-                    stats.setText("Friday Stats");
-                    stepsNumber.setText((fridayIntentionalSteps + fridayNonIntentional) + "");
-                    timeNumber.setText(friTime + "");
-                    MPHNumber.setText(friMPH + "");
-                    distanceNumber.setText(friMiles + "");
+                    String steps = fridayIntentionalSteps + fridayNonIntentional + getString(R.string.emptyString);
+                    String time = friTime + getString(R.string.emptyString);
+                    String mph = friMPH + getString(R.string.emptyString);
+                    String distance = friMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
                 }
                 else{ //if e.equals(saturdayData))
-                    stats.setText("Saturday Stats");
-                    stepsNumber.setText((saturdayIntentionalSteps + saturdayNonIntentional) + "");
-                    timeNumber.setText(satTime + "");
-                    MPHNumber.setText(satMPH + "");
-                    distanceNumber.setText(satMiles + "");
+                    String steps = saturdayIntentionalSteps + saturdayNonIntentional + getString(R.string.emptyString);
+                    String time = satTime + getString(R.string.emptyString);
+                    String mph = satMPH + getString(R.string.emptyString);
+                    String distance = satMiles + getString(R.string.emptyString);
+                    stepsNumber.setText(steps);
+                    timeNumber.setText(time);
+                    MPHNumber.setText(mph);
+                    distanceNumber.setText(distance);
                 }
 
             }
@@ -331,9 +334,4 @@ public class BarChartActivity extends AppCompatActivity {
         });
 
     }
-    public void launchUserSettings() {
-        Intent settings = new Intent(this, UserSettingsActivity.class);
-        startActivity(settings);
-    }
-
 }

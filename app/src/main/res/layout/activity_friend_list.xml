@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.personalbest.FriendListActivity">
+
+    <ListView
+        android:id="@+id/friendListView"
+        android:layout_width="411dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addFriBtn" />
+
+    <Button
+        android:id="@+id/returnHomeBtn"
+        android:layout_width="406dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="119dp"
+        android:text="@string/return_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friendListView" />
+
+    <Button
+        android:id="@+id/addFriBtn"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="29dp"
+        android:text="@string/add_friend_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/refreshFriendListBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/friendListTitle"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="29dp"
+        android:text="@string/friendListTitle"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/refreshFriendListBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.593" />
+
+    <Button
+        android:id="@+id/refreshFriendListBtn"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="29dp"
+        android:text="@string/refresh_friend_list"
+        app:layout_constraintEnd_toStartOf="@+id/addFriBtn"
+        app:layout_constraintStart_toEndOf="@+id/friendListTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

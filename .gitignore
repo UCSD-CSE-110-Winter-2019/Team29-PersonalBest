@@ -1,9 +1,11 @@
 /.idea/caches/gradle_models.ser
+/.idea/caches/gradle_models*
 *.iml
 .gradle
 /local.properties
 /.idea/caches/build_file_checksums.ser
 /.idea/misc.xml
+/.idea/misc*
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
@@ -11,3 +13,4 @@
 /build
 /captures
 .externalNativeBuild
+*.log

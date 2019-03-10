@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.personalbest.MainPageActivity;
-import com.android.personalbest.R;
-import com.android.personalbest.SharedPrefManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;
@@ -17,15 +15,12 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-
 public class GoogleFitAdapter implements FitnessService {
     private final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = System.identityHashCode(this) & 0xFFFF;
     private final String TAG = "GoogleFitAdapter";
 
     private MainPageActivity activity;
-    private SharedPrefManager sharedPrefManager;
     private int total = 0;
-    private int goal = 0;
 
     private Handler handler;
     private Runnable runnable;
@@ -34,8 +29,8 @@ public class GoogleFitAdapter implements FitnessService {
     public GoogleFitAdapter(MainPageActivity activity) {
 
         this.activity = activity;
-        sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
-        goal = sharedPrefManager.getGoal();
+        this.setup();
+        this.updateStepInRealTime();
         lastSignedInAccount = GoogleSignIn.getLastSignedInAccount(activity);
     }
 
@@ -105,10 +100,7 @@ public class GoogleFitAdapter implements FitnessService {
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                activity.numStepDone.setText(String.valueOf(total));
-                                sharedPrefManager.editor.putInt(activity.getString(R.string.totalStep),total);
-                                sharedPrefManager.editor.apply();
-
+                                activity.totalUpdated(total);
                                 Log.i(TAG, "Total steps: " + total);
                             }
                         })
@@ -122,11 +114,9 @@ public class GoogleFitAdapter implements FitnessService {
     }
 
 
-    @Override
-    public int getRequestCode() {
-        return GOOGLE_FIT_PERMISSIONS_REQUEST_CODE;
-    }
 
+
+    @Override
     public void updateStepInRealTime(){
         handler = new Handler();
         runnable = new Runnable() {

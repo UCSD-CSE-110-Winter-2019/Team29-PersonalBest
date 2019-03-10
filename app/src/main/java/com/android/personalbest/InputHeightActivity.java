@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,6 +19,11 @@ public class InputHeightActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_height);
+
+        if(BuildConfig.DEBUG){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
@@ -51,6 +57,7 @@ public class InputHeightActivity extends AppCompatActivity {
                 if (validHeight) {
                     sharedPrefManager.setHeight(Integer.parseInt(userHeight.getText().toString()));
                     sharedPrefManager.setGoal(getResources().getInteger(R.integer.default_goal));
+                    sharedPrefManager.storeGoalForDayOfWeek(TimeMachine.getDayOfWeek(), getResources().getInteger(R.integer.default_goal));
                     sharedPrefManager.setFirstTime(true);
                     sharedPrefManager.setIsWalker(true);
                     startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
