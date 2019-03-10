@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
+import com.android.personalbest.UserDayData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,7 +17,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +36,6 @@ public class FirestoreAdapter implements CloudstoreService {
 
     public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
         this.signUpFriendPageActivity = signUpFriendPageActivity;
-
     }
 
     @Override
@@ -262,6 +264,57 @@ public class FirestoreAdapter implements CloudstoreService {
             userFriendListInString.add((String) friend);
         }
         return userFriendListInString;
+    }
+
+    //TODO: Call this method in input height activity
+    public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {
+        ArrayList<UserDayData> newUserMonthlyActivity = new ArrayList<UserDayData>();
+
+        //Add empty data for past 28 days
+        for (int i = 0; i < 28; i++) {
+            newUserMonthlyActivity.add(new UserDayData());
+        }
+
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", newUserMonthlyActivity);
+    }
+
+    //TODO: Call this method at end of the day
+    public void updateMonthlyActivity(String currentAppUserEmail) {
+        //use Shared Pref Manager to update today's data (at index 27)
+        //then remove index 0 (aka 28 days ago)
+        //then add a new UserDayData to the end of the list (for tomorrow)
+    }
+
+    //TODO: Call this method when clicking on friends monthly activity
+    public void getFriendsMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail) {
+        currentAppUser.document(friendEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                List<Object> retrievedFriendData = (List<Object>)document.getData().get("monthlyActivity");
+                                friendListActivity.onGetFriendActivityCompleted(convertObjectToUserDayData(retrievedFriendData));
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private static List<UserDayData> convertObjectToUserDayData(List<Object> friendMonthlyActivity){
+        List<UserDayData> friendUserDayDataList = new ArrayList<>();
+        for(Object day: friendMonthlyActivity){
+            friendUserDayDataList.add((UserDayData) day);
+        }
+        return friendUserDayDataList;
     }
 }
 

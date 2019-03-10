@@ -22,6 +22,7 @@ public class FriendListActivity extends AppCompatActivity {
     private Button addFriendsBtn;
     private Button refreshFriendListBtn;
     private SharedPrefManager sharedPrefManager;
+    private List<UserDayData> friendMonthlyActivity;
     private String TAG = "FriendListActivity";
 
     @Override
@@ -91,5 +92,9 @@ public class FriendListActivity extends AppCompatActivity {
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(FriendListActivity.this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
+    }
+
+    public void onGetFriendActivityCompleted(List<UserDayData> monthlyActivity){
+        this.friendMonthlyActivity = monthlyActivity;
     }
 }
