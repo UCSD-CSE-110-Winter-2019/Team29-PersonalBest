@@ -308,28 +308,6 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    private void getMyMonthlyActivity(String currentAppUserEmail) {
-        currentAppUser.document(currentAppUserEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                List<Object> retrievedData = (List<Object>)document.getData().get("monthlyActivity");
-                                MonthlyActivityLocalData.setMyMonthlyActivity(convertObjectToUserDayData(retrievedData));
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-    }
-
     private static List<String> convertObjectToString(List<Object> userFriendList){
         List<String> userFriendListInString = new ArrayList<>();
         for(Object friend: userFriendList){
