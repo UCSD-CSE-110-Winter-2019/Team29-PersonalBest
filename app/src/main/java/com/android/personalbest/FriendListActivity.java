@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-
 import java.util.List;
-
 import java.util.Set;
 
 import static com.android.personalbest.cloud.FirestoreAdapter.getFriendList;
@@ -26,7 +23,6 @@ public class FriendListActivity extends AppCompatActivity {
     private Button refreshFriendListBtn;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "FriendListActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +54,7 @@ public class FriendListActivity extends AppCompatActivity {
         refreshFriendListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
-
             }
         });
     }
@@ -98,11 +92,5 @@ public class FriendListActivity extends AppCompatActivity {
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(FriendListActivity.this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
-
     }
-
-
-
-
-
 }

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.android.personalbest.SignUpFriendPageActivity;
 
-
 public class CloudstoreServiceFactory {
     private static final String TAG = "[cloudServiceFactory]";
 
@@ -18,8 +17,5 @@ public class CloudstoreServiceFactory {
             return new FirestoreAdapter(signUpFriendPageActivity);
         }
 
-
     }
-
-
 }

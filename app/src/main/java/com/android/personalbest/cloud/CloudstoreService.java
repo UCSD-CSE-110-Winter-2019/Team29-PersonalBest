@@ -28,5 +28,4 @@ public interface CloudstoreService {
     boolean getFriendPendingStatus();
 
     void resetUserAddFriendProcess();
-
 }
