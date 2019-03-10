@@ -18,7 +18,6 @@ public class InputHeightActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_height);
-
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
@@ -54,7 +53,6 @@ public class InputHeightActivity extends AppCompatActivity {
                     sharedPrefManager.setGoal(getResources().getInteger(R.integer.default_goal));
                     sharedPrefManager.setFirstTime(true);
                     sharedPrefManager.setIsWalker(true);
-
                     startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
                 }
             }
