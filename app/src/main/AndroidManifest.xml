@@ -17,13 +17,12 @@
         <activity android:name=".FriendListActivity" />
         <activity android:name=".SignUpFriendPageActivity" />
         <activity android:name=".NewGoalActivity" />
-        <activity android:name=".BarChartActivity" />
+        <activity android:name=".MonthlyBarChartActivity" />
         <activity android:name=".UserSettingsActivity" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".InputHeightActivity" />
         <activity
             android:name=".MainPageActivity"
-            android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>

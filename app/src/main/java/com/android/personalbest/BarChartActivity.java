@@ -192,13 +192,13 @@ public class BarChartActivity extends AppCompatActivity {
         satMiles = pastWeek.getIntentionalDistanceInMiles(Calendar.SATURDAY);
 
         //getting total number of goals for each day
-        sunGoal = pastWeek.getGoalForCertainDay(Calendar.SUNDAY);
-        monGoal = pastWeek.getGoalForCertainDay(Calendar.MONDAY);
-        tuesGoal = pastWeek.getGoalForCertainDay(Calendar.TUESDAY);
-        wedGoal = pastWeek.getGoalForCertainDay(Calendar.WEDNESDAY);
-        thursGoal = pastWeek.getGoalForCertainDay(Calendar.THURSDAY);
-        friGoal = pastWeek.getGoalForCertainDay(Calendar.FRIDAY);
-        satGoal = pastWeek.getGoalForCertainDay(Calendar.SATURDAY);
+        sunGoal = pastWeek.getGoalForDayOfWeek(Calendar.SUNDAY);
+        monGoal = pastWeek.getGoalForDayOfWeek(Calendar.MONDAY);
+        tuesGoal = pastWeek.getGoalForDayOfWeek(Calendar.TUESDAY);
+        wedGoal = pastWeek.getGoalForDayOfWeek(Calendar.WEDNESDAY);
+        thursGoal = pastWeek.getGoalForDayOfWeek(Calendar.THURSDAY);
+        friGoal = pastWeek.getGoalForDayOfWeek(Calendar.FRIDAY);
+        satGoal = pastWeek.getGoalForDayOfWeek(Calendar.SATURDAY);
 
         //putting together steps for bar chart
         sundayData = new BarEntry(1f, new float[] { sundayIntentionalSteps, sundayNonIntentional });
