@@ -39,8 +39,6 @@ public class FirestoreAdapter implements CloudstoreService {
 
     }
 
-
-
     @Override
     public void appUserCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String friendEmail) {
 

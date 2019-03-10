@@ -7,10 +7,9 @@ import android.util.Log;
 
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
+import com.android.personalbest.TimeMachine;
 import com.android.personalbest.WalkActivity;
 import com.android.personalbest.WalkStatsCalculator;
-
-
 
 public class WalkDataAdapter implements WalkData {
 
@@ -26,21 +25,20 @@ public class WalkDataAdapter implements WalkData {
     public float MPH;
 
     public int elapsedTime;
-    public int curElasedTime;
+    public int curElapsedTime;
     public int upDateTimeInterval = 1000;
 
     private Handler handler;
     private Runnable runnable;
+    public boolean walkEnded;
 
     public WalkDataAdapter(WalkActivity walkActivity){
 
         this.walkActivity = walkActivity;
-        sharedPrefManager = new SharedPrefManager(walkActivity);
+        sharedPrefManager = new SharedPrefManager(walkActivity.getApplicationContext());
         walkStatsCalculator = new WalkStatsCalculator(walkActivity);
         chronometerStepUp();
-
     }
-
 
     @Override
     public void chronometerStepUp(){
@@ -49,15 +47,17 @@ public class WalkDataAdapter implements WalkData {
         //start timer
         walkActivity.chronometer.start();
     }
+
     @Override
     public void  setCurrentElapsedTime(){
-        curElasedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
 
+        curElapsedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
     }
+
     @Override
     public int getCurrentElapsedTime(){
 
-        return curElasedTime;
+        return curElapsedTime;
     }
 
     @Override
@@ -65,49 +65,40 @@ public class WalkDataAdapter implements WalkData {
 
         walkActivity.chronometer.stop();
         elapsedTime = (int)SystemClock.elapsedRealtime() - (int)walkActivity.chronometer.getBase();
-        sharedPrefManager.editor.putLong(walkActivity.getString(R.string.elapsedTime),elapsedTime);
-        sharedPrefManager.editor.apply();
         Intent intent = new Intent();
         intent.putExtra(walkActivity.getString(R.string.elapsedTime), elapsedTime);
         return intent;
-
     }
-
-
 
     @Override
     public void displayStep(){
 
-        totalStepBeforeSwitch = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.step_count_before_switch_to_start_walk_activity),totalStepBeforeSwitch);
-        totalStep = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.totalStep),totalStep);
+        totalStepBeforeSwitch = sharedPrefManager.getCountBeforeWalk();
+        totalStep = sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek());
         intentionalStep = totalStep - totalStepBeforeSwitch;
         walkActivity.intentionalStepTextView.setText(String.valueOf(intentionalStep));
 
-        sharedPrefManager.editor.putInt(walkActivity.getString(R.string.intentionalStep),intentionalStep);
-        sharedPrefManager.editor.apply();
-
+        sharedPrefManager.setCurrIntentionalStep(intentionalStep);
     }
 
     @Override
     public void displayMiles() {
 
-        intentionalStep = sharedPrefManager.sharedPref.getInt(walkActivity.getString(R.string.intentionalStep),intentionalStep);
+        intentionalStep = sharedPrefManager.getCurrIntentionalStep();
         numberStepInMiles = walkStatsCalculator.calculateNumStepsInMile(sharedPrefManager.getHeight());
         miles = walkStatsCalculator.calculateMiles(intentionalStep,numberStepInMiles);
         walkActivity.milesTextView.setText(String.valueOf(miles));
 
-        sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.milesInDisplay),miles);
-        sharedPrefManager.editor.apply();
+        sharedPrefManager.setCurrMile(miles);
     }
 
     @Override
     public void displayMPH(){
-         miles = sharedPrefManager.sharedPref.getFloat(walkActivity.getString(R.string.milesInDisplay),miles);
+         miles = sharedPrefManager.getCurrMile();
          MPH = walkStatsCalculator.calculateMilesPerHour(miles,getCurrentElapsedTime());
          walkActivity.MPHTextView.setText(String.valueOf(MPH));
 
-         sharedPrefManager.editor.putFloat(walkActivity.getString(R.string.MPH),MPH);
-         sharedPrefManager.editor.apply();
+         sharedPrefManager.setCurrMPH(MPH);
     }
 
     //method to be called when user clicks "end walk"
@@ -119,20 +110,17 @@ public class WalkDataAdapter implements WalkData {
         runnable = new Runnable() {
             @Override
             public void run() {
-                setCurrentElapsedTime();
-                displayStep();
-                displayMiles();
-                displayMPH();
+                if (!walkEnded) {
+                    setCurrentElapsedTime();
+                    displayStep();
+                    displayMiles();
+                    displayMPH();
 
-                handler.postDelayed(this, upDateTimeInterval);
+                    handler.postDelayed(this, upDateTimeInterval);
+                }
             }
         };
 
         handler.postDelayed(runnable, upDateTimeInterval);
-
     }
-
-
-
-
 }

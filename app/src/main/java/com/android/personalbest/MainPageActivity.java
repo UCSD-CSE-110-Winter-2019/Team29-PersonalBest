@@ -59,8 +59,7 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 curStep = fitnessService.getCurrentStep();
-                sharedPrefManager.editor.putInt(getString(R.string.step_count_before_switch_to_start_walk_activity),curStep);
-                sharedPrefManager.editor.apply();
+                sharedPrefManager.setCountBeforeWalk(curStep);
                 launchWalkActivity();
             }
         });
@@ -233,8 +232,7 @@ public class MainPageActivity extends AppCompatActivity {
         if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalExceededToday()) {
             exceedsGoal();
             Log.i(getString(R.string.mpa_tag), getString(R.string.goal_exceeded));
-        }
-        if (total > (sharedPrefManager.getTotalStepsFromYesterday() + getResources().getInteger(R.integer.subgoal))
+        } else if (total > (sharedPrefManager.getTotalStepsFromYesterday() + getResources().getInteger(R.integer.subgoal))
                 && !sharedPrefManager.getSubGoalExceededToday()) {
             exceedsSubGoal();
             Log.i(getString(R.string.mpa_tag), getString(R.string.subgoal_exceeded));

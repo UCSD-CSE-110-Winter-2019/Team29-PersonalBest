@@ -3,6 +3,8 @@ package com.android.personalbest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -10,8 +12,8 @@ import java.util.Set;
 
 public class SharedPrefManager {
 
-    public SharedPreferences sharedPref;
-    public SharedPreferences.Editor editor;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
     public Resources res;
     public Context context;
 
@@ -208,12 +210,48 @@ public class SharedPrefManager {
     }
 
     /* Calculating intentional walk stats */
+    public void setCountBeforeWalk(int steps) {
+        editor.putInt(res.getString(R.string.step_count_before_switch_to_start_walk_activity),steps);
+        editor.apply();
+    }
+
+    public int getCountBeforeWalk() {
+        return sharedPref.getInt(res.getString(R.string.step_count_before_switch_to_start_walk_activity),0);
+    }
+
+    public void setCurrIntentionalStep(int steps) {
+        editor.putInt(res.getString(R.string.intentionalStep), steps);
+        editor.apply();
+    }
+
+    public int getCurrIntentionalStep() {
+        return sharedPref.getInt(res.getString(R.string.intentionalStep),0);
+    }
+
+    public void setCurrMile(float miles) {
+        editor.putFloat(res.getString(R.string.milesInDisplay),miles);
+        editor.apply();
+    }
+
+    public float getCurrMile() {
+        return sharedPref.getFloat(res.getString(R.string.milesInDisplay),0);
+    }
+
+    public void setCurrMPH(float mph) {
+        editor.putFloat(res.getString(R.string.MPH),mph);
+        editor.apply();
+    }
+
+    public float getCurrMPH() {
+        return sharedPref.getFloat(res.getString(R.string.MPH),0);
+    }
 
     //Called at end of day
     // Called every time bar chart is displayed (when the "see bar chart" is clicked)
     public void storeTotalStepsForDayOfWeek(int dayOfWeek, int totalStepsTaken) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
+        editor.apply();
     }
 
     public int getTotalStepsForDayOfWeek(int dayOfWeek) {
@@ -226,6 +264,7 @@ public class SharedPrefManager {
     public void storeGoalForDayOfWeek(int dayOfWeek, int goal) {
         String today = getDayOfWeekAsString(dayOfWeek);
         editor.putInt(res.getString(R.string.goal) + today, goal);
+        editor.apply();
     }
 
     public int getGoalForDayOfWeek(int dayOfWeek){
@@ -237,6 +276,7 @@ public class SharedPrefManager {
     //Called at end of day (store today's step total in yesterday var)
     public void storeTotalStepsFromYesterday(int totalStepsTaken) {
         editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
+        editor.apply();
     }
 
     public int getTotalStepsFromYesterday() {
