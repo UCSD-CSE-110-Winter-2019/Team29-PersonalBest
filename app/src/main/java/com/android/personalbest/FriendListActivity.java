@@ -23,6 +23,7 @@ public class FriendListActivity extends AppCompatActivity {
     private Button refreshFriendListBtn;
     private SharedPrefManager sharedPrefManager;
     private List<UserDayData> friendMonthlyActivity;
+    public List<UserDayData> myMonthlyActivity;
     private String TAG = "FriendListActivity";
 
     @Override
@@ -96,5 +97,9 @@ public class FriendListActivity extends AppCompatActivity {
 
     public void onGetFriendActivityCompleted(List<UserDayData> monthlyActivity){
         this.friendMonthlyActivity = monthlyActivity;
+    }
+
+    public void onGetMyActivityCompleted(List<UserDayData> monthlyActivity){
+        this.myMonthlyActivity = monthlyActivity;
     }
 }

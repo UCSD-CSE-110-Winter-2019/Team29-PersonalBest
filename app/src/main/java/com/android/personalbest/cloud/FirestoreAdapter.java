@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.R;
+import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
+import com.android.personalbest.TimeMachine;
 import com.android.personalbest.UserDayData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +35,7 @@ public class FirestoreAdapter implements CloudstoreService {
     private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     private boolean isAppUser = false;
     private SignUpFriendPageActivity signUpFriendPageActivity;
+    private SharedPrefManager sharedPrefManager;
 
     public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
         this.signUpFriendPageActivity = signUpFriendPageActivity;
@@ -279,14 +282,37 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     //TODO: Call this method at end of the day
-    public void updateMonthlyActivity(String currentAppUserEmail) {
-        //use Shared Pref Manager to update today's data (at index 27)
-        //then remove index 0 (aka 28 days ago)
-        //then add a new UserDayData to the end of the list (for tomorrow)
+    public void updateMonthlyActivityEndOfDay(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+        sharedPrefManager = new SharedPrefManager(friendListActivity);
+        updateMonthlyActivityData(friendListActivity, currentAppUserEmail);
+        getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
+        List<UserDayData> myMonthlyActivity = friendListActivity.myMonthlyActivity;
+
+        myMonthlyActivity.remove(0); //remove oldest day
+        myMonthlyActivity.add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
+
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", myMonthlyActivity);
+    }
+
+    //TODO: Call this method periodically to update today's data in the Cloud
+    public void updateMonthlyActivityData(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+        sharedPrefManager = new SharedPrefManager(friendListActivity);
+        getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
+        List<UserDayData> myMonthlyActivity = friendListActivity.myMonthlyActivity;
+
+        UserDayData todayData = myMonthlyActivity.get(27);
+        int today = TimeMachine.getDayOfWeek();
+        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(today));
+        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(today));
+        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(today));
+        todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
+        todayData.setGoal(sharedPrefManager.getGoal());
+
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", myMonthlyActivity);
     }
 
     //TODO: Call this method when clicking on friends monthly activity
-    public void getFriendsMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail) {
+    public void getFriendMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail) {
         currentAppUser.document(friendEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -297,8 +323,31 @@ public class FirestoreAdapter implements CloudstoreService {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                List<Object> retrievedFriendData = (List<Object>)document.getData().get("monthlyActivity");
-                                friendListActivity.onGetFriendActivityCompleted(convertObjectToUserDayData(retrievedFriendData));
+                                List<Object> retrievedData = (List<Object>)document.getData().get("monthlyActivity");
+                                friendListActivity.onGetFriendActivityCompleted(convertObjectToUserDayData(retrievedData));
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void getMyMonthlyActivity(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                List<Object> retrievedData = (List<Object>)document.getData().get("monthlyActivity");
+                                friendListActivity.onGetMyActivityCompleted(convertObjectToUserDayData(retrievedData));
                             } else {
                                 Log.d(TAG, "No such document");
                             }

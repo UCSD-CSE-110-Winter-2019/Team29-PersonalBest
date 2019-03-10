@@ -22,6 +22,14 @@ public class UserDayData {
         intentionalMph = 0.0f;
     }
 
+    public UserDayData(int goal) {
+        this.goal = goal;
+        totalSteps = 0;
+        intentionalSteps = 0;
+        intentionalDistance = 0.0f;
+        intentionalMph = 0.0f;
+    }
+
     public int getTotalSteps() {
         return totalSteps;
     }
