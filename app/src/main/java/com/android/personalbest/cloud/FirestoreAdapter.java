@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-
 public class FirestoreAdapter implements CloudstoreService {
     private static String COLLECTION_KEY = "appUserList";
     private static String TAG = " FirestoreAdapter ";
@@ -38,7 +36,6 @@ public class FirestoreAdapter implements CloudstoreService {
         this.signUpFriendPageActivity = signUpFriendPageActivity;
 
     }
-
 
 
     @Override
@@ -161,8 +158,6 @@ public class FirestoreAdapter implements CloudstoreService {
 
     }
 
-
-
     @Override
     public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {
         currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
@@ -216,7 +211,6 @@ public class FirestoreAdapter implements CloudstoreService {
                             } else {
                                 Log.d(TAG, "No such document");
                             }
-
 
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());

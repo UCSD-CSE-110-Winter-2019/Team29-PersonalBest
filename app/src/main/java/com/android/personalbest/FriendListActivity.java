@@ -72,8 +72,6 @@ public class FriendListActivity extends AppCompatActivity {
 
     public void onGetFriendListCompleted(List<String> userFriendList){
 
-
-
         if (userFriendList.isEmpty()){
             Log.i(TAG,"database FriendList is empty");
         }else {
@@ -82,7 +80,6 @@ public class FriendListActivity extends AppCompatActivity {
         }
 
         setFriendListUI();
-
 
     }
 

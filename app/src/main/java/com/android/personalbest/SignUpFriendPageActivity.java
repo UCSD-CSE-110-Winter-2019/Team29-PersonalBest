@@ -19,7 +19,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private CloudstoreService couldstoreService;
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
-
     private String TAG = "SignUpFriendPageActivity";
 
     @Override
@@ -28,7 +27,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        couldstoreService = CloudstoreServiceFactory.create(this);
+        couldstoreService = CloudstoreServiceFactory.create(this,false);
 
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
@@ -55,8 +54,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         });
     }
 
-
-
     @Override
     public void onAppUserCheckCompleted() {
 
@@ -75,7 +72,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         }
 
     }
-
 
     @Override
     public void onIsInUserPendingListCheckCompleted() {
