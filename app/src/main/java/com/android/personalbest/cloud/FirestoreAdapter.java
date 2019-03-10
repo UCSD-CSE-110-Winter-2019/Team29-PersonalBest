@@ -266,41 +266,21 @@ public class FirestoreAdapter implements CloudstoreService {
 
     @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {
-        ArrayList<UserDayData> newUserMonthlyActivity = new ArrayList<UserDayData>();
-
-        //Add empty data for past 28 days
-        for (int i = 0; i < 28; i++) {
-            newUserMonthlyActivity.add(new UserDayData());
-        }
-        MonthlyActivityLocalData.setMyMonthlyActivity(newUserMonthlyActivity);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", newUserMonthlyActivity);
+        MonthlyActivityLocalData.storeMonthlyActivityForNewUser();
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
     }
 
     //Called this method at end of day
     @Override
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
-        sharedPrefManager = new SharedPrefManager(context);
-        updateMonthlyActivityData(currentAppUserEmail);
-        MonthlyActivityLocalData.myMonthlyActivity.remove(0); //remove oldest day
-        MonthlyActivityLocalData.myMonthlyActivity.add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
+        MonthlyActivityLocalData.updateDataAtEndOfDay(context);
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
     }
 
     //Optionally call this method periodically to update today's data in the Cloud
     @Override
     public void updateMonthlyActivityData(String currentAppUserEmail) {
-        getMyMonthlyActivity(currentAppUserEmail); //this call may not be necessary as long as local data is always up to date
-        UserDayData todayData = MonthlyActivityLocalData.myMonthlyActivity.get(27);
-
-        //this logic could go into helper method
-        sharedPrefManager = new SharedPrefManager(context);
-        int today = TimeMachine.getDayOfWeek();
-        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(today));
-        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(today));
-        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(today));
-        todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
-        todayData.setGoal(sharedPrefManager.getGoal());
-
+        MonthlyActivityLocalData.updateTodayData(context);
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
     }
 
@@ -312,7 +292,6 @@ public class FirestoreAdapter implements CloudstoreService {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
