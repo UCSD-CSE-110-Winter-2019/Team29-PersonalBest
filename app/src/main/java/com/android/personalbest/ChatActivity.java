@@ -1,5 +1,6 @@
-/**package com.android.personalbest;
+package com.android.personalbest;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,25 +29,31 @@ import java.util.Map;
 public class ChatActivity extends AppCompatActivity {
 
     String TAG = MainActivity.class.getSimpleName();
-
     String COLLECTION_KEY = "chats";
-    String DOCUMENT_KEY = "chat1";
+    String DOCUMENT_KEY;
     String MESSAGES_KEY = "messages";
     String FROM_KEY = "from";
     String TEXT_KEY = "text";
     String TIMESTAMP_KEY = "timestamp";
 
     CollectionReference chat;
+    SharedPrefManager sharedPrefManager;
     String from;
-
+    String to;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        SharedPreferences sharedpreferences = getSharedPreferences("FirebaseLabApp", Context.MODE_PRIVATE);
-
-        from = sharedpreferences.getString(FROM_KEY, null);
+        from = sharedPrefManager.getCurrentAppUserEmail();
+        to = sharedPrefManager.getCurrentChatFriend();
+        if(from.compareTo(to) < 0){
+            DOCUMENT_KEY = from + to;
+        }
+        else{
+            DOCUMENT_KEY = to + from;
+        }
 
         chat = FirebaseFirestore.getInstance()
                 .collection(COLLECTION_KEY)
@@ -54,35 +62,23 @@ public class ChatActivity extends AppCompatActivity {
 
         initMessageUpdateListener();
 
-        findViewById(R.id.btn_send).setOnClickListener(view -> sendMessage());
-
-        EditText nameView = findViewById((R.id.user_name));
-        nameView.setText(from);
-        nameView.addTextChangedListener(new TextWatcher() {
+        findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View view){
+                sendMessage();
             }
+        });
 
+        findViewById(R.id.btn_go_back).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                from = s.toString();
-                sharedpreferences.edit().putString(FROM_KEY, from).apply();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onClick(View view){
+                finish();
             }
         });
     }
 
     private void sendMessage() {
-        if (from == null || from.isEmpty()) {
-            Toast.makeText(this, "Enter your name", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         EditText messageView = findViewById(R.id.text_message);
-
         Map<String, String> newMessage = new HashMap<>();
         newMessage.put(FROM_KEY, from);
         newMessage.put(TEXT_KEY, messageView.getText().toString());
@@ -94,13 +90,12 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void initMessageUpdateListener() {
+    private void initMessageUpdateListener(){
         chat.addSnapshotListener((newChatSnapShot, error) -> {
             if (error != null) {
                 Log.e(TAG, error.getLocalizedMessage());
                 return;
             }
-
             if (newChatSnapShot != null && !newChatSnapShot.isEmpty()) {
                 StringBuilder sb = new StringBuilder();
                 List<DocumentChange> documentChanges = newChatSnapShot.getDocumentChanges();
@@ -112,11 +107,9 @@ public class ChatActivity extends AppCompatActivity {
                     sb.append("\n");
                     sb.append("---\n");
                 });
-
                 TextView chatView = findViewById(R.id.chat);
                 chatView.append(sb.toString());
             }
         });
     }
-
-}**/
+}

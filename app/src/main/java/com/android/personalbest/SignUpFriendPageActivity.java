@@ -63,7 +63,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         //If the input email is not in the appUserList prompt the user.
         else {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "The email address you just enter doesn't match our app user record. Please Try Again!!!",
+                    "The entered email address does not have a Personal Best account. Please try again.",
                     Toast.LENGTH_LONG);
             toast.show();
             cloudstoreService.resetUserAddFriendProcess();
@@ -102,7 +102,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
 
     @Override
     public void onIsInFriendPendingListCheckCompleted() {
-
         //if user is in friend pending list add them to each other friendlist and remove from each pending friend list
         if(cloudstoreService.getFriendPendingStatus()){
             Log.i(TAG,"user is in friend pending list");

@@ -1,13 +1,18 @@
 package com.android.personalbest;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +28,48 @@ public class FriendListActivity extends AppCompatActivity {
     private Button refreshFriendListBtn;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "FriendListActivity";
+    public AlertDialog.Builder dialog;
+    public AlertDialog dialogBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
-
         sharedPrefManager = new SharedPrefManager(this);
-
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);
         refreshFriendListBtn = findViewById(R.id.refreshFriendListBtn);
-
         Log.i(TAG,"onCreate setFriendListUI() Get Call");
         setFriendListUI();
+
+        //initializing window with options after clicking on friend
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                final String friendEmail = (String)parent.getItemAtPosition(position);
+                Log.d("blah", "friend's email is " + friendEmail);
+                dialog = new AlertDialog.Builder(FriendListActivity.this);
+                dialog.setItems(new CharSequence[]
+                                {"Chat", "See Activity", "Cancel"},
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int index) {
+                                // The 'index' argument contains the index position of the selected item
+                                switch (index) {
+                                    case 0:
+                                        sharedPrefManager.setCurrentChatFriend(friendEmail);
+                                        launchChatActivity();
+                                    case 1:
+                                        //code for friend's activity
+                                    case 2:
+                                        dialog.dismiss();
+                                }
+                            }
+                        });
+                dialogBox = dialog.create();
+                dialogBox.show();
+            }
+        });
 
         returnHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +89,11 @@ public class FriendListActivity extends AppCompatActivity {
                 getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
             }
         });
+    }
+
+    private void launchChatActivity(){
+        Intent chat = new Intent(this, ChatActivity.class);
+        startActivity(chat);
     }
 
     private void launchSignUpFriendPageActivity(){
