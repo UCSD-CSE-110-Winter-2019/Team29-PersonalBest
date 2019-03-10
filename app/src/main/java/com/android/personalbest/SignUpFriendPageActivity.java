@@ -110,7 +110,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
                     "Add To Friends List Successfully(:",
                     Toast.LENGTH_LONG);
             cloudstoreService.removeFromPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
-            cloudstoreService.removeFromPendingFriendList(sharedPrefManager.getFriendEmail(),sharedPrefManager.getCurrentAppUserEmail());
             toast.show();
         }
 
