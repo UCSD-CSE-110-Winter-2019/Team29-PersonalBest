@@ -8,12 +8,27 @@ public class MonthlyActivityLocalData {
     public static List<UserDayData> myMonthlyActivity;
     public static List<UserDayData> friendMonthlyActivity;
 
-    public static void setMyMonthlyActivity(List<UserDayData> monthlyActivity) {
-        myMonthlyActivity = monthlyActivity;
-    }
+    public static boolean mock = false; //for unit testing purposes
+    public static List<UserDayData> mockMyMonthlyActivity;
 
     public static void setFriendMonthlyActivity(List<UserDayData> monthlyActivity) {
         friendMonthlyActivity = monthlyActivity;
+    }
+
+    public static void setMyMonthlyActivity(List<UserDayData> monthlyActivity) {
+        if (mock) {
+            mockMyMonthlyActivity = monthlyActivity;
+        }
+        else {
+            myMonthlyActivity = monthlyActivity;
+        }
+    }
+
+    public static List<UserDayData> getMyMonthlyActivity() {
+        if (mock) {
+            return mockMyMonthlyActivity;
+        }
+        return myMonthlyActivity;
     }
 
     public static void storeMonthlyActivityForNewUser() {
@@ -27,7 +42,7 @@ public class MonthlyActivityLocalData {
     }
 
     public static void updateTodayData(Context context) {
-        UserDayData todayData = myMonthlyActivity.get(27);
+        UserDayData todayData = getMyMonthlyActivity().get(27);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
         int today = TimeMachine.getDayOfWeek();
         todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(today));
@@ -39,8 +54,8 @@ public class MonthlyActivityLocalData {
 
     public static void updateDataAtEndOfDay(Context context) {
         updateTodayData(context);
-        myMonthlyActivity.remove(0); //remove oldest day
+        getMyMonthlyActivity().remove(0); //remove oldest day
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        myMonthlyActivity.add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
+        getMyMonthlyActivity().add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
     }
 }
