@@ -8,7 +8,6 @@ import com.android.personalbest.MonthlyActivityLocalData;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
-import com.android.personalbest.TimeMachine;
 import com.android.personalbest.UserDayData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,10 +19,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import android.content.Context;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -264,6 +260,16 @@ public class FirestoreAdapter implements CloudstoreService {
         setUserPendingStatus(false);
     }
 
+    private static List<String> convertObjectToString(List<Object> userFriendList){
+        List<String> userFriendListInString = new ArrayList<>();
+        for(Object friend: userFriendList){
+            userFriendListInString.add((String) friend);
+        }
+        return userFriendListInString;
+    }
+
+
+    /* Cloud storage for monthly activity */
     @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {
         MonthlyActivityLocalData.storeMonthlyActivityForNewUser();
@@ -306,14 +312,6 @@ public class FirestoreAdapter implements CloudstoreService {
                         }
                     }
                 });
-    }
-
-    private static List<String> convertObjectToString(List<Object> userFriendList){
-        List<String> userFriendListInString = new ArrayList<>();
-        for(Object friend: userFriendList){
-            userFriendListInString.add((String) friend);
-        }
-        return userFriendListInString;
     }
 
     private static List<UserDayData> convertObjectToUserDayData(List<Object> friendMonthlyActivity){
