@@ -77,6 +77,8 @@ public class InputHeightTest {
         assertEquals(heightInputActivity.getResources().getString(R.string.empty_input), latestToast);
     }
 
+
+
     @Test
     public void testInvalidHeights() {
         EditText userHeight = heightInputActivity.findViewById(R.id.userHeight);

@@ -61,6 +61,9 @@
     <string name="height">height</string>
     <string name="goal">goal</string>
     <string name="num_steps_in_mile">numStepsInMile</string>
+    <string name="current_user_email">currentAppUserEmail</string>
+    <string name="friend_email">friendEmail</string>
+    <string name="friend_list_set">friendListSet</string>
 
     <!-- UserSettings -->
     <string name="settings">SETTINGS</string>
@@ -102,7 +105,7 @@
     <string name="intentionalMilesPerHour">intentionalMilesPerHour</string>
     <string name="intentionalTimeElapsed">intentionalTimeElapsed</string>
     <string name="totalStepsTakenYesterday">totalStepsTakenYesterday</string>
-    <string name="emptyString"></string>
+    <string name="emptyString" />
     <string name="totalDistance">Total Distance:</string>
     <string name="averageMPH">Average MPH:</string>
     <string name="totalTime">Total Time:</string>
@@ -122,8 +125,23 @@
     <string name="goal_exceeded">Goal Exceeded</string>
     <string name="subgoal_exceeded">Subgoal Exceeded</string>
 
+    <!--friendList.xml-->
+    <string name="friendListTitle">Friends</string>
+    <string name="add_friend_btn">Add A New Friend</string>
+    <string name="return_home">Return Home</string>
+    <string name="refresh_friend_list">Refresh List</string>
+
+    <!--sign_up_friend_page.xml-->
+    <string name="exampleGmail">example@gmail.com</string>
+    <string name="addBtn">Add</string>
+    <string name="add_friend_info">Add a new friend \n by entering their email address</string>
+    <string name="return_Friend">Go Back To Friends List</string>
+
+    <!--FireStoreAdapter-->
+    <string name="pending_friend_list">pendingFriendList</string>
+    <string name="friend_list">friendList</string>
+
     <!-- Notifications -->
     <string name="goalNotifTitle">Personal Best: Goal Met</string>
     <string name="goalNotifBody">Congrats! You met your goal.</string>
-
 </resources>

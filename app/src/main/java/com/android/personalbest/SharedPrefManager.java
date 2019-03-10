@@ -3,8 +3,10 @@ package com.android.personalbest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SharedPrefManager {
 
@@ -13,13 +15,52 @@ public class SharedPrefManager {
     public Resources res;
     public Context context;
 
-
     public SharedPrefManager(Context context) {
         this.context = context;
         res = context.getResources();
         sharedPref = context.getSharedPreferences(res.getString(R.string.user_prefs), context.MODE_PRIVATE);
         editor = sharedPref.edit();
         editor.apply();
+    }
+
+    /*User Information*/
+    //store current app UserEmail
+    public void setCurrentAppUserEmail(String curUserEmail) {
+        editor.putString(res.getString(R.string.current_user_email),curUserEmail);
+        editor.apply();
+    }
+
+    //return current app user email
+    public String getCurrentAppUserEmail(){
+        return sharedPref.getString(res.getString(R.string.current_user_email),"");
+    }
+
+    //store current app UserEmail
+    public void setFriendEmail(String friendEmail) {
+        editor.putString(res.getString(R.string.friend_email),friendEmail);
+        editor.apply();
+    }
+
+    //return current app user email
+    public String getFriendEmail(){
+        return sharedPref.getString(res.getString(R.string.friend_email),"");
+    }
+
+    public void setFriendListSet(List<String> friendList){
+
+        Set<String>friendListSet = new HashSet<>();
+
+        for(Object friend: friendList){
+            friendListSet.add((String) friend);
+        }
+
+        editor.putStringSet(res.getString(R.string.friend_list_set),friendListSet);
+        editor.apply();
+    }
+
+    //return friendListSet
+    public Set<String> getFriendListSet(){
+        return sharedPref.getStringSet(res.getString(R.string.friend_list_set),null);
     }
 
     /* Google Fit API Sign in */
@@ -136,7 +177,6 @@ public class SharedPrefManager {
     public int getSubGoalMessageDay() {
         return sharedPref.getInt(res.getString(R.string.subgoal_msg_expires), -1);
     }
-
 
     public void setSubGoalReached(boolean subGoalReached) {
         editor.putBoolean(res.getString(R.string.subgoal_reached), subGoalReached);

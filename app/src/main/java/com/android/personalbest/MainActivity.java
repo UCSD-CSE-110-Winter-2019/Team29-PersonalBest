@@ -14,12 +14,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.android.personalbest.cloud.FirestoreAdapter.setAppUserInCloud;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPrefManager sharedPrefManager;
 
+    //use to create firebase database instance
+
+
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
         login = sharedPrefManager.getLogin();
         haveInputtedHeight = sharedPrefManager.getFirstTime();
+
+
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
@@ -116,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             sharedPrefManager.setLogin(true);
                             updateUI(user);
+
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                         }
@@ -127,7 +140,22 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setVisibility(View.GONE);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        registerAppUserInCloud(acct);
         startActivity(new Intent(MainActivity.this, InputHeightActivity.class));
+
+    }
+
+
+    private void registerAppUserInCloud( GoogleSignInAccount acct){
+        Map<String, Object> friend = new HashMap<>();
+
+        if (acct != null) {
+            sharedPrefManager.setCurrentAppUserEmail(acct.getEmail());
+            friend.put(this.getString(R.string.current_user_email),acct.getEmail());
+            friend.put(this.getString(R.string.pending_friend_list), Arrays.asList());
+            friend.put(this.getString(R.string.friend_list), Arrays.asList());
+            setAppUserInCloud(acct.getEmail(),friend);
+        }
 
     }
 

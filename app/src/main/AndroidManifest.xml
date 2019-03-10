@@ -14,6 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".FriendListActivity" />
+        <activity android:name=".SignUpFriendPageActivity" />
         <activity android:name=".NewGoalActivity" />
         <activity android:name=".BarChartActivity" />
         <activity android:name=".UserSettingsActivity" />
@@ -31,6 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
