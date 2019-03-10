@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
+import android.content.Context;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,11 +35,11 @@ public class FirestoreAdapter implements CloudstoreService {
     private boolean friendStatus = false;
     private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     private boolean isAppUser = false;
-    private SignUpFriendPageActivity signUpFriendPageActivity;
+    private Context context;
     private SharedPrefManager sharedPrefManager;
 
-    public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
-        this.signUpFriendPageActivity = signUpFriendPageActivity;
+    public FirestoreAdapter(Context context){
+        this.context = context;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public void isInUserPendingListCheck(final String currentAppUserEmail, final String friendEmail) {
+    public void isInUserPendingListCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String currentAppUserEmail, final String friendEmail) {
 
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -78,7 +79,7 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> userPendingFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.pending_friend_list));
+                                List<Object> userPendingFriendList = (List<Object>)document.getData().get(context.getString(R.string.pending_friend_list));
                                 for(Object pendingFriend: userPendingFriendList){
                                     if (pendingFriend.equals(friendEmail)){
                                         setUserPendingStatus(true);
@@ -98,7 +99,7 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public void isInFriendListCheck(final String currentAppUserEmail, final String friendEmail) {
+    public void isInFriendListCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String currentAppUserEmail, final String friendEmail) {
 
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -108,7 +109,7 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> userFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.friend_list));
+                                List<Object> userFriendList = (List<Object>)document.getData().get(context.getString(R.string.friend_list));
                                 for(Object friend: userFriendList){
                                     if (friend.equals(friendEmail)){
                                         setFriendStatus(true);
@@ -127,7 +128,7 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public void isInFriendPendingListCheck(final String currentAppUserEmail, final String friendEmail) {
+    public void isInFriendPendingListCheck(final SignUpFriendPageActivity signUpFriendPageActivity, final String currentAppUserEmail, final String friendEmail) {
 
         currentAppUser.document(friendEmail)
                 .get()
@@ -137,7 +138,7 @@ public class FirestoreAdapter implements CloudstoreService {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                List<Object> friendPendingFriendList = (List<Object>)document.getData().get(signUpFriendPageActivity.getString(R.string.pending_friend_list));
+                                List<Object> friendPendingFriendList = (List<Object>)document.getData().get(context.getString(R.string.pending_friend_list));
                                 for(Object pendingFriend: friendPendingFriendList){
                                     if (pendingFriend.equals(currentAppUserEmail)){
                                         setFriendPendingStatus(true);
@@ -157,23 +158,24 @@ public class FirestoreAdapter implements CloudstoreService {
 
     @Override
     public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {
-        currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
+        currentAppUser.document(currentAppUserEmail).update(context.getString(R.string.pending_friend_list),
                 FieldValue.arrayUnion(friendEmail));
     }
 
     @Override
     public void addToFriendList(String currentAppUserEmail, String friendEmail) {
-        currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
-        currentAppUser.document(friendEmail).update(signUpFriendPageActivity.getString(R.string.friend_list), FieldValue.arrayUnion(currentAppUserEmail));
+        currentAppUser.document(currentAppUserEmail).update(context.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
+        currentAppUser.document(friendEmail).update(context.getString(R.string.friend_list), FieldValue.arrayUnion(currentAppUserEmail));
     }
 
     @Override
     public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {
-        currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
+        currentAppUser.document(currentAppUserEmail).update(context.getString(R.string.pending_friend_list),
                 FieldValue.arrayRemove(friendEmail));
     }
 
-    public static void setAppUserInCloud(String appUser, Map<String, Object> friend) {
+    @Override
+    public void setAppUserInCloud(String appUser, Map<String, Object> friend) {
 
        currentAppUser.document(appUser).set(friend)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -261,15 +263,7 @@ public class FirestoreAdapter implements CloudstoreService {
         setUserPendingStatus(false);
     }
 
-    private static List<String> convertObjectToString(List<Object> userFriendList){
-        List<String> userFriendListInString = new ArrayList<>();
-        for(Object friend: userFriendList){
-            userFriendListInString.add((String) friend);
-        }
-        return userFriendListInString;
-    }
-
-    //TODO: Call this method in input height activity
+    @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {
         ArrayList<UserDayData> newUserMonthlyActivity = new ArrayList<UserDayData>();
 
@@ -282,10 +276,11 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     //TODO: Call this method at end of the day
+    @Override
     public void updateMonthlyActivityEndOfDay(final FriendListActivity friendListActivity, String currentAppUserEmail) {
         sharedPrefManager = new SharedPrefManager(friendListActivity);
         updateMonthlyActivityData(friendListActivity, currentAppUserEmail);
-        getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
+        //getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
         List<UserDayData> myMonthlyActivity = friendListActivity.myMonthlyActivity;
 
         myMonthlyActivity.remove(0); //remove oldest day
@@ -294,7 +289,8 @@ public class FirestoreAdapter implements CloudstoreService {
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", myMonthlyActivity);
     }
 
-    //TODO: Call this method periodically to update today's data in the Cloud
+    //TODO: (Optional) Call this method periodically to update today's data in the Cloud
+    @Override
     public void updateMonthlyActivityData(final FriendListActivity friendListActivity, String currentAppUserEmail) {
         sharedPrefManager = new SharedPrefManager(friendListActivity);
         getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
@@ -312,6 +308,7 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     //TODO: Call this method when clicking on friends monthly activity
+    @Override
     public void getFriendMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail) {
         currentAppUser.document(friendEmail)
                 .get()
@@ -335,7 +332,7 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    public void getMyMonthlyActivity(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+    private void getMyMonthlyActivity(final FriendListActivity friendListActivity, String currentAppUserEmail) {
         currentAppUser.document(currentAppUserEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -356,6 +353,14 @@ public class FirestoreAdapter implements CloudstoreService {
                         }
                     }
                 });
+    }
+
+    private static List<String> convertObjectToString(List<Object> userFriendList){
+        List<String> userFriendListInString = new ArrayList<>();
+        for(Object friend: userFriendList){
+            userFriendListInString.add((String) friend);
+        }
+        return userFriendListInString;
     }
 
     private static List<UserDayData> convertObjectToUserDayData(List<Object> friendMonthlyActivity){

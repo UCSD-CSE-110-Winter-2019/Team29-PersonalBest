@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,8 +27,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.android.personalbest.cloud.FirestoreAdapter.setAppUserInCloud;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPrefManager sharedPrefManager;
 
-    //use to create firebase database instance
+    private CloudstoreService cloudstoreService;
 
 
     //Resource In use:https://firebase.google.com/docs/auth/android/google-signin
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         login = sharedPrefManager.getLogin();
         haveInputtedHeight = sharedPrefManager.getFirstTime();
 
-
+        cloudstoreService = CloudstoreServiceFactory.create(this);
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void registerAppUserInCloud( GoogleSignInAccount acct){
+    private void registerAppUserInCloud(GoogleSignInAccount acct){
         Map<String, Object> friend = new HashMap<>();
 
         if (acct != null) {
@@ -154,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
             friend.put(this.getString(R.string.current_user_email),acct.getEmail());
             friend.put(this.getString(R.string.pending_friend_list), Arrays.asList());
             friend.put(this.getString(R.string.friend_list), Arrays.asList());
-            setAppUserInCloud(acct.getEmail(),friend);
+            cloudstoreService.setAppUserInCloud(acct.getEmail(),friend);
+            cloudstoreService.storeMonthlyActivityForNewUser(acct.getEmail());
         }
-
     }
 
 }

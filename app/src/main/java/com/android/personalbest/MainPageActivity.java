@@ -144,7 +144,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setGoalExceededToday(false);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        storeUserDataInCloud(storedDay, storedMonth, month);
+        storeUserDataInCloud(storedDay, storedMonth, month); //change call
 
         //check if it's a new week and we need to reset the bar chart
         if (storedDay == Calendar.SATURDAY) {
@@ -223,9 +223,6 @@ public class MainPageActivity extends AppCompatActivity {
         todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
         todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
         todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
-
-        todayData.setDayOfMonth(dayOfMonth);
-        todayData.setMonth(month);
     }
 
     public void totalUpdated(int total) {

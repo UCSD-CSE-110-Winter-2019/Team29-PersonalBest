@@ -9,10 +9,6 @@ public class UserDayData {
     private float intentionalDistance;
     private float intentionalMph;
 
-    //date of this data
-    private int dayOfMonth;
-    private int month;
-
     public UserDayData() {
         //All default values
         totalSteps = 0;
@@ -68,21 +64,5 @@ public class UserDayData {
 
     public void setIntentionalMph(float intentionalMph) {
         this.intentionalMph = intentionalMph;
-    }
-
-    public int getDayOfMonth() {
-        return dayOfMonth;
-    }
-
-    public void setDayOfMonth(int dayOfMonth) {
-        this.dayOfMonth = dayOfMonth;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
     }
 }

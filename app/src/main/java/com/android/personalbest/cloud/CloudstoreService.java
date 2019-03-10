@@ -1,15 +1,20 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.SignUpFriendPageActivity;
+
+import java.util.Map;
 
 public interface CloudstoreService {
 
+    void setAppUserInCloud(String appUser, Map<String, Object> friend);
+
     void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail);
 
-    void isInUserPendingListCheck(final String currentAppUserEmail, final String friendEmail);
-    void isInFriendListCheck(final String currentAppUserEmail, final String friendEmail);
+    void isInUserPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, final String currentAppUserEmail, final String friendEmail);
+    void isInFriendListCheck(SignUpFriendPageActivity signUpFriendPageActivity, final String currentAppUserEmail, final String friendEmail);
 
-    void isInFriendPendingListCheck(final String currentAppUserEmail, final String friendEmail);
+    void isInFriendPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, final String currentAppUserEmail, final String friendEmail);
     void addToPendingFriendList(String currentAppUserEmail, String friendEmail);
 
     void addToFriendList(String currentAppUserEmail,String friendEmail);
@@ -28,4 +33,9 @@ public interface CloudstoreService {
     boolean getFriendPendingStatus();
 
     void resetUserAddFriendProcess();
+
+    void storeMonthlyActivityForNewUser(String currentAppUserEmail);
+    void updateMonthlyActivityEndOfDay(final FriendListActivity friendListActivity, String currentAppUserEmail);
+    void updateMonthlyActivityData(final FriendListActivity friendListActivity, String currentAppUserEmail);
+    void getFriendMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail);
 }

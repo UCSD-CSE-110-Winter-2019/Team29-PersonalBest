@@ -9,11 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
+
 public class InputHeightActivity extends AppCompatActivity {
 
     private Button doneButton;
     private EditText userHeight;
     private SharedPrefManager sharedPrefManager;
+    private CloudstoreService cloudstoreService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,7 @@ public class InputHeightActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
+        cloudstoreService = CloudstoreServiceFactory.create(this);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +65,6 @@ public class InputHeightActivity extends AppCompatActivity {
                     sharedPrefManager.storeGoalForDayOfWeek(TimeMachine.getDayOfWeek(), getResources().getInteger(R.integer.default_goal));
                     sharedPrefManager.setFirstTime(true);
                     sharedPrefManager.setIsWalker(true);
-
                     startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
                 }
             }
