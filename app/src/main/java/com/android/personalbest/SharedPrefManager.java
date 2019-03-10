@@ -15,7 +15,6 @@ public class SharedPrefManager {
     public Resources res;
     public Context context;
 
-
     public SharedPrefManager(Context context) {
         this.context = context;
         res = context.getResources();
@@ -23,7 +22,6 @@ public class SharedPrefManager {
         editor = sharedPref.edit();
         editor.apply();
     }
-
 
     /*User Information*/
     //store current app UserEmail
@@ -48,7 +46,6 @@ public class SharedPrefManager {
         return sharedPref.getString(res.getString(R.string.friend_email),"");
     }
 
-
     public void setFriendListSet(List<String> friendList){
 
         Set<String>friendListSet = new HashSet<>();
@@ -58,14 +55,13 @@ public class SharedPrefManager {
         }
 
         editor.putStringSet(res.getString(R.string.friend_list_set),friendListSet);
-        editor.apply();;
+        editor.apply();
     }
 
     //return friendListSet
     public Set<String> getFriendListSet(){
         return sharedPref.getStringSet(res.getString(R.string.friend_list_set),null);
     }
-
 
     /* Google Fit API Sign in */
 
@@ -181,7 +177,6 @@ public class SharedPrefManager {
     public int getSubGoalMessageDay() {
         return sharedPref.getInt(res.getString(R.string.subgoal_msg_expires), -1);
     }
-
 
     public void setSubGoalReached(boolean subGoalReached) {
         editor.putBoolean(res.getString(R.string.subgoal_reached), subGoalReached);

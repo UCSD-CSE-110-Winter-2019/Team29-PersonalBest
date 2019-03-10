@@ -1,10 +1,8 @@
 package com.android.personalbest.cloud;
 
 import com.android.personalbest.SignUpFriendPageActivity;
-import com.google.firebase.firestore.CollectionReference;
 
 public interface CloudstoreService {
-
 
     void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail);
 
@@ -30,5 +28,4 @@ public interface CloudstoreService {
     boolean getFriendPendingStatus();
 
     void resetUserAddFriendProcess();
-
 }
