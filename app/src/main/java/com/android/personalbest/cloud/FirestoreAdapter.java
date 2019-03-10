@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.personalbest.FriendListActivity;
+import com.android.personalbest.MonthlyActivityLocalData;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
@@ -271,45 +272,38 @@ public class FirestoreAdapter implements CloudstoreService {
         for (int i = 0; i < 28; i++) {
             newUserMonthlyActivity.add(new UserDayData());
         }
-
+        MonthlyActivityLocalData.setMyMonthlyActivity(newUserMonthlyActivity);
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", newUserMonthlyActivity);
     }
 
     //TODO: Call this method at end of the day
     @Override
-    public void updateMonthlyActivityEndOfDay(final FriendListActivity friendListActivity, String currentAppUserEmail) {
-        sharedPrefManager = new SharedPrefManager(friendListActivity);
-        updateMonthlyActivityData(friendListActivity, currentAppUserEmail);
-        //getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
-        List<UserDayData> myMonthlyActivity = friendListActivity.myMonthlyActivity;
-
-        myMonthlyActivity.remove(0); //remove oldest day
-        myMonthlyActivity.add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
-
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", myMonthlyActivity);
+    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
+        sharedPrefManager = new SharedPrefManager(context);
+        updateMonthlyActivityData(currentAppUserEmail);
+        MonthlyActivityLocalData.myMonthlyActivity.remove(0); //remove oldest day
+        MonthlyActivityLocalData.myMonthlyActivity.add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
     }
 
-    //TODO: (Optional) Call this method periodically to update today's data in the Cloud
+    //Optionally call this method periodically to update today's data in the Cloud
     @Override
-    public void updateMonthlyActivityData(final FriendListActivity friendListActivity, String currentAppUserEmail) {
-        sharedPrefManager = new SharedPrefManager(friendListActivity);
-        getMyMonthlyActivity(friendListActivity, currentAppUserEmail);
-        List<UserDayData> myMonthlyActivity = friendListActivity.myMonthlyActivity;
-
-        UserDayData todayData = myMonthlyActivity.get(27);
+    public void updateMonthlyActivityData(String currentAppUserEmail) {
+        sharedPrefManager = new SharedPrefManager(context);
+        getMyMonthlyActivity(currentAppUserEmail);
+        UserDayData todayData = MonthlyActivityLocalData.myMonthlyActivity.get(27);
         int today = TimeMachine.getDayOfWeek();
         todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(today));
         todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(today));
         todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(today));
         todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
         todayData.setGoal(sharedPrefManager.getGoal());
-
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", myMonthlyActivity);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
     }
 
     //TODO: Call this method when clicking on friends monthly activity
     @Override
-    public void getFriendMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail) {
+    public void getFriendMonthlyActivity(String friendEmail) {
         currentAppUser.document(friendEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -321,7 +315,7 @@ public class FirestoreAdapter implements CloudstoreService {
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 List<Object> retrievedData = (List<Object>)document.getData().get("monthlyActivity");
-                                friendListActivity.onGetFriendActivityCompleted(convertObjectToUserDayData(retrievedData));
+                                MonthlyActivityLocalData.setFriendMonthlyActivity(convertObjectToUserDayData(retrievedData));
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -332,19 +326,18 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    private void getMyMonthlyActivity(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+    private void getMyMonthlyActivity(String currentAppUserEmail) {
         currentAppUser.document(currentAppUserEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 List<Object> retrievedData = (List<Object>)document.getData().get("monthlyActivity");
-                                friendListActivity.onGetMyActivityCompleted(convertObjectToUserDayData(retrievedData));
+                                MonthlyActivityLocalData.setMyMonthlyActivity(convertObjectToUserDayData(retrievedData));
                             } else {
                                 Log.d(TAG, "No such document");
                             }

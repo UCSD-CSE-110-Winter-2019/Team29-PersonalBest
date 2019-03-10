@@ -35,7 +35,7 @@ public interface CloudstoreService {
     void resetUserAddFriendProcess();
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
-    void updateMonthlyActivityEndOfDay(final FriendListActivity friendListActivity, String currentAppUserEmail);
-    void updateMonthlyActivityData(final FriendListActivity friendListActivity, String currentAppUserEmail);
-    void getFriendMonthlyActivity(final FriendListActivity friendListActivity, String friendEmail);
+    void updateMonthlyActivityEndOfDay(String currentAppUserEmail);
+    void updateMonthlyActivityData(String currentAppUserEmail);
+    void getFriendMonthlyActivity(String friendEmail);
 }
