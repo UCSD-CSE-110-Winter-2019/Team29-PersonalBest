@@ -28,7 +28,7 @@ public class TestFitnessService implements FitnessService {
 
         activity.numStepDone.setText(String.valueOf(total));
         activity.goal.setText(String.valueOf(goal));
-        this.setup();
+        setup();
 
         //Button to quickly update/mock steps
         if (seeUpdateStepsButton) {
@@ -43,7 +43,7 @@ public class TestFitnessService implements FitnessService {
         }
         //Automatic update of steps
         else {
-            this.updateStepInRealTime();
+            updateStepInRealTime();
         }
     }
 
@@ -72,7 +72,7 @@ public class TestFitnessService implements FitnessService {
             @Override
             public void run() {
                 updateStepCount();
-                handler.postDelayed(this, 10000);
+                handler.postDelayed(this, 5000);
             }
         };
         handler.postDelayed(runnable, 10000);

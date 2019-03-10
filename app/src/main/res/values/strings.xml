@@ -20,7 +20,6 @@
     <string name="update_steps">UPDATE STEPS</string>
     <string name="step_count_before_switch_to_start_walk_activity">totalStepBeforeSwitch</string>
 
-
     <!-- Encouragement -->
     <string name="goal_reached">"Congratulations! Do you want to set a new step goal?"</string>
     <string name="yes">"Yes"</string>
@@ -126,22 +125,23 @@
     <string name="goal_exceeded">Goal Exceeded</string>
     <string name="subgoal_exceeded">Subgoal Exceeded</string>
 
-
-    <!--firendList.xml-->
+    <!--friendList.xml-->
     <string name="friendListTitle">Friends</string>
-    <string name="add_friend_btn">Add A New Friends</string>
+    <string name="add_friend_btn">Add A New Friend</string>
     <string name="return_home">Return Home</string>
-    <string name="refresh_friend_list">Refresh Friend List</string>
+    <string name="refresh_friend_list">Refresh List</string>
 
     <!--sign_up_friend_page.xml-->
     <string name="exampleGmail">example@gmail.com</string>
     <string name="addBtn">Add</string>
-    <string name="add_friend_info">Add a new friend \n by enter his/her email address</string>
-    <string name="return_Friend">Go Back To FriendList</string>
+    <string name="add_friend_info">Add a new friend \n by entering their email address</string>
+    <string name="return_Friend">Go Back To Friends List</string>
 
     <!--FireStoreAdapter-->
     <string name="pending_friend_list">pendingFriendList</string>
     <string name="friend_list">friendList</string>
 
-
+    <!-- Notifications -->
+    <string name="goalNotifTitle">Personal Best: Goal Met</string>
+    <string name="goalNotifBody">Congrats! You met your goal.</string>
 </resources>

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
+import com.android.personalbest.notifications.GoalNotificationAdapter;
 
 import java.util.Calendar;
 
@@ -28,7 +29,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = true; //change to true for testing purposes
+    public static boolean mock = false; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +163,13 @@ public class MainPageActivity extends AppCompatActivity {
         if (!sharedPrefManager.getIgnoreGoal()) {
             sharedPrefManager.setGoalMessageDay(TimeMachine.getDayOfMonth());
             sharedPrefManager.setGoalReached(true);
+            sendGoalNotification();
         }
+    }
+
+    public void sendGoalNotification() {
+        GoalNotificationAdapter goalNotif = new GoalNotificationAdapter(this);
+        goalNotif.sendNotif(getString(R.string.goalNotifTitle), getString(R.string.goalNotifBody));
     }
 
     public void exceedsSubGoal() {
@@ -206,8 +213,7 @@ public class MainPageActivity extends AppCompatActivity {
     public void addToStepCount(int steps) {
         int completedSteps = Integer.parseInt(numStepDone.getText().toString());
         int totalSteps = completedSteps + steps;
-        numStepDone.setText(String.valueOf(totalSteps));
-        sharedPrefManager.setTotalSteps(totalSteps);
+        totalUpdated(totalSteps);
     }
 
     public void storeUserDataInCloud(int dayOfWeek, int dayOfMonth, int month) {
@@ -239,5 +245,13 @@ public class MainPageActivity extends AppCompatActivity {
         }
         sharedPrefManager.editor.putInt(getString(R.string.totalStep),total);
         sharedPrefManager.editor.apply();
+    }
+
+    //used for Espresso testing
+    public void resetDisplayToDefault() {
+        sharedPrefManager.resetSharedPrefToDefault();
+        goal.setText(String.valueOf(sharedPrefManager.getGoal()));
+        numStepDone.setText(getString(R.string._0));
+        checkWalkOrRun();
     }
 }

@@ -9,8 +9,9 @@
     <ListView
         android:id="@+id/friendListView"
         android:layout_width="411dp"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@+id/returnHomeBtn"
+        android:layout_height="350dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addFriBtn" />
@@ -28,42 +29,41 @@
 
     <Button
         android:id="@+id/addFriBtn"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="55dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="29dp"
         android:text="@string/add_friend_btn"
-        app:layout_constraintBottom_toTopOf="@+id/friendListView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/refreshFriendListBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/friendListTitle"
-        android:layout_width="120dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="62dp"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginBottom="29dp"
         android:text="@string/friendListTitle"
         android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/friendListView"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/refreshFriendListBtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.593" />
 
     <Button
         android:id="@+id/refreshFriendListBtn"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="55dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="62dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginBottom="29dp"
         android:text="@string/refresh_friend_list"
-        app:layout_constraintBottom_toTopOf="@+id/friendListView"
         app:layout_constraintEnd_toStartOf="@+id/addFriBtn"
         app:layout_constraintStart_toEndOf="@+id/friendListTitle"
         app:layout_constraintTop_toTopOf="parent" />

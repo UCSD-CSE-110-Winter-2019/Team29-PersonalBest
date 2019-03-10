@@ -252,6 +252,7 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    //Called at end of day
     // Called every time bar chart is displayed (when the "see bar chart" is clicked)
     public void storeTotalStepsForDayOfWeek(int dayOfWeek, int totalStepsTaken) {
         String today = getDayOfWeekAsString(dayOfWeek);
