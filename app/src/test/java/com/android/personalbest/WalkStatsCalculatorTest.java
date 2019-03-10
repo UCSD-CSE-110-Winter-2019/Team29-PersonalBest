@@ -1,5 +1,7 @@
 package com.android.personalbest;
 
+import com.android.personalbest.walkData.WalkStatsCalculator;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

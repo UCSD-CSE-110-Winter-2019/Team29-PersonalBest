@@ -276,7 +276,7 @@ public class FirestoreAdapter implements CloudstoreService {
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", newUserMonthlyActivity);
     }
 
-    //TODO: Call this method at end of the day
+    //Called this method at end of day
     @Override
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
         sharedPrefManager = new SharedPrefManager(context);
@@ -289,19 +289,22 @@ public class FirestoreAdapter implements CloudstoreService {
     //Optionally call this method periodically to update today's data in the Cloud
     @Override
     public void updateMonthlyActivityData(String currentAppUserEmail) {
-        sharedPrefManager = new SharedPrefManager(context);
-        getMyMonthlyActivity(currentAppUserEmail);
+        getMyMonthlyActivity(currentAppUserEmail); //this call may not be necessary as long as local data is always up to date
         UserDayData todayData = MonthlyActivityLocalData.myMonthlyActivity.get(27);
+
+        //this logic could go into helper method
+        sharedPrefManager = new SharedPrefManager(context);
         int today = TimeMachine.getDayOfWeek();
         todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(today));
         todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(today));
         todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(today));
         todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
         todayData.setGoal(sharedPrefManager.getGoal());
+
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
     }
 
-    //TODO: Call this method when clicking on friends monthly activity
+    //TODO: Call this method when clicking on friends monthly activity, Then access data at MonthlyActivityLocalData.friendMonthlyActivity
     @Override
     public void getFriendMonthlyActivity(String friendEmail) {
         currentAppUser.document(friendEmail)
