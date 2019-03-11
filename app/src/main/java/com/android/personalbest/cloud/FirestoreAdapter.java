@@ -6,8 +6,8 @@ import android.util.Log;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
-import com.android.personalbest.addFriend.AddFriendMediator;
-import com.android.personalbest.addFriend.IAddFriendObserver;
+import com.android.personalbest.addFriend.AddFriend;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,8 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+
 
 public class FirestoreAdapter implements CloudstoreService {
     private static String COLLECTION_KEY = "appUserList";
@@ -34,11 +33,14 @@ public class FirestoreAdapter implements CloudstoreService {
     private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     private boolean isAppUser = false;
     private SignUpFriendPageActivity signUpFriendPageActivity;
+    private AddFriend addFriend;
+
 
 
 
     public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
         this.signUpFriendPageActivity = signUpFriendPageActivity;
+        addFriend = new AddFriend(signUpFriendPageActivity);
 
     }
 
@@ -58,6 +60,7 @@ public class FirestoreAdapter implements CloudstoreService {
                                 //Log.i(TAG, document.getId() + " => " + document.getData());
                             }
                             //  pass success message to observer
+                            addFriend.onAppUserCheckCompleted();
 
                         } else {
                             Log.i(TAG, "Error getting documents: ", task.getException());
@@ -86,7 +89,8 @@ public class FirestoreAdapter implements CloudstoreService {
                                     }
                                 }
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                signUpFriendPageActivity.onIsInUserPendingListCheckCompleted();
+                                //signUpFriendPageActivity.onIsInUserPendingListCheckCompleted();
+                                addFriend.onIsInUserPendingListCheckCompleted();
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -116,7 +120,8 @@ public class FirestoreAdapter implements CloudstoreService {
                                     }
                                 }
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                signUpFriendPageActivity.onIsInFriendListCheckCompleted();
+                               // signUpFriendPageActivity.onIsInFriendListCheckCompleted();
+                                addFriend.onIsInFriendListCheckCompleted();
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -145,7 +150,8 @@ public class FirestoreAdapter implements CloudstoreService {
                                     }
                                 }
                                 Log.i(TAG, "friendPendingCheck call!!!");
-                                signUpFriendPageActivity.onIsInFriendPendingListCheckCompleted();
+                                //signUpFriendPageActivity.onIsInFriendPendingListCheckCompleted();
+                                addFriend.onIsInFriendPendingListCheckCompleted();
                             } else {
                                 Log.d(TAG, "No such document");
                             }
