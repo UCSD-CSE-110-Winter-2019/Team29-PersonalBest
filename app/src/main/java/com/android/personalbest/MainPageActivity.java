@@ -33,7 +33,8 @@ public class MainPageActivity extends AppCompatActivity {
     public SharedPrefManager sharedPrefManager;
     public CloudstoreService cloudstoreService;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mockSteps = false;
+    public static boolean mockCloud = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +55,12 @@ public class MainPageActivity extends AppCompatActivity {
         seeFriends = findViewById(R.id.goToFriBtn);
 
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
-        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), false);
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
 
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        fitnessService = FitnessServiceFactory.create(this, mock);
+        fitnessService = FitnessServiceFactory.create(this, mockSteps);
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {

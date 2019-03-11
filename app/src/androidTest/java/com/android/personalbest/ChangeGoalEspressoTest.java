@@ -33,7 +33,7 @@ public class ChangeGoalEspressoTest {
 
     @BeforeClass
     public static void beforeClass(){
-        MainPageActivity.mock = true;
+        MainPageActivity.mockSteps = true;
     }
 
     @Rule

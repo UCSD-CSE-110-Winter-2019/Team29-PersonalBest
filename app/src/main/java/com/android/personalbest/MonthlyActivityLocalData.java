@@ -47,11 +47,8 @@ public class MonthlyActivityLocalData {
         UserDayData todayData = getMyMonthlyActivity().get(27);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
         todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
-        Log.d("TEST", "" + todayData.getIntentionalSteps());
         todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
-        //System.out.println(todayData.getIntentionalMph());
         todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
-        //System.out.println(todayData.getIntentionalDistance());
         todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
         todayData.setGoal(sharedPrefManager.getGoal());
     }

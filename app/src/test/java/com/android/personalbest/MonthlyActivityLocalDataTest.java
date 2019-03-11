@@ -19,11 +19,17 @@ public class MonthlyActivityLocalDataTest {
     MainPageActivity mainPageActivity;
     SharedPrefManager sharedPrefManager;
 
+    @BeforeClass
+    public static void beforeClass(){
+        MainPageActivity.mockCloud = true;
+        MonthlyActivityLocalData.mock = true;
+        TimeMachine.setDayOfWeek(Calendar.MONDAY);
+    }
+
     @Before
     public void init() {
         mainPageActivity = Robolectric.setupActivity(MainPageActivity.class);
         sharedPrefManager = new SharedPrefManager(mainPageActivity);
-        MonthlyActivityLocalData.mock = true; //allows us not to manipulate actual local data
     }
 
     @Test
@@ -42,7 +48,6 @@ public class MonthlyActivityLocalDataTest {
 
         MonthlyActivityLocalData.storeMonthlyActivityForNewUser();
 
-        TimeMachine.setDayOfWeek(Calendar.MONDAY);
         int dayOfWeek = TimeMachine.getDayOfWeek();
         int totalStepsTaken = 8000;
         int intentionalStepsTaken = 5000;

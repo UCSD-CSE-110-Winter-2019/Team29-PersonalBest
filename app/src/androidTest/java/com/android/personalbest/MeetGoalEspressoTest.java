@@ -29,7 +29,7 @@ public class MeetGoalEspressoTest {
 
     @BeforeClass
     public static void beforeClass(){
-        MainPageActivity.mock = true;
+        MainPageActivity.mockSteps = true;
     }
 
     @Rule
