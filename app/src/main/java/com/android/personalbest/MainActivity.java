@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         login = sharedPrefManager.getLogin();
         haveInputtedHeight = sharedPrefManager.getFirstTime();
 
-        cloudstoreService = CloudstoreServiceFactory.create(this);
+        cloudstoreService = CloudstoreServiceFactory.create(this, false);
 
         //If first time signing in, ask user for height
         if (login && !haveInputtedHeight) {

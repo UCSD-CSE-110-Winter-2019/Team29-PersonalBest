@@ -170,6 +170,8 @@ public class FirestoreAdapter implements CloudstoreService {
     public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {
         currentAppUser.document(currentAppUserEmail).update(context.getString(R.string.pending_friend_list),
                 FieldValue.arrayRemove(friendEmail));
+        currentAppUser.document(friendEmail).update(context.getString(R.string.pending_friend_list),
+                FieldValue.arrayRemove(currentAppUserEmail));
     }
 
     @Override
@@ -207,6 +209,7 @@ public class FirestoreAdapter implements CloudstoreService {
                             } else {
                                 Log.d(TAG, "No such document");
                             }
+
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }

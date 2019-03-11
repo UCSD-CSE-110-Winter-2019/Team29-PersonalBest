@@ -31,7 +31,7 @@ public class InputHeightActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         userHeight = findViewById(R.id.userHeight);
         doneButton = findViewById(R.id.done);
-        cloudstoreService = CloudstoreServiceFactory.create(this);
+        cloudstoreService = CloudstoreServiceFactory.create(this, false);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -54,7 +54,7 @@ public class MainPageActivity extends AppCompatActivity {
         seeFriends = findViewById(R.id.goToFriBtn);
 
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
-        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext());
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), false);
 
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
