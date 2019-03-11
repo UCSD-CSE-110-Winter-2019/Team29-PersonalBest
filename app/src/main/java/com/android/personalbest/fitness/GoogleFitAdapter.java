@@ -113,9 +113,6 @@ public class GoogleFitAdapter implements FitnessService {
                         });
     }
 
-
-
-
     @Override
     public void updateStepInRealTime(){
         handler = new Handler();

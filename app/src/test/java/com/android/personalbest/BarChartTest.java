@@ -1,5 +1,6 @@
 package com.android.personalbest;
 
+import android.util.Log;
 import android.widget.Button;
 
 import com.github.mikephil.charting.data.BarEntry;
@@ -21,17 +22,18 @@ public class BarChartTest {
     private MainPageActivity mainPage;
     private BarChartActivity barChartActivity;
     private SharedPrefManager sharedPrefManager;
+    ArrayList<BarEntry> entriesTest = new ArrayList<>();
     public BarChartTest() {}
 
     @Before
     public void init() {
         mainPage = Robolectric.setupActivity(MainPageActivity.class);
-        barChartActivity = Robolectric.setupActivity(BarChartActivity.class);
         sharedPrefManager = new SharedPrefManager(mainPage.getApplicationContext());
+        initBar();
+        barChartActivity = Robolectric.setupActivity(BarChartActivity.class);
     }
 
-    @Test
-    public void testBar(){
+    public void initBar() {
         int sundaySteps = 1000;
         int mondaySteps = 1500;
         int tuesdaySteps = 2000;
@@ -48,7 +50,6 @@ public class BarChartTest {
         sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.FRIDAY, fridaySteps);
         sharedPrefManager.storeTotalStepsForDayOfWeek(Calendar.SATURDAY, saturdaySteps);
 
-        ArrayList<BarEntry> entriesTest = new ArrayList<>();
         BarEntry sundayEntry= new BarEntry(1f, new float[] { sharedPrefManager.getIntentionalStepsTaken(Calendar.SUNDAY), sharedPrefManager.getNonIntentionalStepsTaken(Calendar.SUNDAY)});
         BarEntry mondayEntry= new BarEntry(2f, new float[] { sharedPrefManager.getIntentionalStepsTaken(Calendar.MONDAY), sharedPrefManager.getNonIntentionalStepsTaken(Calendar.MONDAY)});
         BarEntry tuesdayEntry= new BarEntry(3f, new float[] { sharedPrefManager.getIntentionalStepsTaken(Calendar.TUESDAY), sharedPrefManager.getNonIntentionalStepsTaken(Calendar.TUESDAY)});
@@ -64,7 +65,10 @@ public class BarChartTest {
         entriesTest.add(thursdayEntry);
         entriesTest.add(fridayEntry);
         entriesTest.add(saturdayEntry);
+    }
 
+    @Test
+    public void testBar(){
         Button goToBarChart = mainPage.findViewById(R.id.seeBarChart);
         goToBarChart.performClick();
 
@@ -76,7 +80,6 @@ public class BarChartTest {
             assert(originalEntries.get(i).getY() == entriesTest.get(i).getY());
         }
     }
-
 
     @Test
     public void testLine(){

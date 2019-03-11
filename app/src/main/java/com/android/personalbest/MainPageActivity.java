@@ -29,7 +29,7 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
 
-    public static boolean mock = false; //change to true for testing purposes
+    public static boolean mock = true; //change to true for testing purposes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,7 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 curStep = fitnessService.getCurrentStep();
-                sharedPrefManager.editor.putInt(getString(R.string.step_count_before_switch_to_start_walk_activity),curStep);
-                sharedPrefManager.editor.apply();
+                sharedPrefManager.setCountBeforeWalk(curStep);
                 launchWalkActivity();
             }
         });
@@ -68,7 +67,6 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPrefManager.storeTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek(), sharedPrefManager.getTotalSteps());
                 launchBarChartActivity();
             }
         });
@@ -79,7 +77,6 @@ public class MainPageActivity extends AppCompatActivity {
                 launchFriendListActivity();
             }
         });
-
 
         userSettings.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -139,8 +136,7 @@ public class MainPageActivity extends AppCompatActivity {
         int month = sharedPrefManager.getMonthInStorage();
 
         sharedPrefManager.storeGoalForDayOfWeek(storedDay, sharedPrefManager.getGoal());
-        sharedPrefManager.storeTotalStepsForDayOfWeek(storedDay, sharedPrefManager.getTotalSteps());
-        sharedPrefManager.storeTotalStepsFromYesterday(sharedPrefManager.getTotalSteps());
+        sharedPrefManager.storeTotalStepsFromYesterday(sharedPrefManager.getTotalStepsForDayOfWeek(storedDay));
         sharedPrefManager.setGoalExceededToday(false);
         sharedPrefManager.setSubGoalExceededToday(false);
 
@@ -155,7 +151,6 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setDayOfWeekInStorage(TimeMachine.getDayOfWeek());
         sharedPrefManager.setDayOfMonthInStorage(TimeMachine.getDayOfMonth());
         sharedPrefManager.setMonthInStorage(TimeMachine.getMonth());
-
     }
 
     public void exceedsGoal() {
@@ -205,7 +200,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void showSubGoalMsg() {
-        int difference = sharedPrefManager.getTotalSteps() - sharedPrefManager.getTotalStepsFromYesterday();
+        int difference = sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek()) - sharedPrefManager.getTotalStepsFromYesterday();
         int specificSubGoal = (difference / getResources().getInteger(R.integer.subgoal)) * getResources().getInteger(R.integer.subgoal);
         Toast.makeText(getApplicationContext(), getString(R.string.subgoal_msg_p1) + specificSubGoal + getString(R.string.subgoal_msg_p2), Toast.LENGTH_LONG).show();
     }
@@ -222,7 +217,7 @@ public class MainPageActivity extends AppCompatActivity {
         todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
         todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
         todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
-        todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
+        todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek));
 
         todayData.setDayOfMonth(dayOfMonth);
         todayData.setMonth(month);
@@ -230,21 +225,19 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void totalUpdated(int total) {
         numStepDone.setText(String.valueOf(total));
-        if (total < sharedPrefManager.getTotalSteps()) {
+        if (total < sharedPrefManager.getTotalStepsForDayOfWeek(sharedPrefManager.getDayOfWeekInStorage())){
             //total was reset to 0, it's a new day
             newDay();
         }
         if (total > sharedPrefManager.getGoal() && !sharedPrefManager.getGoalExceededToday()) {
             exceedsGoal();
             Log.i(getString(R.string.mpa_tag), getString(R.string.goal_exceeded));
-        }
-        if (total > (sharedPrefManager.getTotalStepsFromYesterday() + getResources().getInteger(R.integer.subgoal))
+        } else if (total > (sharedPrefManager.getTotalStepsFromYesterday() + getResources().getInteger(R.integer.subgoal))
                 && !sharedPrefManager.getSubGoalExceededToday()) {
             exceedsSubGoal();
             Log.i(getString(R.string.mpa_tag), getString(R.string.subgoal_exceeded));
         }
-        sharedPrefManager.editor.putInt(getString(R.string.totalStep),total);
-        sharedPrefManager.editor.apply();
+        sharedPrefManager.storeTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek(), total);
     }
 
     //used for Espresso testing

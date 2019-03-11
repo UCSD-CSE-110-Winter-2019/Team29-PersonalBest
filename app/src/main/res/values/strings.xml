@@ -10,7 +10,6 @@
 
     <!-- MainPageActivity -->
     <string name="blank">""</string>
-    <string name="title_activity_main_page">MainPageActivity</string>
     <string name="steps_done">STEPS DONE:</string>
     <string name="steps_goal">GOAL:</string>
     <string name="start_walk">Start Walk</string>
@@ -60,7 +59,6 @@
     <string name="first_time">firstTime</string>
     <string name="height">height</string>
     <string name="goal">goal</string>
-    <string name="num_steps_in_mile">numStepsInMile</string>
     <string name="current_user_email">currentAppUserEmail</string>
     <string name="friend_email">friendEmail</string>
     <string name="friend_list_set">friendListSet</string>
@@ -79,9 +77,6 @@
     <string name="enter">Enter Your New Goal</string>
     <string name="updated">Goal updated!</string>
     <string name="cancel">Cancel</string>
-
-    <!--GoogleFitAdapter-->
-    <string name="totalStep">totalStep</string>
 
     <!--WalkDataAdapter-->
     <string name="elapsedTime">timeElapsed</string>

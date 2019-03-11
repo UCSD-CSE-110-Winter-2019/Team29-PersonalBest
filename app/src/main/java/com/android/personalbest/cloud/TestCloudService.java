@@ -11,11 +11,8 @@ public class TestCloudService implements CloudstoreService{
 
     private SignUpFriendPageActivity signUpFriendPageActivity;
 
-
     public TestCloudService(SignUpFriendPageActivity signUpFriendPageActivity){
-
         this.signUpFriendPageActivity = signUpFriendPageActivity;
-
     }
 
     @Override
@@ -30,9 +27,7 @@ public class TestCloudService implements CloudstoreService{
 
     @Override
     public void isInFriendListCheck(String currentAppUserEmail, String friendEmail) {
-
         setFriendStatus(true);
-
     }
 
     @Override
@@ -67,9 +62,7 @@ public class TestCloudService implements CloudstoreService{
 
     @Override
     public void setFriendStatus(boolean friendStatus) {
-
         this.friendStatus = friendStatus;
-
     }
 
     @Override
@@ -101,7 +94,5 @@ public class TestCloudService implements CloudstoreService{
     public void resetUserAddFriendProcess() {
         setAppUserStatus(true);
     }
-
-
 
 }

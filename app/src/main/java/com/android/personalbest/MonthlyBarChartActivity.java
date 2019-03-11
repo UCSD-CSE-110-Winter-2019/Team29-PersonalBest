@@ -22,7 +22,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class BarChartActivity extends AppCompatActivity {
+public class MonthlyBarChartActivity extends AppCompatActivity {
 
     private Button homeButton;
 
@@ -89,7 +89,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         //setting up bar chart
         pastWeek = new SharedPrefManager(this.getApplicationContext());
-
+        
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
 
@@ -103,14 +103,13 @@ public class BarChartActivity extends AppCompatActivity {
         line = new ArrayList<Entry>();
 
         for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-            intentionalSteps = pastWeek.getIntentionalStepsTaken(i);
-            nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(i);
-            goal = pastWeek.getGoalForDayOfWeek(i);
+         intentionalSteps = pastWeek.getIntentionalStepsTaken(i);
+         nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(i);
+         goal = pastWeek.getGoalForDayOfWeek(i);
 
-            data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
-            Log.i("","");
-            entries.add(data);
-            line.add(new Entry(i, goal));
+         data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
+         entries.add(data);
+         line.add(new Entry(i, goal));
         }
 
         LineDataSet lineDataSet = new LineDataSet(line, "");
