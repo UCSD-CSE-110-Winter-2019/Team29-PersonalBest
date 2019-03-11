@@ -21,18 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-
 public class FirestoreAdapter implements CloudstoreService {
     private static String COLLECTION_KEY = "appUserList";
     private static String TAG = " FirestoreAdapter ";
     private boolean userPendingStatus = false;
     private boolean friendPendingStatus = false;
     private boolean friendStatus = false;
-    public static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);;
+    private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     private boolean isAppUser = false;
     private SignUpFriendPageActivity signUpFriendPageActivity;
-
 
     public FirestoreAdapter(SignUpFriendPageActivity signUpFriendPageActivity){
         this.signUpFriendPageActivity = signUpFriendPageActivity;
@@ -88,13 +85,11 @@ public class FirestoreAdapter implements CloudstoreService {
                                 Log.d(TAG, "No such document");
                             }
 
-
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
-
     }
 
     @Override
@@ -119,13 +114,11 @@ public class FirestoreAdapter implements CloudstoreService {
                             } else {
                                 Log.d(TAG, "No such document");
                             }
-
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
-
     }
 
     @Override
@@ -150,22 +143,17 @@ public class FirestoreAdapter implements CloudstoreService {
                             } else {
                                 Log.d(TAG, "No such document");
                             }
-
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
-
     }
-
-
 
     @Override
     public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {
         currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
                 FieldValue.arrayUnion(friendEmail));
-
     }
 
     @Override
@@ -178,6 +166,8 @@ public class FirestoreAdapter implements CloudstoreService {
     public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {
         currentAppUser.document(currentAppUserEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
                 FieldValue.arrayRemove(friendEmail));
+        currentAppUser.document(friendEmail).update(signUpFriendPageActivity.getString(R.string.pending_friend_list),
+                FieldValue.arrayRemove(currentAppUserEmail));
     }
 
     public static void setAppUserInCloud(String appUser, Map<String, Object> friend) {
@@ -215,13 +205,11 @@ public class FirestoreAdapter implements CloudstoreService {
                                 Log.d(TAG, "No such document");
                             }
 
-
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
-
     }
 
     @Override
@@ -269,7 +257,6 @@ public class FirestoreAdapter implements CloudstoreService {
         setFriendStatus(false);
         setFriendPendingStatus(false);
         setUserPendingStatus(false);
-
     }
 
     private static List<String> convertObjectToString(List<Object> userFriendList){
@@ -277,9 +264,7 @@ public class FirestoreAdapter implements CloudstoreService {
         for(Object friend: userFriendList){
             userFriendListInString.add((String) friend);
         }
-        return  userFriendListInString;
+        return userFriendListInString;
     }
-
-
 }
 

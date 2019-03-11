@@ -17,7 +17,7 @@
         <activity android:name=".FriendListActivity" />
         <activity android:name=".SignUpFriendPageActivity" />
         <activity android:name=".NewGoalActivity" />
-        <activity android:name=".MonthlyBarChartActivity" />
+        <activity android:name=".BarChartActivity" />
         <activity android:name=".UserSettingsActivity" />
         <activity android:name=".WalkActivity" />
         <activity android:name=".InputHeightActivity" />

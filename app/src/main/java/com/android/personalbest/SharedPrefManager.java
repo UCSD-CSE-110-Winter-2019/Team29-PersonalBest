@@ -57,7 +57,7 @@ public class SharedPrefManager {
         }
 
         editor.putStringSet(res.getString(R.string.friend_list_set),friendListSet);
-        editor.apply();;
+        editor.apply();
     }
 
     //return friendListSet
@@ -171,7 +171,6 @@ public class SharedPrefManager {
     public int getSubGoalMessageDay() {
         return sharedPref.getInt(res.getString(R.string.subgoal_msg_expires), -1);
     }
-
 
     public void setSubGoalReached(boolean subGoalReached) {
         editor.putBoolean(res.getString(R.string.subgoal_reached), subGoalReached);

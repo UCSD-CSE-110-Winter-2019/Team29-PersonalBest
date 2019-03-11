@@ -106,7 +106,7 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void launchBarChartActivity() {
-        Intent walk = new Intent(this, MonthlyBarChartActivity.class);
+        Intent walk = new Intent(this, BarChartActivity.class);
         startActivity(walk);
     }
 
