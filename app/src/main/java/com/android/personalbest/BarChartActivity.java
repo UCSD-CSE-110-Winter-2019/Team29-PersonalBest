@@ -3,6 +3,7 @@ package com.android.personalbest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -107,6 +108,7 @@ public class BarChartActivity extends AppCompatActivity {
             goal = pastWeek.getGoalForDayOfWeek(i);
 
             data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
+            Log.i("","");
             entries.add(data);
             line.add(new Entry(i, goal));
         }
