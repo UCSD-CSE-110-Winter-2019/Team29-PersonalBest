@@ -18,7 +18,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private Button addFriendsBtn;
     private CloudstoreService cloudstoreService;
     private EditText friendEmail;
-    private SharedPrefManager sharedPrefManager;
+    public SharedPrefManager sharedPrefManager;
     private String TAG = "SignUpFriendPageActivity";
 
     @Override
