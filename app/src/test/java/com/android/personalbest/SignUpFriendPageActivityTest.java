@@ -1,21 +1,13 @@
 package com.android.personalbest;
 
-
-import android.util.Log;
-
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
-import com.android.personalbest.cloud.FirestoreAdapter;
-
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import static com.android.personalbest.cloud.CloudstoreServiceFactory.create;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
@@ -23,7 +15,6 @@ public class SignUpFriendPageActivityTest {
 
     private SignUpFriendPageActivity signUpFriendPageActivity;
     private CloudstoreService cloudstoreService;
-
 
     @Before
     public void setUp() {
@@ -36,7 +27,6 @@ public class SignUpFriendPageActivityTest {
         String friendEmail = "";
         cloudstoreService.appUserCheck(signUpFriendPageActivity,friendEmail);
         assertEquals(true,cloudstoreService.getAppUserStatus());
-
     }
 
     @Test
@@ -86,9 +76,6 @@ public class SignUpFriendPageActivityTest {
 
     @Test
     public void testResetUserAddFriendProcess(){
-        String currentAppUserEmail = "";
-        String friendEmail = "";
-
         cloudstoreService.resetUserAddFriendProcess();
         assertEquals(true,cloudstoreService.getAppUserStatus());
     }

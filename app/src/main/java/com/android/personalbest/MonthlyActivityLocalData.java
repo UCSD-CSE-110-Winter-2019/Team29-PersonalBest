@@ -3,7 +3,6 @@ package com.android.personalbest;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
-import android.util.Log;
 
 public class MonthlyActivityLocalData {
     public static List<UserDayData> myMonthlyActivity;
@@ -46,17 +45,17 @@ public class MonthlyActivityLocalData {
         int dayOfWeek = TimeMachine.getDayOfWeek();
         UserDayData todayData = getMyMonthlyActivity().get(27);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
-        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
-        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
-        todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
+        todayData.setIntentionalSteps(sharedPrefManager.getCurrIntentionalStep());
+        todayData.setIntentionalMph(sharedPrefManager.getCurrMPH());
+        todayData.setIntentionalDistance(sharedPrefManager.getCurrMile());
+        todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek)); //this should not need day of week anymore
         todayData.setGoal(sharedPrefManager.getGoal());
     }
 
     public static void updateDataAtEndOfDay(Context context) {
         updateTodayData(context);
-        getMyMonthlyActivity().remove(0); //remove oldest day
+        getMyMonthlyActivity().remove(0);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        getMyMonthlyActivity().add(new UserDayData(sharedPrefManager.getGoal())); //add new UserDayData for new day
+        getMyMonthlyActivity().add(new UserDayData(sharedPrefManager.getGoal()));
     }
 }

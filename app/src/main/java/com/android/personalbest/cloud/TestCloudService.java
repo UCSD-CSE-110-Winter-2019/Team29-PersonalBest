@@ -14,14 +14,12 @@ public class TestCloudService implements CloudstoreService{
 
     private Context context;
 
-
     public TestCloudService(Context context){
         this.context = context;
     }
 
     @Override
     public void setAppUserInCloud(String appUser, Map<String, Object> friend) { }
-
 
     @Override
     public void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail) {
@@ -35,9 +33,7 @@ public class TestCloudService implements CloudstoreService{
 
     @Override
     public void isInFriendListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
-
         setFriendStatus(true);
-
     }
 
     @Override
@@ -72,9 +68,7 @@ public class TestCloudService implements CloudstoreService{
 
     @Override
     public void setFriendStatus(boolean friendStatus) {
-
         this.friendStatus = friendStatus;
-
     }
 
     @Override
@@ -107,10 +101,8 @@ public class TestCloudService implements CloudstoreService{
         setAppUserStatus(true);
     }
 
-
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {}
     public void updateMonthlyActivityData(String currentAppUserEmail) {}
     public void getFriendMonthlyActivity(String friendEmail) {}
-
 }

@@ -9,9 +9,7 @@ import android.widget.TextView;
 
 import com.android.personalbest.walkData.WalkDataAdapter;
 
-
 public class WalkActivity extends AppCompatActivity {
-
 
     public Chronometer chronometer;
     private SharedPrefManager sharedPrefManager;
@@ -36,6 +34,7 @@ public class WalkActivity extends AppCompatActivity {
             public void onClick(View view) {
                 setResult(RESULT_OK, walkDataAdapter.returnElapsedTime());
                 storeWalkStats();
+                walkDataAdapter.walkEnded = true;
                 finish();
             }
         });

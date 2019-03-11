@@ -3,6 +3,8 @@ package com.android.personalbest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -10,8 +12,8 @@ import java.util.Set;
 
 public class SharedPrefManager {
 
-    public SharedPreferences sharedPref;
-    public SharedPreferences.Editor editor;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
     public Resources res;
     public Context context;
 
@@ -116,14 +118,6 @@ public class SharedPrefManager {
 
     /* For encouragement messages */
 
-    public void setTotalSteps(int numSteps) {
-        editor.putInt(res.getString(R.string.totalStep), numSteps);
-        editor.apply();
-    }
-    public int getTotalSteps() {
-       return sharedPref.getInt(res.getString(R.string.totalStep), 0);
-    }
-
     public void setGoalExceededToday(boolean goalExceededToday) {
         editor.putBoolean(res.getString(R.string.goal_exceeded_today), goalExceededToday);
         editor.apply();
@@ -215,15 +209,82 @@ public class SharedPrefManager {
     }
 
     /* Calculating intentional walk stats */
-
-    public void storeNumStepsInMile(int numStepsInMile) {
-        editor.putInt(res.getString(R.string.num_steps_in_mile), 0);
+    public void setCountBeforeWalk(int steps) {
+        editor.putInt(res.getString(R.string.step_count_before_switch_to_start_walk_activity),steps);
         editor.apply();
+    }
+
+    public int getCountBeforeWalk() {
+        return sharedPref.getInt(res.getString(R.string.step_count_before_switch_to_start_walk_activity),0);
+    }
+
+    public void setCurrIntentionalStep(int steps) {
+        editor.putInt(res.getString(R.string.intentionalStep), steps);
+        editor.apply();
+    }
+
+    public int getCurrIntentionalStep() {
+        return sharedPref.getInt(res.getString(R.string.intentionalStep),0);
+    }
+
+    public void setCurrMile(float miles) {
+        editor.putFloat(res.getString(R.string.milesInDisplay),miles);
+        editor.apply();
+    }
+
+    public float getCurrMile() {
+        return sharedPref.getFloat(res.getString(R.string.milesInDisplay),0);
+    }
+
+    public void setCurrMPH(float mph) {
+        editor.putFloat(res.getString(R.string.MPH),mph);
+        editor.apply();
+    }
+
+    public float getCurrMPH() {
+        return sharedPref.getFloat(res.getString(R.string.MPH),0);
+    }
+
+    //Called at end of day
+    // Called every time bar chart is displayed (when the "see bar chart" is clicked)
+    public void storeTotalStepsForDayOfWeek(int dayOfWeek, int totalStepsTaken) {
+        String today = getDayOfWeekAsString(dayOfWeek);
+        editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
+        editor.apply();
+    }
+
+    public int getTotalStepsForDayOfWeek(int dayOfWeek) {
+        String today = getDayOfWeekAsString(dayOfWeek);
+        return sharedPref.getInt(res.getString(R.string.totalStepsTaken) + today, 0);
+    }
+
+    //Called at end of day
+    //Called when the default goal is set
+    public void storeGoalForDayOfWeek(int dayOfWeek, int goal) {
+        String today = getDayOfWeekAsString(dayOfWeek);
+        editor.putInt(res.getString(R.string.goal) + today, goal);
+        editor.apply();
+    }
+
+    public int getGoalForDayOfWeek(int dayOfWeek){
+        String today = getDayOfWeekAsString(dayOfWeek);
+        return sharedPref.getInt(res.getString(R.string.goal) + today,0 );
+    }
+
+    //used to check if subgoal has been met
+    //Called at end of day (store today's step total in yesterday var)
+    public void storeTotalStepsFromYesterday(int totalStepsTaken) {
+        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
+        editor.apply();
+    }
+
+    public int getTotalStepsFromYesterday() {
+        return sharedPref.getInt(res.getString(R.string.totalStepsTakenYesterday), 0);
     }
 
     //Called when "end walk" button is pressed
     public void storeIntentionalWalkStats(int dayOfWeek, int intentionalStepsTaken, float intentionalDistanceInMiles,
-                                   float intentionalMilesPerHour, int intentionalTimeElapsed) {
+                                          float intentionalMilesPerHour, int intentionalTimeElapsed) {
 
         String today = getDayOfWeekAsString(dayOfWeek);
 
@@ -247,33 +308,28 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    //Called at end of day
-    // Called every time bar chart is displayed (when the "see bar chart" is clicked)
-    public void storeTotalStepsForDayOfWeek(int dayOfWeek, int totalStepsTaken) {
+    public int getIntentionalStepsTaken(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
-        editor.putInt(res.getString(R.string.totalStepsTaken) + today, totalStepsTaken);
+        return sharedPref.getInt(res.getString(R.string.intentionalStepsTaken) + today, 0);
     }
 
-    //Called at end of day
-    //Called when the default goal is set
-    public void storeGoalForDayOfWeek(int dayOfWeek, int goal) {
+    public int getNonIntentionalStepsTaken(int dayOfWeek){
+        return getTotalStepsForDayOfWeek(dayOfWeek) - getIntentionalStepsTaken(dayOfWeek);
+    }
+
+    public float getIntentionalDistanceInMiles(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
-        editor.putInt(res.getString(R.string.goal) + today, goal);
+        return sharedPref.getFloat(res.getString(R.string.intentionalDistanceInMiles) + today, 0);
     }
 
-    public int getGoalForCertainDay(int dayOfWeek){
+    public float getIntentionalMilesPerHour(int dayOfWeek) {
         String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getInt(res.getString(R.string.goal) + today,0 );
+        return sharedPref.getFloat(res.getString(R.string.intentionalMilesPerHour) + today, 0);
     }
 
-    //used to check if subgoal has been met
-    //Called at end of day (store today's step total in yesterday var)
-    public void storeTotalStepsFromYesterday(int totalStepsTaken) {
-        editor.putInt(res.getString(R.string.totalStepsTakenYesterday), totalStepsTaken);
-    }
-
-    public int getTotalStepsFromYesterday() {
-        return sharedPref.getInt(res.getString(R.string.totalStepsTakenYesterday), 0);
+    public int getIntentionalTimeElapsed(int dayOfWeek) {
+        String today = getDayOfWeekAsString(dayOfWeek);
+        return sharedPref.getInt(res.getString(R.string.intentionalTimeElapsed) + today, 0);
     }
 
     //called on Saturday end of day so that Sunday starts a new week with an empty bar chart
@@ -294,35 +350,6 @@ public class SharedPrefManager {
         editor.putInt(res.getString(R.string.intentionalTimeElapsed) + today, 0);
         editor.putInt(res.getString(R.string.goal) + today, 0);
         editor.apply();
-    }
-
-    public int getTotalStepsTaken(int dayOfWeek) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getInt(res.getString(R.string.totalStepsTaken) + today, 0);
-    }
-
-    public int getIntentionalStepsTaken(int dayOfWeek) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getInt(res.getString(R.string.intentionalStepsTaken) + today, 0);
-    }
-
-    public int getNonIntentionalStepsTaken(int dayOfWeek){
-        return getTotalStepsTaken(dayOfWeek) - getIntentionalStepsTaken(dayOfWeek);
-    }
-
-    public float getIntentionalDistanceInMiles(int dayOfWeek) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getFloat(res.getString(R.string.intentionalDistanceInMiles) + today, 0);
-    }
-
-    public float getIntentionalMilesPerHour(int dayOfWeek) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getFloat(res.getString(R.string.intentionalMilesPerHour) + today, 0);
-    }
-
-    public int getIntentionalTimeElapsed(int dayOfWeek) {
-        String today = getDayOfWeekAsString(dayOfWeek);
-        return sharedPref.getInt(res.getString(R.string.intentionalTimeElapsed) + today, 0);
     }
 
     //helper method for SharedPreference keys
