@@ -15,6 +15,7 @@ import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.notifications.GoalNotificationAdapter;
+import com.google.firebase.FirebaseApp;
 
 import java.util.Calendar;
 
@@ -51,7 +52,9 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
-        cloudstoreService = CloudstoreServiceFactory.create(this);
+
+        FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext());
 
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);

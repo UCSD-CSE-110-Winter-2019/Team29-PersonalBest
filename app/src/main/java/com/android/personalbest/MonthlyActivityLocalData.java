@@ -3,6 +3,7 @@ package com.android.personalbest;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
+import android.util.Log;
 
 public class MonthlyActivityLocalData {
     public static List<UserDayData> myMonthlyActivity;
@@ -42,12 +43,15 @@ public class MonthlyActivityLocalData {
     }
 
     public static void updateTodayData(Context context) {
+        int dayOfWeek = TimeMachine.getDayOfWeek();
         UserDayData todayData = getMyMonthlyActivity().get(27);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        int today = TimeMachine.getDayOfWeek();
-        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(today));
-        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(today));
-        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(today));
+        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
+        Log.d("TEST", "" + todayData.getIntentionalSteps());
+        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
+        //System.out.println(todayData.getIntentionalMph());
+        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
+        //System.out.println(todayData.getIntentionalDistance());
         todayData.setTotalSteps(sharedPrefManager.getTotalSteps());
         todayData.setGoal(sharedPrefManager.getGoal());
     }
