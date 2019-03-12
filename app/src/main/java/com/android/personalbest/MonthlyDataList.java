@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MonthlyDataList {
 
-    ArrayList<UserDayData> list;
+    public ArrayList<UserDayData> list;
 
     public MonthlyDataList() {
         list = new ArrayList<UserDayData>();

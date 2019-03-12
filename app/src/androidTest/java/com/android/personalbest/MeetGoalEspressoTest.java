@@ -30,6 +30,7 @@ public class MeetGoalEspressoTest {
     @BeforeClass
     public static void beforeClass(){
         MainPageActivity.mockSteps = true;
+        MainPageActivity.mockCloud = true;
     }
 
     @Rule
