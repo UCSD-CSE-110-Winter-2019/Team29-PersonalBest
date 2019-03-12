@@ -33,9 +33,9 @@ public class MonthlyActivityLocalData {
         int dayOfWeek = TimeMachine.getDayOfWeek();
         UserDayData todayData = getMyMonthlyActivity().list.get(27);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        todayData.setIntentionalSteps(sharedPrefManager.getCurrIntentionalStep());
-        todayData.setIntentionalMph(sharedPrefManager.getCurrMPH());
-        todayData.setIntentionalDistance(sharedPrefManager.getCurrMile());
+        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
+        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
+        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
         todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek)); //this should not need day of week anymore
         todayData.setGoal(sharedPrefManager.getGoal());
     }
