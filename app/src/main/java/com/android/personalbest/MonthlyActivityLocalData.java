@@ -25,7 +25,7 @@ public class MonthlyActivityLocalData {
         return myMonthlyActivity;
     }
 
-    private void storeMonthlyActivityForNewUser() {
+    public void storeMonthlyActivityForNewUser() {
         setMyMonthlyActivity(new MonthlyDataList());
     }
 
