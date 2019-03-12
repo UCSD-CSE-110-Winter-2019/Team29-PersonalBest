@@ -102,6 +102,8 @@ public class TestCloudService implements CloudstoreService{
         setAppUserStatus(true);
     }
 
+
+    //May want to add mock implementation to these later for testing
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData) {}
     public void updateMonthlyActivityData(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData) {}
