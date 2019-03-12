@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyActivityLocalData;
+import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
@@ -13,15 +14,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
+
 import android.content.Context;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -272,31 +278,31 @@ public class FirestoreAdapter implements CloudstoreService {
         return userFriendListInString;
     }
 
-
     /* Cloud storage for monthly activity */
     @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {
-        MonthlyActivityLocalData.storeMonthlyActivityForNewUser();
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", (new MonthlyActivityLocalData()).getMyMonthlyActivity());
     }
 
     //Called this method at end of day
     @Override
-    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
-        MonthlyActivityLocalData.updateDataAtEndOfDay(context);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
+    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData) {
+        getMyMonthlyActivity(currentAppUserEmail, monthlyActivityLocalData);
+        monthlyActivityLocalData.updateDataAtEndOfDay(context);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", monthlyActivityLocalData.getMyMonthlyActivity());
     }
 
     //Optionally call this method periodically to update today's data in the Cloud
     @Override
-    public void updateMonthlyActivityData(String currentAppUserEmail) {
-        MonthlyActivityLocalData.updateTodayData(context);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", MonthlyActivityLocalData.myMonthlyActivity);
+    public void updateMonthlyActivityData(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData) {
+        getMyMonthlyActivity(currentAppUserEmail, monthlyActivityLocalData);
+        monthlyActivityLocalData.updateTodayData(context);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", monthlyActivityLocalData.getMyMonthlyActivity());
     }
 
     //TODO: Call this method when clicking on friends monthly activity, Then access data at MonthlyActivityLocalData.friendMonthlyActivity
     @Override
-    public void getFriendMonthlyActivity(String friendEmail) {
+    public void getFriendMonthlyActivity(String friendEmail, final MonthlyActivityLocalData monthlyActivityLocalData) {
         currentAppUser.document(friendEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -306,8 +312,7 @@ public class FirestoreAdapter implements CloudstoreService {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                List<Object> retrievedData = (List<Object>)document.getData().get("monthlyActivity");
-                                MonthlyActivityLocalData.setFriendMonthlyActivity(convertObjectToUserDayData(retrievedData));
+                                monthlyActivityLocalData.setFriendMonthlyActivity(document.toObject(MonthlyDataList.class));
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -316,14 +321,29 @@ public class FirestoreAdapter implements CloudstoreService {
                         }
                     }
                 });
+        Log.d("TEST", "" + monthlyActivityLocalData.getMyMonthlyActivity());
     }
 
-    private static List<UserDayData> convertObjectToUserDayData(List<Object> friendMonthlyActivity){
-        List<UserDayData> friendUserDayDataList = new ArrayList<>();
-        for(Object day: friendMonthlyActivity){
-            friendUserDayDataList.add((UserDayData) day);
-        }
-        return friendUserDayDataList;
+    @Override
+    public void getMyMonthlyActivity(String currentAppUserEmail, final MonthlyActivityLocalData monthlyActivityLocalData) {
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                monthlyActivityLocalData.setMyMonthlyActivity(document.toObject(MonthlyDataList.class));
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
     }
 }
 

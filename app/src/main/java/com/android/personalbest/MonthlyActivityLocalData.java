@@ -5,45 +5,33 @@ import java.util.List;
 import android.content.Context;
 
 public class MonthlyActivityLocalData {
-    public static List<UserDayData> myMonthlyActivity;
-    public static List<UserDayData> friendMonthlyActivity;
+    public MonthlyDataList myMonthlyActivity;
+    public MonthlyDataList friendMonthlyActivity;
 
-    public static boolean mock = false; //for unit testing purposes
-    public static List<UserDayData> mockMyMonthlyActivity;
+    public MonthlyActivityLocalData() {
+        //initialize monthly activity for new user
+        storeMonthlyActivityForNewUser();
+    }
 
-    public static void setFriendMonthlyActivity(List<UserDayData> monthlyActivity) {
+    public void setFriendMonthlyActivity(MonthlyDataList monthlyActivity) {
         friendMonthlyActivity = monthlyActivity;
     }
 
-    public static void setMyMonthlyActivity(List<UserDayData> monthlyActivity) {
-        if (mock) {
-            mockMyMonthlyActivity = monthlyActivity;
-        }
-        else {
+    public void setMyMonthlyActivity(MonthlyDataList monthlyActivity) {
             myMonthlyActivity = monthlyActivity;
-        }
     }
 
-    public static List<UserDayData> getMyMonthlyActivity() {
-        if (mock) {
-            return mockMyMonthlyActivity;
-        }
+    public MonthlyDataList getMyMonthlyActivity() {
         return myMonthlyActivity;
     }
 
-    public static void storeMonthlyActivityForNewUser() {
-        ArrayList<UserDayData> newUserMonthlyActivity = new ArrayList<UserDayData>();
-
-        //Add empty data for past 28 days
-        for (int i = 0; i < 28; i++) {
-            newUserMonthlyActivity.add(new UserDayData());
-        }
-        MonthlyActivityLocalData.setMyMonthlyActivity(newUserMonthlyActivity);
+    private void storeMonthlyActivityForNewUser() {
+        setMyMonthlyActivity(new MonthlyDataList());
     }
 
-    public static void updateTodayData(Context context) {
+    public void updateTodayData(Context context) {
         int dayOfWeek = TimeMachine.getDayOfWeek();
-        UserDayData todayData = getMyMonthlyActivity().get(27);
+        UserDayData todayData = getMyMonthlyActivity().list.get(27);
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
         todayData.setIntentionalSteps(sharedPrefManager.getCurrIntentionalStep());
         todayData.setIntentionalMph(sharedPrefManager.getCurrMPH());
@@ -52,10 +40,10 @@ public class MonthlyActivityLocalData {
         todayData.setGoal(sharedPrefManager.getGoal());
     }
 
-    public static void updateDataAtEndOfDay(Context context) {
+    public void updateDataAtEndOfDay(Context context) {
         updateTodayData(context);
-        getMyMonthlyActivity().remove(0);
+        getMyMonthlyActivity().removeOldestDay();
         SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-        getMyMonthlyActivity().add(new UserDayData(sharedPrefManager.getGoal()));
+        getMyMonthlyActivity().addNewDay(sharedPrefManager.getGoal());
     }
 }

@@ -32,8 +32,9 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
     public CloudstoreService cloudstoreService;
+    public MonthlyActivityLocalData monthlyActivityLocalData;
 
-    public static boolean mockSteps = false;
+    public static boolean mockSteps = true;
     public static boolean mockCloud = false;
 
     @Override
@@ -56,6 +57,8 @@ public class MainPageActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
+        monthlyActivityLocalData = new MonthlyActivityLocalData();
+        cloudstoreService.getMyMonthlyActivity(sharedPrefManager.getCurrentAppUserEmail(), monthlyActivityLocalData);
 
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
@@ -68,6 +71,9 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View view){
                 curStep = fitnessService.getCurrentStep();
                 sharedPrefManager.setCountBeforeWalk(curStep);
+
+                cloudstoreService.updateMonthlyActivityData(sharedPrefManager.getCurrentAppUserEmail(), monthlyActivityLocalData);
+
                 launchWalkActivity();
             }
         });
@@ -146,7 +152,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setGoalExceededToday(false);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail());
+        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail(), monthlyActivityLocalData);
 
         //check if it's a new week and we need to reset the bar chart
         if (storedDay == Calendar.SATURDAY) {
