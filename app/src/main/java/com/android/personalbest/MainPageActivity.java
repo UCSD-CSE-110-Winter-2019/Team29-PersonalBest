@@ -71,9 +71,6 @@ public class MainPageActivity extends AppCompatActivity {
             public void onClick(View view){
                 curStep = fitnessService.getCurrentStep();
                 sharedPrefManager.setCountBeforeWalk(curStep);
-
-                cloudstoreService.updateMonthlyActivityData(sharedPrefManager.getCurrentAppUserEmail(), monthlyActivityLocalData);
-
                 launchWalkActivity();
             }
         });

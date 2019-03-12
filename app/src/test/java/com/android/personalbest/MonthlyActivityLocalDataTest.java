@@ -52,11 +52,10 @@ public class MonthlyActivityLocalDataTest {
         float intentionalDistanceInMiles = 5.1f;
         float intentionalMilesPerHour = 3.3f;
         int goal = 7000;
+        int intentionalTimeElapsed = 20;
 
         sharedPrefManager.storeTotalStepsForDayOfWeek(dayOfWeek, totalStepsTaken);
-        sharedPrefManager.setCurrIntentionalStep(intentionalStepsTaken);
-        sharedPrefManager.setCurrMile(intentionalDistanceInMiles);
-        sharedPrefManager.setCurrMPH(intentionalMilesPerHour);
+        sharedPrefManager.storeIntentionalWalkStats(dayOfWeek, intentionalStepsTaken, intentionalDistanceInMiles, intentionalMilesPerHour, intentionalTimeElapsed);
         sharedPrefManager.setGoal(goal);
 
         monthlyActivityLocalData.updateTodayData(mainPageActivity);
@@ -80,11 +79,10 @@ public class MonthlyActivityLocalDataTest {
         float intentionalDistanceInMiles = 5.1f;
         float intentionalMilesPerHour = 3.3f;
         int goal = 7000;
+        int intentionalTimeElapsed = 20;
 
         sharedPrefManager.storeTotalStepsForDayOfWeek(dayOfWeek, totalStepsTaken);
-        sharedPrefManager.setCurrIntentionalStep(intentionalStepsTaken);
-        sharedPrefManager.setCurrMile(intentionalDistanceInMiles);
-        sharedPrefManager.setCurrMPH(intentionalMilesPerHour);
+        sharedPrefManager.storeIntentionalWalkStats(dayOfWeek, intentionalStepsTaken, intentionalDistanceInMiles, intentionalMilesPerHour, intentionalTimeElapsed);
         sharedPrefManager.setGoal(goal);
 
         monthlyActivityLocalData.updateDataAtEndOfDay(mainPageActivity);
