@@ -2,7 +2,10 @@ package com.android.personalbest.cloud;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.android.personalbest.ChatActivity;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
@@ -11,23 +14,31 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class FirestoreAdapter implements CloudstoreService {
     private static String COLLECTION_KEY = "appUserList";
     private static String TAG = " FirestoreAdapter ";
+    private static String FROM_KEY = "from";
+    private static String TEXT_KEY = "text";
+    private static String from;
+    private static String TIMESTAMP_KEY = "timestamp";
     private boolean userPendingStatus = false;
     private boolean friendPendingStatus = false;
     private boolean friendStatus = false;
     private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
+    private static CollectionReference chat;
     private boolean isAppUser = false;
     private SignUpFriendPageActivity signUpFriendPageActivity;
 
@@ -266,5 +277,65 @@ public class FirestoreAdapter implements CloudstoreService {
         }
         return userFriendListInString;
     }
+
+
+    public static void messageHandlerSetUp(ChatActivity chatActivity){
+
+
+        String DOCUMENT_KEY;
+        String MESSAGES_KEY = "messages";
+        String COLLECTION_KEY = "chats";
+        from = chatActivity.sharedPrefManager.getCurrentAppUserEmail();
+        String to = chatActivity.sharedPrefManager.getCurrentChatFriend();
+        if(from.compareTo(to) < 0){
+            DOCUMENT_KEY = from + to;
+        }
+        else{
+            DOCUMENT_KEY = to + from;
+        }
+
+        chat = FirebaseFirestore.getInstance()
+                .collection(COLLECTION_KEY)
+                .document(DOCUMENT_KEY)
+                .collection(MESSAGES_KEY);
+    }
+
+    public static void initMessageUpdateListener(ChatActivity chatActivity){
+        chat.orderBy(TIMESTAMP_KEY, Query.Direction.ASCENDING)
+                .addSnapshotListener((newChatSnapShot, error) -> {
+            if (error != null) {
+                Log.e(TAG, error.getLocalizedMessage());
+                return;
+            }
+            if (newChatSnapShot != null && !newChatSnapShot.isEmpty()) {
+                StringBuilder sb = new StringBuilder();
+                List<DocumentChange> documentChanges = newChatSnapShot.getDocumentChanges();
+                documentChanges.forEach(change -> {
+                    QueryDocumentSnapshot document = change.getDocument();
+                    sb.append(document.get(FROM_KEY));
+                    sb.append(":\n");
+                    sb.append(document.get(TEXT_KEY));
+                    sb.append("\n");
+                    sb.append("---\n");
+                });
+                TextView chatView = chatActivity.findViewById(R.id.chat);
+                chatView.append(sb.toString());
+            }
+        });
+    }
+
+    public static void sendMessage(ChatActivity chatActivity) {
+        EditText messageView = chatActivity.findViewById(R.id.text_message);
+        Map<String, String> newMessage = new HashMap<>();
+        newMessage.put(FROM_KEY, from);
+        newMessage.put(TEXT_KEY, messageView.getText().toString());
+
+        chat.add(newMessage).addOnSuccessListener(result -> {
+            messageView.setText("");
+        }).addOnFailureListener(error -> {
+            Log.e(TAG, error.getLocalizedMessage());
+        });
+    }
+
 }
 

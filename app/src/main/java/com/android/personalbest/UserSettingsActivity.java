@@ -36,7 +36,6 @@ public class UserSettingsActivity extends AppCompatActivity {
         dialog = new AlertDialog.Builder(UserSettingsActivity.this);
         dialogBox = dialog.create();
 
-
         setWalkOrRunOption();
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +65,7 @@ public class UserSettingsActivity extends AppCompatActivity {
 
                 dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //do nothing
+                        dialogBox.dismiss();
                     }
                 });
                 dialogBox = dialog.create();
