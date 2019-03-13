@@ -280,7 +280,7 @@ public class FirestoreAdapter implements CloudstoreService {
     @Override
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
         MonthlyDataList dataList = new MonthlyDataList();
-        getMyMonthlyActivity(currentAppUserEmail, dataList);
+        getMonthlyActivity(currentAppUserEmail, dataList);
         dataList.updateDataAtEndOfDay(context);
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
     }
@@ -295,39 +295,15 @@ public class FirestoreAdapter implements CloudstoreService {
     @Override
     public void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex) {
         MonthlyDataList dataList = new MonthlyDataList();
-        getMyMonthlyActivity(currentAppUserEmail, dataList);
+        getMonthlyActivity(currentAppUserEmail, dataList);
         dataList.updateData(context, dayIndex);
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
     }
 
-    //TODO: Call this to get data upon clicking on friends monthly activity
     @Override
-    public void getFriendMonthlyActivity(String friendEmail, final MonthlyDataList friendData) {
+    public void getMonthlyActivity(String userEmail, final MonthlyDataList dataList) {
         final DataStorageMediator dataStorageMediator = new DataStorageMediator();
-        currentAppUser.document(friendEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
-                                friendData.setList(dataStorageMediator.getMonthlyActivity().getList());
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void getMyMonthlyActivity(String currentAppUserEmail, final MonthlyDataList myData) {
-        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
-        currentAppUser.document(currentAppUserEmail)
+        currentAppUser.document(userEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -337,7 +313,7 @@ public class FirestoreAdapter implements CloudstoreService {
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
-                                myData.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
                             } else {
                                 Log.d(TAG, "No such document");
                             }
