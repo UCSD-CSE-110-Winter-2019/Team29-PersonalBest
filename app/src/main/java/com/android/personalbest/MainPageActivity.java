@@ -21,6 +21,7 @@ public class MainPageActivity extends AppCompatActivity {
     private Button seeBarChart;
     private Button userSettings;
     private Button seeFriends;
+    private Button updateStepsBtn;
 
     private FitnessService fitnessService;
     private int curStep;
@@ -48,6 +49,7 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
+        updateStepsBtn = findViewById(R.id.updateSteps);
 
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
@@ -61,6 +63,14 @@ public class MainPageActivity extends AppCompatActivity {
                 curStep = fitnessService.getCurrentStep();
                 sharedPrefManager.setCountBeforeWalk(curStep);
                 launchWalkActivity();
+            }
+        });
+
+        //update steps click
+        updateStepsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
