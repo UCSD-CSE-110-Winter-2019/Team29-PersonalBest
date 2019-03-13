@@ -60,7 +60,6 @@ public class InputHeightActivity extends AppCompatActivity {
                     sharedPrefManager.storeGoalForDayOfWeek(TimeMachine.getDayOfWeek(), getResources().getInteger(R.integer.default_goal));
                     sharedPrefManager.setFirstTime(true);
                     sharedPrefManager.setIsWalker(true);
-
                     startActivity(new Intent(InputHeightActivity.this, MainPageActivity.class));
                 }
             }

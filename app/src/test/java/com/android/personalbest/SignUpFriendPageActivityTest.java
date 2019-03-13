@@ -34,7 +34,7 @@ public class SignUpFriendPageActivityTest {
         String currentAppUserEmail = "";
         String friendEmail = "";
 
-        cloudstoreService.isInUserPendingListCheck(currentAppUserEmail,friendEmail);
+        cloudstoreService.isInUserPendingListCheck(signUpFriendPageActivity, currentAppUserEmail,friendEmail);
         assertEquals(true,cloudstoreService.getUserPendingStatus());
     }
 
@@ -43,7 +43,7 @@ public class SignUpFriendPageActivityTest {
         String currentAppUserEmail = "";
         String friendEmail = "";
 
-        cloudstoreService.isInFriendPendingListCheck(currentAppUserEmail,friendEmail);
+        cloudstoreService.isInFriendPendingListCheck(signUpFriendPageActivity, currentAppUserEmail,friendEmail);
         assertEquals(true,cloudstoreService.getFriendPendingStatus());
     }
 
@@ -52,7 +52,7 @@ public class SignUpFriendPageActivityTest {
         String currentAppUserEmail = "";
         String friendEmail = "";
 
-        cloudstoreService.isInFriendListCheck(currentAppUserEmail,friendEmail);
+        cloudstoreService.isInFriendListCheck(signUpFriendPageActivity, currentAppUserEmail,friendEmail);
         assertEquals(true,cloudstoreService.getFriendStatus());
     }
 

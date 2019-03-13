@@ -10,9 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.android.personalbest.fitness.FitnessService;
 import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.notifications.GoalNotificationAdapter;
+import com.google.firebase.FirebaseApp;
 
 import java.util.Calendar;
 
@@ -28,8 +31,10 @@ public class MainPageActivity extends AppCompatActivity {
     public TextView numStepDone;
     public TextView goal;
     public SharedPrefManager sharedPrefManager;
+    public CloudstoreService cloudstoreService;
 
-    public static boolean mock = true; //change to true for testing purposes
+    public static boolean mockSteps = true;
+    public static boolean mockCloud = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +54,14 @@ public class MainPageActivity extends AppCompatActivity {
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
 
+        FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
+
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        fitnessService = FitnessServiceFactory.create(this, false);
+        fitnessService = FitnessServiceFactory.create(this, mockSteps);
+
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -132,15 +141,13 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void newDay() {
         int storedDay = sharedPrefManager.getDayOfWeekInStorage();
-        int storedMonth = sharedPrefManager.getDayOfMonthInStorage();
-        int month = sharedPrefManager.getMonthInStorage();
 
         sharedPrefManager.storeGoalForDayOfWeek(storedDay, sharedPrefManager.getGoal());
         sharedPrefManager.storeTotalStepsFromYesterday(sharedPrefManager.getTotalStepsForDayOfWeek(storedDay));
         sharedPrefManager.setGoalExceededToday(false);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        storeUserDataInCloud(storedDay, storedMonth, month);
+        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail());
 
         //check if it's a new week and we need to reset the bar chart
         if (storedDay == Calendar.SATURDAY) {
@@ -209,18 +216,6 @@ public class MainPageActivity extends AppCompatActivity {
         int completedSteps = Integer.parseInt(numStepDone.getText().toString());
         int totalSteps = completedSteps + steps;
         totalUpdated(totalSteps);
-    }
-
-    public void storeUserDataInCloud(int dayOfWeek, int dayOfMonth, int month) {
-        UserDayData todayData = new UserDayData();
-
-        todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
-        todayData.setIntentionalMph(sharedPrefManager.getIntentionalMilesPerHour(dayOfWeek));
-        todayData.setIntentionalSteps(sharedPrefManager.getIntentionalStepsTaken(dayOfWeek));
-        todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek));
-
-        todayData.setDayOfMonth(dayOfMonth);
-        todayData.setMonth(month);
     }
 
     public void totalUpdated(int total) {
