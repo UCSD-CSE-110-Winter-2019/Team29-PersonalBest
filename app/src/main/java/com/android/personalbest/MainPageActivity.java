@@ -52,7 +52,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        fitnessService = FitnessServiceFactory.create(this, mock);
+        fitnessService = FitnessServiceFactory.create(this, false);
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
