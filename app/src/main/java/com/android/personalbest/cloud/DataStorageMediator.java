@@ -1,4 +1,6 @@
-package com.android.personalbest;
+package com.android.personalbest.cloud;
+
+import com.android.personalbest.MonthlyDataList;
 
 public class DataStorageMediator {
     public MonthlyDataList monthlyActivity;

@@ -3,7 +3,6 @@ package com.android.personalbest.cloud;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.personalbest.DataStorageMediator;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
