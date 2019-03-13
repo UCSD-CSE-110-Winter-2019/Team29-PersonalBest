@@ -21,6 +21,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MonthlyBarChartActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
     public CombinedChart chart;
     public ArrayList<BarEntry> entries;
     public ArrayList<Entry> line;
-    public SharedPrefManager pastWeek;
+    public static List<UserDayData> monthlyActivity;
 
     private TextView totalSteps;
     private TextView totalTime;
@@ -88,8 +89,8 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         distanceNumber = findViewById(R.id.distancenumber);
 
         //setting up bar chart
-        pastWeek = new SharedPrefManager(this.getApplicationContext());
-        
+        monthlyActivity =
+
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
 
