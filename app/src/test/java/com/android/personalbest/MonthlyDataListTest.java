@@ -7,16 +7,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-public class MonthlyActivityLocalDataTest {
+public class MonthlyDataListTest {
 
     MainPageActivity mainPageActivity;
     SharedPrefManager sharedPrefManager;
-    MonthlyActivityLocalData monthlyActivityLocalData;
+    MonthlyDataList monthlyDataList;
 
     @BeforeClass
     public static void beforeClass(){
@@ -28,13 +29,12 @@ public class MonthlyActivityLocalDataTest {
     public void init() {
         mainPageActivity = Robolectric.setupActivity(MainPageActivity.class);
         sharedPrefManager = new SharedPrefManager(mainPageActivity);
-        monthlyActivityLocalData = new MonthlyActivityLocalData();
+        monthlyDataList = new MonthlyDataList(mainPageActivity);
     }
 
     @Test
     public void testNewUser() {
-        monthlyActivityLocalData.storeMonthlyActivityForNewUser();
-        UserDayData dayData = monthlyActivityLocalData.getMyMonthlyActivity().list.get(27);
+        UserDayData dayData = monthlyDataList.getTodayData();
         assertEquals(0, dayData.getTotalSteps());
         assertEquals(0, dayData.getIntentionalSteps());
         assertEquals(5000, dayData.getGoal());
@@ -44,8 +44,6 @@ public class MonthlyActivityLocalDataTest {
 
     @Test
     public void testUpdateData() {
-        monthlyActivityLocalData.storeMonthlyActivityForNewUser();
-
         int dayOfWeek = TimeMachine.getDayOfWeek();
         int totalStepsTaken = 8000;
         int intentionalStepsTaken = 5000;
@@ -58,9 +56,9 @@ public class MonthlyActivityLocalDataTest {
         sharedPrefManager.storeIntentionalWalkStats(dayOfWeek, intentionalStepsTaken, intentionalDistanceInMiles, intentionalMilesPerHour, intentionalTimeElapsed);
         sharedPrefManager.setGoal(goal);
 
-        monthlyActivityLocalData.updateTodayData(mainPageActivity);
+        monthlyDataList.updateTodayData();
 
-        UserDayData dayData = monthlyActivityLocalData.getMyMonthlyActivity().list.get(27);
+        UserDayData dayData = monthlyDataList.getTodayData();
         assertEquals(totalStepsTaken, dayData.getTotalSteps());
         assertEquals(intentionalStepsTaken, dayData.getIntentionalSteps());
         assertEquals(intentionalDistanceInMiles, dayData.getIntentionalDistance(), 0.01);
@@ -70,9 +68,6 @@ public class MonthlyActivityLocalDataTest {
 
     @Test
     public void testEndOfDay() {
-
-        monthlyActivityLocalData.storeMonthlyActivityForNewUser();
-
         int dayOfWeek = TimeMachine.getDayOfWeek();
         int totalStepsTaken = 8000;
         int intentionalStepsTaken = 5000;
@@ -85,16 +80,16 @@ public class MonthlyActivityLocalDataTest {
         sharedPrefManager.storeIntentionalWalkStats(dayOfWeek, intentionalStepsTaken, intentionalDistanceInMiles, intentionalMilesPerHour, intentionalTimeElapsed);
         sharedPrefManager.setGoal(goal);
 
-        monthlyActivityLocalData.updateDataAtEndOfDay(mainPageActivity);
+        monthlyDataList.updateDataAtEndOfDay();
 
-        UserDayData dayData = monthlyActivityLocalData.getMyMonthlyActivity().list.get(26);
+        UserDayData dayData = monthlyDataList.list.get(26);
         assertEquals(totalStepsTaken, dayData.getTotalSteps());
         assertEquals(intentionalStepsTaken, dayData.getIntentionalSteps());
         assertEquals(intentionalDistanceInMiles, dayData.getIntentionalDistance(), 0.01);
         assertEquals(intentionalMilesPerHour, dayData.getIntentionalMph(), 0.01);
         assertEquals(goal, dayData.getGoal());
 
-        dayData = monthlyActivityLocalData.getMyMonthlyActivity().list.get(27);
+        dayData = monthlyDataList.getTodayData();
         assertEquals(0, dayData.getTotalSteps());
         assertEquals(0, dayData.getIntentionalSteps());
         assertEquals(0.0, dayData.getIntentionalDistance(), 0.01);

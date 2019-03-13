@@ -1,7 +1,6 @@
 package com.android.personalbest.cloud;
 
-import com.android.personalbest.FriendListActivity;
-import com.android.personalbest.MonthlyActivityLocalData;
+import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
 
 import java.util.Map;
@@ -36,9 +35,10 @@ public interface CloudstoreService {
     void resetUserAddFriendProcess();
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
-    void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData);
-    void updateMonthlyActivityData(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData);
-    void getFriendMonthlyActivity(String friendEmail, MonthlyActivityLocalData monthlyActivityLocalData);
-    void getMyMonthlyActivity(String currentAppUserEmail, MonthlyActivityLocalData monthlyActivityLocalData);
+    void updateMonthlyActivityEndOfDay(String currentAppUserEmail);
+    void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex);
+    void updateTodayData(String currentAppUserEmail);
+    MonthlyDataList getFriendMonthlyActivity(String friendEmail);
+    MonthlyDataList getMyMonthlyActivity(String currentAppUserEmail);
 
 }
