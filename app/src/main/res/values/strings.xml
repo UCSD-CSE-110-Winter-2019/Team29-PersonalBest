@@ -61,6 +61,7 @@
     <string name="goal">goal</string>
     <string name="current_user_email">currentAppUserEmail</string>
     <string name="friend_email">friendEmail</string>
+    <string name="monthly_email">MonthlyEmail</string>
     <string name="friend_list_set">friendListSet</string>
 
     <!-- UserSettings -->

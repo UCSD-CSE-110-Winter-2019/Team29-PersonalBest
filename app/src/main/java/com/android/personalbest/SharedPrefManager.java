@@ -48,6 +48,17 @@ public class SharedPrefManager {
         return sharedPref.getString(res.getString(R.string.friend_email),"");
     }
 
+    //store email for Monthly Bar Chart
+    public void setMonthlyEmail(String email) {
+        editor.putString(res.getString(R.string.monthly_email),email);
+        editor.apply();
+    }
+
+    //return email for Monthly Bar Chart
+    public String getMonthlyEmail(){
+        return sharedPref.getString(res.getString(R.string.monthly_email),"");
+    }
+
     public void setFriendListSet(List<String> friendList){
 
         Set<String>friendListSet = new HashSet<>();

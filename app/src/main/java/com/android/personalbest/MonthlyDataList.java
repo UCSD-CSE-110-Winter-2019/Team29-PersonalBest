@@ -59,5 +59,6 @@ public class MonthlyDataList {
         todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
         todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek));
         todayData.setGoal(sharedPrefManager.getGoal());
+        todayData.setIntentionalTime(sharedPrefManager.getIntentionalTimeElapsed(dayOfWeek));
     }
 }

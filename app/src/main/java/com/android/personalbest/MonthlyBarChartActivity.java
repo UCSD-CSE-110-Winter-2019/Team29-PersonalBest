@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
+import com.android.personalbest.cloud.FirestoreAdapter;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -30,7 +33,12 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
     public CombinedChart chart;
     public ArrayList<BarEntry> entries;
     public ArrayList<Entry> line;
-    public static List<UserDayData> monthlyActivity;
+    private static List<UserDayData> monthlyActivity;
+    private MonthlyDataList monthlyData;
+    private CloudstoreService cloudstoreService;
+    private SharedPrefManager sharedPrefManager;
+    public static boolean mockCloud = false;
+    private String userEmail;
 
     private TextView totalSteps;
     private TextView totalTime;
@@ -89,7 +97,11 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         distanceNumber = findViewById(R.id.distancenumber);
 
         //setting up bar chart
-        monthlyActivity =
+        userEmail = sharedPrefManager.getMonthlyEmail();
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
+        monthlyData = new MonthlyDataList();
+        cloudstoreService.getMonthlyActivity(userEmail, monthlyData);
+        monthlyActivity = monthlyData.getList();
 
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
@@ -103,14 +115,15 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         entries = new ArrayList<>();
         line = new ArrayList<Entry>();
 
-        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-         intentionalSteps = pastWeek.getIntentionalStepsTaken(i);
-         nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(i);
-         goal = pastWeek.getGoalForDayOfWeek(i);
+        for (int i = 0; i < monthlyActivity.size(); i++) {
+            UserDayData todayData = monthlyActivity.get(i);
+            intentionalSteps = todayData.getIntentionalSteps();
+            nonIntentionalSteps = todayData.getTotalSteps() - intentionalSteps;
+            goal = todayData.getGoal();
 
-         data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
-         entries.add(data);
-         line.add(new Entry(i, goal));
+            data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
+            entries.add(data);
+            line.add(new Entry(i, goal));
         }
 
         LineDataSet lineDataSet = new LineDataSet(line, "");
@@ -141,11 +154,12 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
 
                 int day = (int) e.getX();
 
-                intentionalSteps = pastWeek.getIntentionalStepsTaken(day);
-                nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(day);
-                mPH = pastWeek.getIntentionalMilesPerHour(day);
-                time = pastWeek.getIntentionalTimeElapsed(day);
-                miles = pastWeek.getIntentionalDistanceInMiles(day);
+                UserDayData todayData = monthlyActivity.get(day);
+                intentionalSteps = todayData.getIntentionalSteps();
+                nonIntentionalSteps = todayData.getTotalSteps() - intentionalSteps;
+                mPH = todayData.getIntentionalMph();
+                time = todayData.getIntentionalTime();
+                miles = todayData.getIntentionalDistance();
 
                 String stepsStr = intentionalSteps + nonIntentionalSteps + getString(R.string.emptyString);
                 String timeStr = time + getString(R.string.emptyString);

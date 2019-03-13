@@ -38,7 +38,6 @@ public interface CloudstoreService {
     void updateMonthlyActivityEndOfDay(String currentAppUserEmail);
     void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex);
     void updateTodayData(String currentAppUserEmail);
-    void getFriendMonthlyActivity(String friendEmail, MonthlyDataList friendData);
-    void getMyMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData);
+    void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData);
 
 }
