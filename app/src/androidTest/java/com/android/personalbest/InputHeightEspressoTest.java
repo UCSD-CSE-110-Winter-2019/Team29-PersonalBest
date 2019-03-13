@@ -29,7 +29,8 @@ public class InputHeightEspressoTest extends FitnessServiceFactory {
 
     @BeforeClass
     public static void beforeClass(){
-        MainPageActivity.mock = true;
+        MainPageActivity.mockSteps = true;
+        MainPageActivity.mockCloud = true;
     }
 
     @Rule

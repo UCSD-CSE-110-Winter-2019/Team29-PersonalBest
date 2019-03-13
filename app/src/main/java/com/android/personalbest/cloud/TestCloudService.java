@@ -1,6 +1,10 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
+import android.content.Context;
+
+import java.util.Map;
 
 public class TestCloudService implements CloudstoreService{
 
@@ -9,11 +13,14 @@ public class TestCloudService implements CloudstoreService{
     private boolean friendStatus = false;
     private boolean isAppUser = false;
 
-    private SignUpFriendPageActivity signUpFriendPageActivity;
+    private Context context;
 
-    public TestCloudService(SignUpFriendPageActivity signUpFriendPageActivity){
-        this.signUpFriendPageActivity = signUpFriendPageActivity;
+    public TestCloudService(Context context){
+        this.context = context;
     }
+
+    @Override
+    public void setAppUserInCloud(String appUser, Map<String, Object> friend) { }
 
     @Override
     public void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail) {
@@ -21,17 +28,17 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public void isInUserPendingListCheck(String currentAppUserEmail, String friendEmail) {
+    public void isInUserPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setUserPendingStatus(true);
     }
 
     @Override
-    public void isInFriendListCheck(String currentAppUserEmail, String friendEmail) {
+    public void isInFriendListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendStatus(true);
     }
 
     @Override
-    public void isInFriendPendingListCheck(String currentAppUserEmail, String friendEmail) {
+    public void isInFriendPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendPendingStatus(true);
     }
 
@@ -95,4 +102,11 @@ public class TestCloudService implements CloudstoreService{
         setAppUserStatus(true);
     }
 
+    //For testing, can add mock implementations here
+    public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
+    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {}
+    public void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex) {}
+    public void updateTodayData(String currentAppUserEmail) {}
+    public void getFriendMonthlyActivity(String friendEmail, MonthlyDataList friendData) {}
+    public void getMyMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData) {}
 }
