@@ -22,7 +22,6 @@ public class WalkActivityUnitTest {
 
     @Before
     public void setup(){
-
         walkActivity = Robolectric.setupActivity(WalkActivity.class);
         walkActivity.walkDataAdapter = new WalkDataAdapter(walkActivity);
         intentionalStepTextView = walkActivity.findViewById(R.id.intentionalStep);

@@ -57,7 +57,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
 
         //if the input email is in the appUserList check if the inputEmail is in the user pending friendList
         if(cloudstoreService.getAppUserStatus()) {
-            cloudstoreService.isInUserPendingListCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
+            cloudstoreService.isInUserPendingListCheck(this, sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
         }
         //If the input email is not in the appUserList prompt the user.
         else {
@@ -73,7 +73,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     @Override
     public void onIsInUserPendingListCheckCompleted() {
         //check if the input email is in user friendList
-        cloudstoreService.isInFriendListCheck(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
+        cloudstoreService.isInFriendListCheck(this, sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
                     Toast.LENGTH_SHORT);
             toast.show();
             //check if the user is in friend's pending list
-            cloudstoreService.isInFriendPendingListCheck(sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
+            cloudstoreService.isInFriendPendingListCheck(this, sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
 
         }
         Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(cloudstoreService.getAppUserStatus()));

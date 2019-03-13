@@ -3,13 +3,11 @@ package com.android.personalbest.walkData;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.TimeMachine;
 import com.android.personalbest.WalkActivity;
-import com.android.personalbest.WalkStatsCalculator;
 
 public class WalkDataAdapter implements WalkData {
 
