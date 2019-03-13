@@ -56,7 +56,6 @@ public class MainPageActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
-        cloudstoreService.getMyMonthlyActivity(sharedPrefManager.getCurrentAppUserEmail());
 
         sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
