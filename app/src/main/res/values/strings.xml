@@ -8,6 +8,8 @@
     <string name="login">LogInStatus</string>
     <string name="done">Done</string>
 
+
+
     <!-- MainPageActivity -->
     <string name="blank">""</string>
     <string name="steps_done">STEPS DONE:</string>
@@ -140,4 +142,6 @@
     <!-- Notifications -->
     <string name="goalNotifTitle">Personal Best: Goal Met</string>
     <string name="goalNotifBody">Congrats! You met your goal.</string>
+
+
 </resources>
