@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Date;
@@ -91,25 +92,26 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initMessageUpdateListener(){
-        chat.addSnapshotListener((newChatSnapShot, error) -> {
-            if (error != null) {
-                Log.e(TAG, error.getLocalizedMessage());
-                return;
-            }
-            if (newChatSnapShot != null && !newChatSnapShot.isEmpty()) {
-                StringBuilder sb = new StringBuilder();
-                List<DocumentChange> documentChanges = newChatSnapShot.getDocumentChanges();
-                documentChanges.forEach(change -> {
-                    QueryDocumentSnapshot document = change.getDocument();
-                    sb.append(document.get(FROM_KEY));
-                    sb.append(":\n");
-                    sb.append(document.get(TEXT_KEY));
-                    sb.append("\n");
-                    sb.append("---\n");
-                });
-                TextView chatView = findViewById(R.id.chat);
-                chatView.append(sb.toString());
-            }
-        });
+        chat.orderBy(TIMESTAMP_KEY, Query.Direction.ASCENDING)
+            .addSnapshotListener((newChatSnapShot, error) -> {
+                if (error != null) {
+                    Log.e(TAG, error.getLocalizedMessage());
+                    return;
+                }
+                if (newChatSnapShot != null && !newChatSnapShot.isEmpty() && !newChatSnapShot.getMetadata().hasPendingWrites()) {
+                    StringBuilder sb = new StringBuilder();
+                    List<DocumentChange> documentChanges = newChatSnapShot.getDocumentChanges();
+                    documentChanges.forEach(change -> {
+                        QueryDocumentSnapshot document = change.getDocument();
+                        sb.append(document.get(FROM_KEY));
+                        sb.append(":\n");
+                        sb.append(document.get(TEXT_KEY));
+                        sb.append("\n");
+                        sb.append("---\n");
+                    });
+                    TextView chatView = findViewById(R.id.chat);
+                    chatView.append(sb.toString());
+                }
+            });
     }
 }

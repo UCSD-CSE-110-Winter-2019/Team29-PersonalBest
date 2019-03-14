@@ -13,4 +13,3 @@ exports.addTimeStamp = functions.firestore
 
      return "snap was null or empty";
    });
-
