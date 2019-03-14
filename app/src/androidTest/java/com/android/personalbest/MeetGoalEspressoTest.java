@@ -109,14 +109,11 @@ public class MeetGoalEspressoTest {
         Espresso.onView(withId(R.id.textView11))
                 .check(matches(withText(mActivityTestRule.getActivity().getString(R.string.goal_reached))));
 
-
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private static Matcher<View> childAtPosition(

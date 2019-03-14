@@ -56,7 +56,7 @@ public class SubgoalEncouragementEspressoTest {
     }
 
     @Test
-    public void meetGoalTest() {
+    public void meetSubgoalTest() {
 
         try {
             Thread.sleep(2000);
