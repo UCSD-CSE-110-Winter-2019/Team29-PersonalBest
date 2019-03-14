@@ -143,5 +143,12 @@
     <string name="goalNotifTitle">Personal Best: Goal Met</string>
     <string name="goalNotifBody">Congrats! You met your goal.</string>
 
+    <!-- Chat -->
+    <string name="message_will_appear_here">message will appear here</string>
+    <string name="message">message</string>
+    <string name="send">send</string>
+    <string name="go_back">Go Back</string>
+
+
 
 </resources>

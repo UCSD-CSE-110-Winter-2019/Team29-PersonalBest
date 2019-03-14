@@ -385,6 +385,15 @@ public class SharedPrefManager {
         }
     }
 
+    public void setCurrentChatFriend(String email){
+        editor.putString("current_chat_friend", email);
+        editor.apply();
+    }
+
+    public String getCurrentChatFriend(){
+        return sharedPref.getString("current_chat_friend", null);
+    }
+
     void resetSharedPrefToDefault() {
         //clear shared pref
         editor.clear();
