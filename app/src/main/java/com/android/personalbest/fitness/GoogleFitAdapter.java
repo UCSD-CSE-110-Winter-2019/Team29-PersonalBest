@@ -108,7 +108,7 @@ public class GoogleFitAdapter implements FitnessService {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "There was a problem getting the step count.", e);
+                                Log.i(TAG, "There was a problem getting the step count.", e);
                             }
                         });
     }
@@ -119,7 +119,7 @@ public class GoogleFitAdapter implements FitnessService {
         runnable = new Runnable() {
             @Override
             public void run() {
-
+                Log.i(TAG,"Update every second");
                 updateStepCount();
                 handler.postDelayed(this, 1000);
             }
