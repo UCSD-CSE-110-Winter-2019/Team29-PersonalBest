@@ -216,7 +216,8 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void addToStepCount(int steps) {
-        int completedSteps = Integer.parseInt(numStepDone.getText().toString());
+        //int completedSteps = Integer.parseInt(numStepDone.getText().toString());
+        int completedSteps = sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek());
         int totalSteps = completedSteps + steps;
         totalUpdated(totalSteps);
     }
