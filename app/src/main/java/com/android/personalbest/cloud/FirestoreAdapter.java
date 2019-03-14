@@ -190,8 +190,8 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    public static void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
-
+    @Override
+    public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
         currentAppUser.document(currentAppUserEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

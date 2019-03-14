@@ -1,17 +1,22 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
+import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
 import android.content.Context;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class TestCloudService implements CloudstoreService{
 
-    private boolean userPendingStatus = false;
-    private boolean friendPendingStatus = false;
-    private boolean friendStatus = false;
-    private boolean isAppUser = false;
+    private boolean userPendingStatus = true;
+    private boolean friendPendingStatus = true;
+    private boolean friendStatus = true;
+    private boolean isAppUser = true;
 
     private Context context;
 
@@ -25,36 +30,50 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail) {
         setAppUserStatus(true);
+        signUpFriendPageActivity.onAppUserCheckCompleted();
     }
 
     @Override
     public void isInUserPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setUserPendingStatus(true);
+        signUpFriendPageActivity.onIsInUserPendingListCheckCompleted();
     }
 
     @Override
     public void isInFriendListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendStatus(true);
+        signUpFriendPageActivity.onIsInFriendListCheckCompleted();
     }
 
     @Override
     public void isInFriendPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendPendingStatus(true);
+        setFriendStatus(true);
+        signUpFriendPageActivity.onIsInFriendPendingListCheckCompleted();
     }
 
     @Override
-    public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {
-        setFriendStatus(true);
-    }
+    public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {}
 
     @Override
     public void addToFriendList(String currentAppUserEmail, String friendEmail) {
-        setFriendStatus(true);
+        SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
+
+        //add friend to the local list
+        sharedPrefManager.getFriendListSet().add(friendEmail);
+        List<String> list = new ArrayList<String>();
+        list.addAll(sharedPrefManager.getFriendListSet());
+        sharedPrefManager.setFriendListSet(list);
     }
 
     @Override
-    public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {
-        setFriendStatus(true);
+    public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {}
+
+    @Override
+    public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+        List<String> list = new ArrayList<>();
+        list.add("sarah@gmail.com");
+        friendListActivity.onGetFriendListCompleted(list);
     }
 
     @Override
@@ -63,9 +82,7 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public boolean getAppUserStatus() {
-        return this.isAppUser;
-    }
+    public boolean getAppUserStatus() { return this.isAppUser; }
 
     @Override
     public void setFriendStatus(boolean friendStatus) {
@@ -98,9 +115,7 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public void resetUserAddFriendProcess() {
-        setAppUserStatus(true);
-    }
+    public void resetUserAddFriendProcess() {}
 
     //For testing, can add mock implementations here
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}

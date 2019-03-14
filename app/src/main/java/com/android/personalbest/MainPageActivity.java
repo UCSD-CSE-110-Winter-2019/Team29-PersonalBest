@@ -53,6 +53,8 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
+        sharedPrefManager.setMockSteps(mockSteps);
+        sharedPrefManager.setMockCloud(mockCloud);
 
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
@@ -61,7 +63,6 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mockSteps);
-
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
