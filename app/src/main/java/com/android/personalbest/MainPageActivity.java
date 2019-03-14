@@ -99,6 +99,7 @@ public class MainPageActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        numStepDone.setText(String.valueOf(sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek())));
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
         checkGoalMet();
