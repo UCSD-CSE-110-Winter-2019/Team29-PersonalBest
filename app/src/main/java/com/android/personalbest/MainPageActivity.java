@@ -195,7 +195,9 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void checkSubGoalMet() {
+        Log.d("TEST", "checking for subgoal met");
         if (sharedPrefManager.getSubGoalReached()) {
+            Log.d("TEST", "subgoal met");
             int dayOfMonth = TimeMachine.getDayOfMonth();
             long time = TimeMachine.getHourOfDay();
             int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
