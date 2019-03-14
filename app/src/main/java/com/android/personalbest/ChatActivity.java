@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +50,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         from = sharedPrefManager.getCurrentAppUserEmail();
         to = sharedPrefManager.getCurrentChatFriend();
+        int firstAtIndex = from.charAt('@');
+        int secondAtIndex = to.charAt('@');
+        from = from.substring(0, firstAtIndex);
+        to = to.substring(0, secondAtIndex);
         if(from.compareTo(to) < 0){
             DOCUMENT_KEY = from + to;
         }
@@ -62,6 +67,8 @@ public class ChatActivity extends AppCompatActivity {
                 .collection(MESSAGES_KEY);
 
         initMessageUpdateListener();
+
+        subscribeToNotificationsTopic();
 
         findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,4 +121,18 @@ public class ChatActivity extends AppCompatActivity {
                 }
             });
     }
+
+    private void subscribeToNotificationsTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic(DOCUMENT_KEY)
+                .addOnCompleteListener(task -> {
+                            String msg = "Subscribed to notifications";
+                            if (!task.isSuccessful()) {
+                                msg = "Subscribe to notifications failed";
+                            }
+                            Log.d(TAG, msg);
+                            Toast.makeText(ChatActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+                );
+    }
+
 }
