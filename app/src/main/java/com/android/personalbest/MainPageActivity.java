@@ -35,6 +35,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     public static boolean mockSteps = true;
     public static boolean mockCloud = false;
+    public static boolean demo = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,12 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mockSteps);
+
+        if (demo) {
+            //For subgoal encouragement
+            sharedPrefManager.storeTotalStepsFromYesterday(1000);
+            TimeMachine.setHourOfDay(21);
+        }
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
