@@ -111,6 +111,7 @@ public class FriendListActivity extends AppCompatActivity {
         }
 
         setFriendListUI();
+
     }
 
     private void setFriendListUI(){

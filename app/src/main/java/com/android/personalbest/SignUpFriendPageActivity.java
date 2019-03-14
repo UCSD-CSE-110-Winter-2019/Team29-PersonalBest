@@ -19,7 +19,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private CloudstoreService cloudstoreService;
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
-
     private String TAG = "SignUpFriendPageActivity";
 
     @Override
@@ -28,7 +27,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        cloudstoreService = CloudstoreServiceFactory.create(this);
+        cloudstoreService = CloudstoreServiceFactory.create(this,false);
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
         addFriendsBtn = findViewById(R.id.addBtn);
@@ -110,7 +109,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
                     "Add To Friends List Successfully(:",
                     Toast.LENGTH_LONG);
             cloudstoreService.removeFromPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
-            cloudstoreService.removeFromPendingFriendList(sharedPrefManager.getFriendEmail(),sharedPrefManager.getCurrentAppUserEmail());
             toast.show();
         }
 

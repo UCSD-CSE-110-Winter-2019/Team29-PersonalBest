@@ -7,6 +7,9 @@ import android.widget.Button;
 import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
+import com.android.personalbest.TimeMachine;
+
+import java.util.Calendar;
 
 public class TestFitnessService implements FitnessService {
     private MainPageActivity mainPageActivity;
@@ -23,7 +26,7 @@ public class TestFitnessService implements FitnessService {
     public TestFitnessService(MainPageActivity activity) {
         this.mainPageActivity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
-        total = sharedPrefManager.getTotalSteps();
+        total = sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek());
         goal = sharedPrefManager.getGoal();
 
         activity.numStepDone.setText(String.valueOf(total));
@@ -47,8 +50,6 @@ public class TestFitnessService implements FitnessService {
         }
     }
 
-
-
     @Override
     public void setup() {
         System.out.println("setup");
@@ -62,7 +63,7 @@ public class TestFitnessService implements FitnessService {
 
     @Override
     public int getCurrentStep() {
-        return sharedPrefManager.getTotalSteps();
+        return sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek());
     }
 
     @Override
