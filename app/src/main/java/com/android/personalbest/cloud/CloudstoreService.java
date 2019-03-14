@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface CloudstoreService {
 
-    //
+    //comment
     void setAppUserInCloud(String appUser, Map<String, Object> friend);
 
     void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail);
