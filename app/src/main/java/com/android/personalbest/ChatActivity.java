@@ -50,8 +50,8 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         from = sharedPrefManager.getCurrentAppUserEmail();
         to = sharedPrefManager.getCurrentChatFriend();
-        int firstAtIndex = from.charAt('@');
-        int secondAtIndex = to.charAt('@');
+        int firstAtIndex = from.indexOf('@');
+        int secondAtIndex = to.indexOf('@');
         from = from.substring(0, firstAtIndex);
         to = to.substring(0, secondAtIndex);
         if(from.compareTo(to) < 0){
