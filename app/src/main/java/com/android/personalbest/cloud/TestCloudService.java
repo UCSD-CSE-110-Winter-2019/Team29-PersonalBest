@@ -2,7 +2,6 @@ package com.android.personalbest.cloud;
 
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
-import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
 import android.content.Context;
 import android.util.Log;
@@ -30,26 +29,23 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail) {
         setAppUserStatus(true);
-        signUpFriendPageActivity.onAppUserCheckCompleted();
+        signUpFriendPageActivity.enableUserInteraction();
     }
 
     @Override
     public void isInUserPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setUserPendingStatus(true);
-        signUpFriendPageActivity.onIsInUserPendingListCheckCompleted();
     }
 
     @Override
     public void isInFriendListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendStatus(true);
-        signUpFriendPageActivity.onIsInFriendListCheckCompleted();
     }
 
     @Override
     public void isInFriendPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendPendingStatus(true);
         setFriendStatus(true);
-        signUpFriendPageActivity.onIsInFriendPendingListCheckCompleted();
     }
 
     @Override
@@ -57,13 +53,7 @@ public class TestCloudService implements CloudstoreService{
 
     @Override
     public void addToFriendList(String currentAppUserEmail, String friendEmail) {
-        SharedPrefManager sharedPrefManager = new SharedPrefManager(context);
-
-        //add friend to the local list
-        sharedPrefManager.getFriendListSet().add(friendEmail);
-        List<String> list = new ArrayList<String>();
-        list.addAll(sharedPrefManager.getFriendListSet());
-        sharedPrefManager.setFriendListSet(list);
+        Log.d("TEST", "Added friend to friend list");
     }
 
     @Override

@@ -23,13 +23,6 @@ public class SignUpFriendPageActivityTest {
     }
 
     @Test
-    public void testAppUserCheck(){
-        String friendEmail = "";
-        cloudstoreService.appUserCheck(signUpFriendPageActivity,friendEmail);
-        assertEquals(true,cloudstoreService.getAppUserStatus());
-    }
-
-    @Test
     public void testIsInUserPendingListCheck(){
         String currentAppUserEmail = "";
         String friendEmail = "";

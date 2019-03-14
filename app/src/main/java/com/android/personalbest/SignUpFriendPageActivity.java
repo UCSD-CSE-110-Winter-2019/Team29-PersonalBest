@@ -123,7 +123,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         returnFriendListBtn.setEnabled(false);
     }
 
-    private void enableUserInteraction(){
+    public void enableUserInteraction(){
         friendEmail.setEnabled(true);
         addFriendsBtn.setEnabled(true);
         returnFriendListBtn.setEnabled(true);
