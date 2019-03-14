@@ -62,6 +62,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(this, mockSteps);
 
+
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override

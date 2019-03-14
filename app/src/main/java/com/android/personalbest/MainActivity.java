@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken( "83289949414-ud0dn53urfr46sp3aib7ta8su7nct94v.apps.googleusercontent.com")
+                .requestIdToken("757516144939-c7fh4aclkjoc6fc79ms6hpbulr9ft1sg.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
