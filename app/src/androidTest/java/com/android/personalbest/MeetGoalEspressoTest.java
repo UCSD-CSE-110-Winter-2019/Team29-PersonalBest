@@ -1,12 +1,13 @@
 package com.android.personalbest;
 
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.annotation.UiThreadTest;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.Until;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -22,6 +23,8 @@ import org.junit.Test;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
 
 public class MeetGoalEspressoTest {
 
@@ -91,8 +94,10 @@ public class MeetGoalEspressoTest {
         }
 
         mDevice.openNotification();
-
-        //check for the Personal Best notification?
+        String NOTIFICATION_TITLE = mActivityTestRule.getActivity().getString(R.string.goalNotifTitle);
+        mDevice.wait(Until.hasObject(By.text(NOTIFICATION_TITLE)), CommonStatusCodes.TIMEOUT);
+        UiObject2 title = mDevice.findObject(By.text(NOTIFICATION_TITLE));
+        title.click();
 
         try {
             Thread.sleep(5000);
@@ -100,13 +105,9 @@ public class MeetGoalEspressoTest {
             e.printStackTrace();
         }
 
-        mActivityTestRule.finishActivity();
-        mActivityTestRule.launchActivity(null);
-
-        Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        mActivityTestRule.getActivity().sendBroadcast(it);
-
-        //check that the congrats prompt is on the screen
+        //check for congrats prompt
+        Espresso.onView(withId(R.id.textView11))
+                .check(matches(withText(mActivityTestRule.getActivity().getString(R.string.goal_reached))));
 
 
         try {
