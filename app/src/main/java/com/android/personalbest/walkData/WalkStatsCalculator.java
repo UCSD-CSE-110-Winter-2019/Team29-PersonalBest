@@ -1,7 +1,10 @@
-package com.android.personalbest;
+package com.android.personalbest.walkData;
 
 import android.app.Activity;
 import android.content.res.Resources;
+
+import com.android.personalbest.R;
+import com.android.personalbest.SharedPrefManager;
 
 public class WalkStatsCalculator {
     SharedPrefManager sharedPrefManager;

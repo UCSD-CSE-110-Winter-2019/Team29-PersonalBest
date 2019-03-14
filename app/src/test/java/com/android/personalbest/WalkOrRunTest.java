@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.widget.RadioButton;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -21,6 +22,11 @@ public class WalkOrRunTest {
     private SharedPrefManager sharedPrefManager;
 
     public WalkOrRunTest() {}
+
+    @BeforeClass
+    public static void beforeClass(){
+        MainPageActivity.mockCloud = true;
+    }
 
     @Before
     public void init() {

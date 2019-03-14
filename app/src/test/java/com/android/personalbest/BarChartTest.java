@@ -6,6 +6,7 @@ import android.widget.Button;
 import com.github.mikephil.charting.data.BarEntry;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -24,6 +25,11 @@ public class BarChartTest {
     private SharedPrefManager sharedPrefManager;
     ArrayList<BarEntry> entriesTest = new ArrayList<>();
     public BarChartTest() {}
+
+    @BeforeClass
+    public static void beforeClass(){
+        MainPageActivity.mockCloud = true;
+    }
 
     @Before
     public void init() {

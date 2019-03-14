@@ -67,7 +67,8 @@ public class RunWalkEspressoTest {
 
     @BeforeClass
     public static void beforeClass(){
-        MainPageActivity.mock = true;
+        MainPageActivity.mockSteps = true;
+        MainPageActivity.mockCloud = true;
     }
 
     @Rule
