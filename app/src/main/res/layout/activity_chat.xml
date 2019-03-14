@@ -19,43 +19,43 @@
             android:id="@+id/chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="message will appear here"
+            android:hint="@string/message_will_appear_here"
             android:padding="10dp"
             android:scrollbars="vertical" />
     </ScrollView>
 
     <EditText
         android:id="@+id/text_message"
+        android:inputType="text"
+        android:autofillHints=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_send"
         android:layout_margin="5dp"
-        android:hint="message" />
+        android:hint="@string/message" />
 
     <Button
         android:id="@+id/btn_send"
         android:layout_width="200dp"
         android:layout_height="75dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="5dp"
-        android:layout_marginLeft="2dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
-        android:text="send" />
+        android:text="@string/send" />
 
     <Button
         android:id="@+id/btn_go_back"
         android:layout_width="200dp"
         android:layout_height="75dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="0dp"
-        android:text="Go Back" />
+        android:text="@string/go_back" />
 
 </RelativeLayout>
 
