@@ -54,7 +54,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
 
     @Override
     public void onAppUserCheckCompleted() {
-
         //if the input email is in the appUserList check if the inputEmail is in the user pending friendList
         if(cloudstoreService.getAppUserStatus()) {
             cloudstoreService.isInUserPendingListCheck(this, sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
@@ -82,15 +81,13 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         // Duplicate Check: Make user the input email not in userPendingList and userFriend
         // if the input email satisfy the dupliacate check condition, add to the user pendingFriendList
         if(!(cloudstoreService.getUserPendingStatus() || cloudstoreService.getFriendStatus())){
-
             cloudstoreService.addToPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Add To User Pending FriendList (:",
+                    "Friend Request Sent",
                     Toast.LENGTH_SHORT);
             toast.show();
             //check if the user is in friend's pending list
             cloudstoreService.isInFriendPendingListCheck(this, sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
-
         }
         Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(cloudstoreService.getAppUserStatus()));
         Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(cloudstoreService.getUserPendingStatus()));

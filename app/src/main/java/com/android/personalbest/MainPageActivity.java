@@ -198,8 +198,8 @@ public class MainPageActivity extends AppCompatActivity {
             int dayOfMonth = TimeMachine.getDayOfMonth();
             long time = TimeMachine.getHourOfDay();
             int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
-
-            if ((dayOfMonth == subGoalDay + 1) || (dayOfMonth == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) {
+            int numFriends = sharedPrefManager.getNumFriends();
+            if (((dayOfMonth == subGoalDay + 1) || (dayOfMonth == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) && numFriends == 0){
                 sharedPrefManager.setSubGoalReached(false);
                 showSubGoalMsg();
             }
