@@ -23,6 +23,7 @@ import java.util.Calendar;
 public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
     private Button seeBarChart;
+    private Button seeMonthlyBarChart;
     private Button userSettings;
     private Button seeFriends;
     private Button updateData;
@@ -54,6 +55,7 @@ public class MainPageActivity extends AppCompatActivity {
         goal = findViewById(R.id.goal);
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
+        seeMonthlyBarChart = findViewById(R.id.seeMBarChart);
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
@@ -91,6 +93,14 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launchBarChartActivity();
+            }
+        });
+
+        seeMonthlyBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Monthly", "launched");
+                launchMonthlyBarChartActivity();
             }
         });
 
@@ -138,6 +148,12 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void launchBarChartActivity() {
         Intent walk = new Intent(this, BarChartActivity.class);
+        startActivity(walk);
+    }
+
+    public void launchMonthlyBarChartActivity() {
+        sharedPrefManager.setMonthlyEmail(sharedPrefManager.getCurrentAppUserEmail());
+        Intent walk = new Intent(this, MonthlyBarChartActivity.class);
         startActivity(walk);
     }
 

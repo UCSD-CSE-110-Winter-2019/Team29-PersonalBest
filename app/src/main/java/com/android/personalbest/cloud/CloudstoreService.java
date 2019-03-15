@@ -1,7 +1,10 @@
 package com.android.personalbest.cloud;
 
-import com.android.personalbest.MonthlyBarChartActivity;
+import android.support.v7.app.AppCompatActivity;
+
+import com.android.personalbest.BarChartActivity;
 import com.android.personalbest.FriendListActivity;
+import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
 
@@ -23,7 +26,6 @@ public interface CloudstoreService {
     void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail);
     void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail);
 
-
     void setAppUserStatus(boolean appUserStatus);
     boolean getAppUserStatus();
 
@@ -40,6 +42,7 @@ public interface CloudstoreService {
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
     void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData);
+    void getWeeklyActivity(BarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData);
 
     void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList);
     void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList);

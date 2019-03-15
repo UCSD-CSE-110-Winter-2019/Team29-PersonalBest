@@ -14,7 +14,8 @@
     <string name="steps_goal">GOAL:</string>
     <string name="start_walk">Start Walk</string>
     <string name="start_run">Start Run</string>
-    <string name="see_bar_chart">See Bar Chart</string>
+    <string name="see_bar_chart">Weekly Bar Chart</string>
+    <string name="see_monthly_bar_chart"> Monthly Bar Chart</string>
     <string name="user_settings">User Settings</string>
     <string name="update_steps">UPDATE STEPS</string>
     <string name="update_data">Send friends my updated data</string>
@@ -148,7 +149,5 @@
     <string name="send">send</string>
     <string name="go_back">Go Back</string>
     <string name="goalText">Goal:</string>
-    <string name="see_monthly_bar_chart">See Monthly Bar Chart</string>
-
 
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.android.personalbest.BarChartActivity;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
@@ -377,6 +378,33 @@ public class FirestoreAdapter implements CloudstoreService {
                     }
                 }
             });
+    }
+
+    @Override
+    public void getWeeklyActivity(final BarChartActivity weeklyBarChartActivity, String currentAppUserEmail, MonthlyDataList myData) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                                myData.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                Log.w(TAG, "c1 "+myData.getList().get(27).getTotalSteps());
+
+                                weeklyBarChartActivity.finishBarChartSetup();
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
     }
 
     private void onUpdateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {

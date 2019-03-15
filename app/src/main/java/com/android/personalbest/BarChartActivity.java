@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -20,7 +23,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
 public class BarChartActivity extends AppCompatActivity {
 
@@ -29,17 +32,24 @@ public class BarChartActivity extends AppCompatActivity {
     public CombinedChart chart;
     public ArrayList<BarEntry> entries;
     public ArrayList<Entry> line;
-    public SharedPrefManager pastWeek;
+    private static List<UserDayData> monthlyActivity;
+    private MonthlyDataList monthlyData;
+    private CloudstoreService cloudstoreService;
+    private SharedPrefManager sharedPrefManager;
+    public static boolean mockCloud = false;
+    private String userEmail;
 
     private TextView totalSteps;
     private TextView totalTime;
     private TextView averageMPH;
     private TextView totalDistance;
+    private TextView goalText;
 
     private TextView stepsNumber;
     private TextView timeNumber;
     private TextView MPHNumber;
     private TextView distanceNumber;
+    private TextView goalNumber;
 
     private BarEntry data;
     private int intentionalSteps;
@@ -52,14 +62,14 @@ public class BarChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar_chart);
+        setContentView(R.layout.activity_monthly_bar_chart);
 
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         homeButton = findViewById(R.id.homebutton);
-
-        setUpBarChart();
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                Log.i("MonthlyChart", "MActivity ended");
                 finish();
             }
         });
@@ -75,21 +85,31 @@ public class BarChartActivity extends AppCompatActivity {
     public void setUpBarChart(){
 
         //initializing buttons
-        homeButton = findViewById(R.id.homebutton);
+        chart = findViewById(R.id.barChart);
+        chart.setDescription("");
+        chart.setNoDataText("Loading Chart");
 
         //initializing stats textViews
         totalSteps = findViewById(R.id.totalsteps);
         totalTime = findViewById(R.id.totaltime);
         averageMPH = findViewById(R.id.averagemph);
         totalDistance = findViewById(R.id.totaldistance);
+        goalText = findViewById(R.id.goaltext);
         stepsNumber = findViewById(R.id.stepsnumber);
         timeNumber = findViewById(R.id.timenumber);
         MPHNumber = findViewById(R.id.mphnumber);
         distanceNumber = findViewById(R.id.distancenumber);
+        goalNumber = findViewById(R.id.goalnumber);
 
         //setting up bar chart
-        pastWeek = new SharedPrefManager(this.getApplicationContext());
+        userEmail = sharedPrefManager.getMonthlyEmail();
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
+        monthlyData = new MonthlyDataList();
+        Log.i("MAemail", "d "+monthlyData.getList().get(26).getTotalSteps());
+        cloudstoreService.getWeeklyActivity(this, userEmail, monthlyData);
+    }
 
+    public void finishBarChartSetup() {
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
 
@@ -98,29 +118,34 @@ public class BarChartActivity extends AppCompatActivity {
         chart.getXAxis().setDrawGridLines(false);
         chart.setScaleEnabled(false);
 
+        monthlyActivity = monthlyData.getList();
+        Log.w("MAemail", "e "+monthlyActivity.get(27).getTotalSteps());
+
         //getting total number of steps for each day (intentional)
         entries = new ArrayList<>();
         line = new ArrayList<Entry>();
 
-        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-            intentionalSteps = pastWeek.getIntentionalStepsTaken(i);
-            nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(i);
-            goal = pastWeek.getGoalForDayOfWeek(i);
+        for (int i = monthlyActivity.size() - 7; i < monthlyActivity.size(); i++) {
+            UserDayData todayData = monthlyActivity.get(i);
+            intentionalSteps = todayData.getIntentionalSteps();
+            nonIntentionalSteps = todayData.getTotalSteps() - intentionalSteps;
+            goal = todayData.getGoal();
 
             data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
-            Log.i("","");
             entries.add(data);
             line.add(new Entry(i, goal));
         }
 
         LineDataSet lineDataSet = new LineDataSet(line, "");
         lineDataSet.setColor(Color.RED);
+        lineDataSet.setDrawValues(false);
         LineData lineData = new LineData(lineDataSet);
 
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
         int[] colors = new int[]{Color.GREEN, Color.CYAN};
         dataSet.setColors(colors);
+        dataSet.setDrawValues(false);
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.75f);
         CombinedData combinedData = new CombinedData();
@@ -129,6 +154,13 @@ public class BarChartActivity extends AppCompatActivity {
         chart.setData(combinedData);
         chart.getXAxis().setAxisMaxValue(data.getXMax() + 0.25f);
         chart.getXAxis().setAxisMinValue(data.getXMin() - 0.25f);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        chart.getXAxis().setDrawLabels(false);
+        chart.getAxisRight().setDrawLabels(false);
+
+        //show the chart
+        chart.setMaxVisibleValueCount(1);
+        chart.setVisibility(View.VISIBLE);
 
         //onclicklistener for bar chart
         chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
@@ -138,23 +170,28 @@ public class BarChartActivity extends AppCompatActivity {
                 totalTime.setVisibility(View.VISIBLE);
                 averageMPH.setVisibility(View.VISIBLE);
                 totalDistance.setVisibility(View.VISIBLE);
+                goalText.setVisibility(View.VISIBLE);
 
                 int day = (int) e.getX();
 
-                intentionalSteps = pastWeek.getIntentionalStepsTaken(day);
-                nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(day);
-                mPH = pastWeek.getIntentionalMilesPerHour(day);
-                time = pastWeek.getIntentionalTimeElapsed(day);
-                miles = pastWeek.getIntentionalDistanceInMiles(day);
+                UserDayData todayData = monthlyActivity.get(day);
+                intentionalSteps = todayData.getIntentionalSteps();
+                nonIntentionalSteps = todayData.getTotalSteps() - intentionalSteps;
+                mPH = todayData.getIntentionalMph();
+                time = todayData.getIntentionalTime();
+                miles = todayData.getIntentionalDistance();
+                goal = todayData.getGoal();
 
                 String stepsStr = intentionalSteps + nonIntentionalSteps + getString(R.string.emptyString);
                 String timeStr = time + getString(R.string.emptyString);
                 String mphStr = mPH + getString(R.string.emptyString);
                 String distanceStr = miles + getString(R.string.emptyString);
+                String goalStr = goal + getString(R.string.emptyString);
                 stepsNumber.setText(stepsStr);
                 timeNumber.setText(timeStr);
                 MPHNumber.setText(mphStr);
                 distanceNumber.setText(distanceStr);
+                goalNumber.setText(goalStr);
             }
 
             @Override
@@ -164,3 +201,5 @@ public class BarChartActivity extends AppCompatActivity {
         });
     }
 }
+
+
