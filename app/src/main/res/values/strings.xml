@@ -8,8 +8,6 @@
     <string name="login">LogInStatus</string>
     <string name="done">Done</string>
 
-
-
     <!-- MainPageActivity -->
     <string name="blank">""</string>
     <string name="steps_done">STEPS DONE:</string>
@@ -150,6 +148,7 @@
     <string name="send">send</string>
     <string name="go_back">Go Back</string>
     <string name="goalText">Goal:</string>
+    <string name="see_monthly_bar_chart">See Monthly Bar Chart</string>
 
 
 </resources>

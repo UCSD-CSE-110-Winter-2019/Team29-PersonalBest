@@ -49,6 +49,8 @@ public class MainPageActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
+
         goal = findViewById(R.id.goal);
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
@@ -62,7 +64,6 @@ public class MainPageActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
 
-        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mockSteps);
