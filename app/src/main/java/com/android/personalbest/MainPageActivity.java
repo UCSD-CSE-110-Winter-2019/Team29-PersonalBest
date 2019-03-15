@@ -69,6 +69,9 @@ public class MainPageActivity extends AppCompatActivity {
             //For subgoal encouragement
             sharedPrefManager.storeTotalStepsFromYesterday(1000);
             TimeMachine.setHourOfDay(21);
+
+            //For monthly bar chart, can save mock data into the cloud (override the empty data to some initial values)
+            //cloudstoreService.updateMonthlyActivityData(26);
         }
 
         //set button listeners

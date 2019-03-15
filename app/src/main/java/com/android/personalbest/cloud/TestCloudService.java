@@ -17,6 +17,8 @@ public class TestCloudService implements CloudstoreService{
     private boolean friendStatus = true;
     private boolean isAppUser = true;
 
+    private static String mockFriendEmail = "sarah@gmail.com";
+
     private Context context;
 
     public TestCloudService(Context context){
@@ -62,7 +64,7 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
         List<String> list = new ArrayList<>();
-        list.add("sarah@gmail.com");
+        list.add(mockFriendEmail);
         friendListActivity.onGetFriendListCompleted(list);
     }
 
