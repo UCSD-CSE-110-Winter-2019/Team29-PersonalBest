@@ -1,7 +1,6 @@
 package com.android.personalbest;
 
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -60,7 +59,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar_chart);
+        setContentView(R.layout.activity_monthly_bar_chart);
 
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         homeButton = findViewById(R.id.homebutton);
@@ -152,6 +151,9 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         chart.setData(combinedData);
         chart.getXAxis().setAxisMaxValue(data.getXMax() + 0.25f);
         chart.getXAxis().setAxisMinValue(data.getXMin() - 0.25f);
+
+        //show the chart
+        chart.setVisibility(View.VISIBLE);
 
         //onclicklistener for bar chart
         chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
