@@ -45,7 +45,7 @@ public interface CloudstoreService {
     void getFriendMonthlyActivity(String friendEmail, MonthlyDataList friendData);
     void getMyMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData);
 
-    //
+    //chatMessage
     void initChat(String from, String to);
     void sendMessage(Map<String, String> newMessage);
     void initMessageUpdateListener();

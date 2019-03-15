@@ -3,11 +3,8 @@ package com.android.personalbest.chatmessage;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-
 import android.view.View;
 import android.widget.EditText;
-
 
 import com.android.personalbest.MainActivity;
 import com.android.personalbest.R;
@@ -34,21 +31,19 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
         from = sharedPrefManager.getCurrentAppUserEmail();
         to = sharedPrefManager.getCurrentChatFriend();
+
         cloudstoreService = CloudstoreServiceFactory.create(this,mock);
         cloudstoreService.initChat(from,to);
-
         cloudstoreService.initMessageUpdateListener();
 
         findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-
                 cloudstoreService.sendMessage(buildMessage());
             }
         });
@@ -60,7 +55,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private Map<String, String> buildMessage(){
         EditText messageView = findViewById(R.id.text_message);

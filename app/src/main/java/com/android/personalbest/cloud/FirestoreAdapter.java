@@ -7,9 +7,7 @@ import android.util.Log;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
-import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
-import com.android.personalbest.chatmessage.ChatActivity;
 import com.android.personalbest.chatmessage.ChatMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,7 +26,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +39,6 @@ public class FirestoreAdapter implements CloudstoreService {
     private CollectionReference chat;
     private boolean isAppUser = false;
     private Context context;
-
-
     private String CHAT_COLLECTION_KEY = "chats";
     private String CHAT_DOCUMENT_KEY;
     private String CHAT_MESSAGES_KEY = "messages";
@@ -372,7 +367,6 @@ public class FirestoreAdapter implements CloudstoreService {
     @Override
     public void initChat(String from, String to){
 
-
         if(from.compareTo(to) < 0){
             CHAT_DOCUMENT_KEY = from + to;
         }
@@ -385,8 +379,6 @@ public class FirestoreAdapter implements CloudstoreService {
                 .collection(CHAT_MESSAGES_KEY);
 
     }
-
-
 
     @Override
     public void initMessageUpdateListener() {
