@@ -102,7 +102,7 @@ public class BarChartActivity extends AppCompatActivity {
         goalNumber = findViewById(R.id.goalnumber);
 
         //setting up bar chart
-        userEmail = sharedPrefManager.getMonthlyEmail();
+        userEmail = sharedPrefManager.getCurrentAppUserEmail();
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
         monthlyData = new MonthlyDataList();
         Log.i("MAemail", "d "+monthlyData.getList().get(26).getTotalSteps());
