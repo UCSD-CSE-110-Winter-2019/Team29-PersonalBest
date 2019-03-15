@@ -28,7 +28,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        cloudstoreService = CloudstoreServiceFactory.create(this, sharedPrefManager.getMockCloud());
+        cloudstoreService = CloudstoreServiceFactory.create(this, mock || sharedPrefManager.getMockCloud());
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
         addFriendsBtn = findViewById(R.id.addBtn);
