@@ -25,6 +25,7 @@ public class MainPageActivity extends AppCompatActivity {
     private Button seeBarChart;
     private Button userSettings;
     private Button seeFriends;
+    private Button updateData;
 
     private FitnessService fitnessService;
     private int curStep;
@@ -55,6 +56,7 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
+        updateData = findViewById(R.id.updateData);
         sharedPrefManager.setMockSteps(mockSteps);
         sharedPrefManager.setMockCloud(mockCloud);
 
@@ -106,6 +108,13 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 launchUserSettings();
+            }
+        });
+
+        updateData.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                cloudstoreService.updateTodayData(sharedPrefManager.getCurrentAppUserEmail());
             }
         });
     }
