@@ -29,7 +29,6 @@ exports.sendChatNotifications = functions.firestore
          },
          topic: context.params.chatId
        };
-
        return admin.messaging().send(message)
          .then((response) => {
            // Response is a message ID string.
