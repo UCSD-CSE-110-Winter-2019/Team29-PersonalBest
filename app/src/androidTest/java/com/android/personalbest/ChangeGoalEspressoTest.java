@@ -60,15 +60,11 @@ public class ChangeGoalEspressoTest {
             e.printStackTrace();
         }
 
-        ViewInteraction appCompatButton2 = onView(
+        ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.userSettings), withText("User Settings"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
                         isDisplayed()));
-        appCompatButton2.perform(click());
+        appCompatButton3.perform(click());
+
 
         Espresso.onView(withId(R.id.changeGoal))
                 .perform(ViewActions.click());

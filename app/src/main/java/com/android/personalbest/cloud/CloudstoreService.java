@@ -1,9 +1,13 @@
 package com.android.personalbest.cloud;
 
+import android.support.v7.app.AppCompatActivity;
+
+import com.android.personalbest.BarChartActivity;
 import com.android.personalbest.FriendListActivity;
+import com.android.personalbest.MainPageActivity;
+import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
-import com.android.personalbest.chatmessage.ChatActivity;
 
 import java.util.Map;
 
@@ -39,9 +43,14 @@ public interface CloudstoreService {
     void resetUserAddFriendProcess();
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
+    void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData);
+    void getWeeklyActivity(BarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData);
+
     void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList);
     void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList);
     void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList);
+    void updateTodayWeeklyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList);
+    void updateTodayMonthlyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList);
     void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList);
 
     //chatMessage

@@ -11,7 +11,6 @@ public class MonthlyDataList {
     public static int NUMDAYS = 28;
 
     //Remove context from MonthlyDataList
-
     public MonthlyDataList() {
         list = new ArrayList<>();
 
@@ -59,6 +58,7 @@ public class MonthlyDataList {
         todayData.setIntentionalDistance(sharedPrefManager.getIntentionalDistanceInMiles(dayOfWeek));
         todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek));
         todayData.setGoal(sharedPrefManager.getGoal());
+        todayData.setIntentionalTime(sharedPrefManager.getIntentionalTimeElapsed(dayOfWeek));
     }
 
     public void mockPastData() {

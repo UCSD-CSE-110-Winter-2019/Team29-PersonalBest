@@ -1,5 +1,8 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.BarChartActivity;
+import com.android.personalbest.MainPageActivity;
+import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
@@ -139,10 +142,23 @@ public class TestCloudService implements CloudstoreService{
     }
 
     //For testing, can add mock implementations here
+    @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
+    @Override
+    public void getWeeklyActivity(BarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {}
+    @Override
+    public void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {}
+    @Override
     public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
     public void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void updateTodayWeeklyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void updateTodayMonthlyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
     public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {}
 
-    }
+}

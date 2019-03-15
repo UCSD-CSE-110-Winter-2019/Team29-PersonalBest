@@ -7,6 +7,7 @@ public class UserDayData {
     private int intentionalSteps;
     private int goal;
     private float intentionalDistance;
+    private int intentionalTime;
     private float intentionalMph;
 
     public UserDayData() {
@@ -15,15 +16,13 @@ public class UserDayData {
         intentionalSteps = 0;
         goal = 5000;
         intentionalDistance = 0.0f;
+        intentionalTime = 0;
         intentionalMph = 0.0f;
     }
 
     public UserDayData(int goal) {
+        this();
         this.goal = goal;
-        totalSteps = 0;
-        intentionalSteps = 0;
-        intentionalDistance = 0.0f;
-        intentionalMph = 0.0f;
     }
 
     public int getTotalSteps() {
@@ -40,6 +39,14 @@ public class UserDayData {
 
     public void setIntentionalSteps(int intentionalSteps) {
         this.intentionalSteps = intentionalSteps;
+    }
+
+    public int getIntentionalTime() {
+        return intentionalTime;
+    }
+
+    public void setIntentionalTime(int intentionalTime) {
+        this.intentionalTime = intentionalTime;
     }
 
     public int getGoal() {

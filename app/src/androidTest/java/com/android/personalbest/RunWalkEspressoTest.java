@@ -96,15 +96,12 @@ public class RunWalkEspressoTest {
         Espresso.onView(withId(R.id.startButton))
                 .check(matches(withText(R.string.start_walk)));
 
+
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.userSettings), withText("User Settings"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
                         isDisplayed()));
         appCompatButton2.perform(click());
+
 
         ViewInteraction appCompatRadioButton = onView(
                 allOf(withId(R.id.runnerOption), withText("Runner"),

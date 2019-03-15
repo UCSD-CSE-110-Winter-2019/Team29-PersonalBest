@@ -32,7 +32,7 @@ public class ChangeGoalTest {
     public void init() {
         userSettings = Robolectric.setupActivity(UserSettingsActivity.class);
         mainPage = Robolectric.setupActivity(MainPageActivity.class);
-        pastWeek = new SharedPrefManager(mainPage);
+        pastWeek = new SharedPrefManager(mainPage.getApplicationContext());
     }
 
     @Test

@@ -40,9 +40,7 @@ public class FriendListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
-
-        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
-        sharedPrefManager = new SharedPrefManager(this);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);
@@ -68,10 +66,16 @@ public class FriendListActivity extends AppCompatActivity {
                                     case 0:
                                         sharedPrefManager.setCurrentChatFriend(friendEmail);
                                         launchChatActivity();
+                                        dialog.dismiss();
+                                        break;
                                     case 1:
-                                        //code for friend's activity
+                                        sharedPrefManager.setMonthlyEmail(friendEmail);
+                                        launchMonthlyActivity();
+                                        dialog.dismiss();
+                                        break;
                                     case 2:
                                         dialog.dismiss();
+                                        break;
                                 }
                             }
                         });
@@ -103,6 +107,12 @@ public class FriendListActivity extends AppCompatActivity {
     private void launchChatActivity(){
         Intent chat = new Intent(this, ChatActivity.class);
         startActivity(chat);
+    }
+
+    private void launchMonthlyActivity() {
+        Intent monthlyActivity = new Intent(this, MonthlyBarChartActivity.class);
+        Log.i("MonthlyChart", "MActivity started");
+        startActivity(monthlyActivity);
     }
 
     private void launchSignUpFriendPageActivity(){

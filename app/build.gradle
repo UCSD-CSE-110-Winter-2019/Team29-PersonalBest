@@ -24,7 +24,7 @@ android {
     }
     lintOptions {
         warningsAsErrors = true
-        disable 'UnusedAttribute', 'OldTargetApi', 'InvalidPackage', 'ObsoleteSdkInt'
+        disable 'UnusedAttribute', 'OldTargetApi', 'InvalidPackage', 'ObsoleteSdkInt', 'MissingConstraints', 'GradleDependency'
     }
     compileOptions {
         sourceCompatibility = '1.8'

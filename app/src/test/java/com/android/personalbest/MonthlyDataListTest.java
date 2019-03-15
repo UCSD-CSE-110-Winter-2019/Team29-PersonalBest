@@ -28,7 +28,7 @@ public class MonthlyDataListTest {
     @Before
     public void init() {
         mainPageActivity = Robolectric.setupActivity(MainPageActivity.class);
-        sharedPrefManager = new SharedPrefManager(mainPageActivity);
+        sharedPrefManager = new SharedPrefManager(mainPageActivity.getApplicationContext());
         monthlyDataList = new MonthlyDataList();
     }
 

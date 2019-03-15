@@ -24,6 +24,7 @@ import java.util.Set;
 public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
     private Button seeBarChart;
+    private Button seeMonthlyBarChart;
     private Button userSettings;
     private Button seeFriends;
     private Button updateData;
@@ -51,9 +52,11 @@ public class MainPageActivity extends AppCompatActivity {
         }
 
         sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
+
         goal = findViewById(R.id.goal);
         startButton = findViewById(R.id.startButton);
         seeBarChart = findViewById(R.id.seeBarChart);
+        seeMonthlyBarChart = findViewById(R.id.seeMBarChart);
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
@@ -64,7 +67,6 @@ public class MainPageActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
 
-        sharedPrefManager = new SharedPrefManager(this);
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mockSteps);
@@ -91,7 +93,15 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchBarChartActivity();
+                cloudstoreService.updateTodayWeeklyData(MainPageActivity.this, sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
+            }
+        });
+
+        seeMonthlyBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPrefManager.setMonthlyEmail(sharedPrefManager.getCurrentAppUserEmail());
+                cloudstoreService.updateTodayMonthlyData(MainPageActivity.this, sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
             }
         });
 
@@ -139,6 +149,12 @@ public class MainPageActivity extends AppCompatActivity {
 
     public void launchBarChartActivity() {
         Intent walk = new Intent(this, BarChartActivity.class);
+        startActivity(walk);
+    }
+
+    public void launchMonthlyBarChartActivity() {
+        sharedPrefManager.setMonthlyEmail(sharedPrefManager.getCurrentAppUserEmail());
+        Intent walk = new Intent(this, MonthlyBarChartActivity.class);
         startActivity(walk);
     }
 

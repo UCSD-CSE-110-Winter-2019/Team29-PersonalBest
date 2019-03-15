@@ -18,7 +18,7 @@ public class StoreIntentionalWalkStatsTest {
     @Before
     public void init() {
         walkActivity = Robolectric.setupActivity(WalkActivity.class);
-        sharedPrefManager = new SharedPrefManager(walkActivity);
+        sharedPrefManager = new SharedPrefManager(walkActivity.getApplicationContext());
     }
 
     @Test
