@@ -35,7 +35,9 @@ public class FirestoreAdapter implements CloudstoreService {
     private SharedPrefManager sharedPrefManager;
 
     public FirestoreAdapter(Context context){
+
         this.context = context;
+        this.sharedPrefManager = new SharedPrefManager(context);
     }
 
     @Override
