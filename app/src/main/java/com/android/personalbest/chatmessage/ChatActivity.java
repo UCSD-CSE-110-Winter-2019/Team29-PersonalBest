@@ -40,10 +40,23 @@ public class ChatActivity extends AppCompatActivity {
 
         from = sharedPrefManager.getCurrentAppUserEmail();
         to = sharedPrefManager.getCurrentChatFriend();
-        int firstAtIndex = from.indexOf('@');
-        int secondAtIndex = to.indexOf('@');
-        from = from.substring(0, firstAtIndex);
-        to = to.substring(0, secondAtIndex);
+
+        //initializing to and from strings
+        if(from == null || from.length() == 0){
+            from = "";
+        }
+        else{
+            int firstAtIndex = from.indexOf('@');
+            from = from.substring(0, firstAtIndex);
+        }
+        if(to == null || to.length() == 0){
+            to = "";
+        }
+        else{
+            int secondAtIndex = to.indexOf('@');
+            to = to.substring(0, secondAtIndex);
+        }
+
         cloudstoreService = CloudstoreServiceFactory.create(this,mock);
         cloudstoreService.initChat(from,to);
         cloudstoreService.initMessageUpdateListener();
