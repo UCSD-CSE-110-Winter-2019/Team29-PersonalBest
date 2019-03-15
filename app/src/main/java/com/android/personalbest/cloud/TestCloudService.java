@@ -111,7 +111,9 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public void resetUserAddFriendProcess() {}
+    public void resetUserAddFriendProcess() {
+        setAppUserStatus(true);
+    }
 
     @Override
     public void initChat(String from, String to) {
@@ -132,7 +134,9 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public void subscribeToNotificationsTopic() {}
+    public void subscribeToNotificationsTopic() {
+        setAppUserStatus(false);
+    }
 
     //For testing, can add mock implementations here
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}

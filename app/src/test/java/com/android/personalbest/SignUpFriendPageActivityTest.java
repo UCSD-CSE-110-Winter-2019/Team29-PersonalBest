@@ -78,6 +78,7 @@ public class SignUpFriendPageActivityTest {
         cloudstoreService.resetUserAddFriendProcess();
         assertEquals(true,cloudstoreService.getAppUserStatus());
     }
+
 }
 
 
