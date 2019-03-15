@@ -69,6 +69,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                Log.i("MonthlyChart", "MActivity ended");
                 finish();
             }
         });
@@ -104,7 +105,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         userEmail = sharedPrefManager.getMonthlyEmail();
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
         monthlyData = new MonthlyDataList();
-        Log.w("MAemail", "d "+monthlyData.getList().get(26).getTotalSteps());
+        Log.i("MAemail", "d "+monthlyData.getList().get(26).getTotalSteps());
         cloudstoreService.getMonthlyActivity(this, userEmail, monthlyData);
     }
 
@@ -133,6 +134,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
             data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
             entries.add(data);
             line.add(new Entry(i, goal));
+            //TODO: remove
             if (i >= 0 ) {
                 Log.i("MAemail", i + " i");
                 Log.i("MAemail", goal + " goal");

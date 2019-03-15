@@ -59,11 +59,16 @@ public class FriendListActivity extends AppCompatActivity {
                                     case 0:
                                         sharedPrefManager.setCurrentChatFriend(friendEmail);
                                         launchChatActivity();
+                                        dialog.dismiss();
+                                        break;
                                     case 1:
                                         sharedPrefManager.setMonthlyEmail(friendEmail);
                                         launchMonthlyActivity();
+                                        dialog.dismiss();
+                                        break;
                                     case 2:
                                         dialog.dismiss();
+                                        break;
                                 }
                             }
                         });
@@ -99,6 +104,7 @@ public class FriendListActivity extends AppCompatActivity {
 
     private void launchMonthlyActivity() {
         Intent monthlyActivity = new Intent(this, MonthlyBarChartActivity.class);
+        Log.i("MonthlyChart", "MActivity started");
         startActivity(monthlyActivity);
     }
 
@@ -121,7 +127,6 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     private void setFriendListUI(){
-
         ArrayList<String> friendList = new ArrayList<>();
         Set<String>friendListSet;
         if(sharedPrefManager.getFriendListSet() == null){
