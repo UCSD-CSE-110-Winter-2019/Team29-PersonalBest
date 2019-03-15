@@ -74,7 +74,6 @@ public class SignIn_EspressoTest {
                                                 0)),
                                 0),
                         isDisplayed()));
-        jc.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

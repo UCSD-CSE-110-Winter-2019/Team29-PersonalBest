@@ -395,4 +395,22 @@ public class SharedPrefManager {
         setFirstTime(true);
         setIsWalker(true);
     }
+
+    void setMockSteps(boolean mockSteps) {
+        editor.putBoolean("mockSteps", mockSteps);
+        editor.apply();
+    }
+
+    boolean getMockSteps() {
+        return sharedPref.getBoolean("mockSteps", false);
+    }
+
+    void setMockCloud(boolean mockCloud) {
+        editor.putBoolean("mockCloud", mockCloud);
+        editor.apply();
+    }
+
+    boolean getMockCloud() {
+        return sharedPref.getBoolean("mockCloud", false);
+    }
 }

@@ -60,4 +60,25 @@ public class MonthlyDataList {
         todayData.setTotalSteps(sharedPrefManager.getTotalStepsForDayOfWeek(dayOfWeek));
         todayData.setGoal(sharedPrefManager.getGoal());
     }
+
+    public void mockPastData() {
+        UserDayData todayData;
+        for (int i = 5; i < 15; i++) {
+            todayData = list.get(i);
+            todayData.setGoal(500);
+            todayData.setTotalSteps(300);
+            if (i == 15) {
+                todayData.setTotalSteps(600);
+            }
+        }
+        for (int i = 15; i < 27; i++) {
+            todayData = list.get(i);
+            todayData.setGoal(1000);
+            todayData.setTotalSteps(800);
+            if (i == 26) {
+                todayData.setTotalSteps(1200);
+            }
+        }
+        //leave today data the same
+    }
 }

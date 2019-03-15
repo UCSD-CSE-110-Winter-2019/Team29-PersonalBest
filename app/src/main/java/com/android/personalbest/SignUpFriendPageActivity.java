@@ -28,7 +28,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
+        cloudstoreService = CloudstoreServiceFactory.create(this, mock || sharedPrefManager.getMockCloud());
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
         addFriendsBtn = findViewById(R.id.addBtn);
@@ -55,7 +55,6 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
 
     @Override
     public void onAppUserCheckCompleted() {
-
         //if the input email is in the appUserList check if the inputEmail is in the user pending friendList
         if(cloudstoreService.getAppUserStatus()) {
             cloudstoreService.isInUserPendingListCheck(this, sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
@@ -125,7 +124,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         returnFriendListBtn.setEnabled(false);
     }
 
-    private void enableUserInteraction(){
+    public void enableUserInteraction(){
         friendEmail.setEnabled(true);
         addFriendsBtn.setEnabled(true);
         returnFriendListBtn.setEnabled(true);

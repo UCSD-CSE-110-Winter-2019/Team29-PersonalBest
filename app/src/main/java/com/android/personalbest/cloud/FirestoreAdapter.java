@@ -7,12 +7,14 @@ import android.util.Log;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
+import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
 import com.android.personalbest.chatmessage.ChatMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -46,10 +48,13 @@ public class FirestoreAdapter implements CloudstoreService {
     private String FROM_KEY = "from";
     private String TEXT_KEY = "text";
     private ChatMessage chatMessage;
+    private SharedPrefManager sharedPrefManager;
 
 
     public FirestoreAdapter(Context context){
         this.context = context;
+        this.sharedPrefManager = new SharedPrefManager(context);
+        FirebaseApp.initializeApp(context);
         currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     }
 
@@ -207,7 +212,6 @@ public class FirestoreAdapter implements CloudstoreService {
 
     @Override
     public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
-
         currentAppUser.document(currentAppUserEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -294,54 +298,7 @@ public class FirestoreAdapter implements CloudstoreService {
 
     //Called this method at end of day
     @Override
-    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
-        MonthlyDataList dataList = new MonthlyDataList();
-        getMyMonthlyActivity(currentAppUserEmail, dataList);
-        dataList.updateDataAtEndOfDay(context);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
-    }
-
-    //Optionally call this method periodically to update today's data in the Cloud
-    @Override
-    public void updateTodayData(String currentAppUserEmail) {
-        updateMonthlyActivityData(currentAppUserEmail,27);
-    }
-
-    //Use this method as helper method and for testing (can change data for days in the past 28 days)
-    @Override
-    public void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex) {
-        MonthlyDataList dataList = new MonthlyDataList();
-        getMyMonthlyActivity(currentAppUserEmail, dataList);
-        dataList.updateData(context, dayIndex);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
-    }
-
-    //TODO: Call this to get data upon clicking on friends monthly activity
-    @Override
-    public void getFriendMonthlyActivity(String friendEmail, final MonthlyDataList friendData) {
-        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
-        currentAppUser.document(friendEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
-                                friendData.setList(dataStorageMediator.getMonthlyActivity().getList());
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void getMyMonthlyActivity(String currentAppUserEmail, final MonthlyDataList myData) {
+    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {
         final DataStorageMediator dataStorageMediator = new DataStorageMediator();
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -353,7 +310,8 @@ public class FirestoreAdapter implements CloudstoreService {
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
-                                myData.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                onUpdateDataEndOfDay(currentAppUserEmail, dataList);
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -364,8 +322,80 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
+    private void onUpdateDataEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.updateDataAtEndOfDay(context);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    //Optionally call this method periodically to update today's data in the Cloud
     @Override
-    public void initChat(String from, String to){
+    public void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                onUpdateTodayData(currentAppUserEmail, dataList);
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void onUpdateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.updateTodayData(context);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    @Override
+    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                onMockPastData(currentAppUserEmail, dataList);
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+    private void onMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.mockPastData();
+        setMonthlyActivityData(sharedPrefManager.getCurrentAppUserEmail(), dataList);
+    }
+
+    @Override
+    public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    @Override
+    public void initChat(String from, String to) {
 
         if(from.compareTo(to) < 0){
             CHAT_DOCUMENT_KEY = from + to;
@@ -377,7 +407,6 @@ public class FirestoreAdapter implements CloudstoreService {
                 .collection(CHAT_COLLECTION_KEY)
                 .document(CHAT_DOCUMENT_KEY)
                 .collection(CHAT_MESSAGES_KEY);
-
     }
 
     @Override
