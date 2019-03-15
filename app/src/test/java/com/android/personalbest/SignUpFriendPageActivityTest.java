@@ -4,6 +4,7 @@ import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -16,9 +17,15 @@ public class SignUpFriendPageActivityTest {
     private SignUpFriendPageActivity signUpFriendPageActivity;
     private CloudstoreService cloudstoreService;
 
+
+    @BeforeClass
+    public static void beforeClass(){
+        SignUpFriendPageActivity.mock =true;
+    }
     @Before
     public void setUp() {
-        signUpFriendPageActivity = Robolectric.buildActivity(SignUpFriendPageActivity.class).get();
+
+        signUpFriendPageActivity = Robolectric.buildActivity(SignUpFriendPageActivity.class).create().get();
         cloudstoreService = CloudstoreServiceFactory.create(signUpFriendPageActivity, true);
     }
 

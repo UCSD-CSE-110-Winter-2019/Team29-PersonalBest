@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +11,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.android.personalbest.chatmessage.ChatActivity;
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.android.personalbest.cloud.FirestoreAdapter.getFriendList;
 
 public class FriendListActivity extends AppCompatActivity {
 
@@ -30,11 +31,15 @@ public class FriendListActivity extends AppCompatActivity {
     private String TAG = "FriendListActivity";
     public AlertDialog.Builder dialog;
     public AlertDialog dialogBox;
+    public CloudstoreService cloudstoreService;
+    public static boolean mock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
+        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
         sharedPrefManager = new SharedPrefManager(this);
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
@@ -48,7 +53,6 @@ public class FriendListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 final String friendEmail = (String)parent.getItemAtPosition(position);
-                Log.d("blah", "friend's email is " + friendEmail);
                 dialog = new AlertDialog.Builder(FriendListActivity.this);
                 dialog.setItems(new CharSequence[]
                                 {"Chat", "See Activity", "Cancel"},
@@ -86,7 +90,7 @@ public class FriendListActivity extends AppCompatActivity {
         refreshFriendListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
+                cloudstoreService.getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
             }
         });
     }
@@ -102,20 +106,16 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     public void onGetFriendListCompleted(List<String> userFriendList){
-
         if (userFriendList.isEmpty()){
             Log.i(TAG,"database FriendList is empty");
         }else {
             Log.i(TAG,"database FriendList is not empty");
             sharedPrefManager.setFriendListSet(userFriendList);
         }
-
         setFriendListUI();
-
     }
 
     private void setFriendListUI(){
-
         ArrayList<String> friendList = new ArrayList<>();
         Set<String>friendListSet;
         if(sharedPrefManager.getFriendListSet() == null){
@@ -126,7 +126,6 @@ public class FriendListActivity extends AppCompatActivity {
                 friendList.add(friend);
             }
         }
-
         ArrayAdapter arrayAdapter = new ArrayAdapter(FriendListActivity.this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
     }

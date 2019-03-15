@@ -20,6 +20,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "SignUpFriendPageActivity";
+    public static boolean mock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        cloudstoreService = CloudstoreServiceFactory.create(this,false);
+        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
         addFriendsBtn = findViewById(R.id.addBtn);
@@ -103,12 +104,11 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
             Log.i(TAG,"user is in friend pending list");
             cloudstoreService.addToFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Add To Friends List Successfully(:",
+                    "User added successfully!",
                     Toast.LENGTH_LONG);
             cloudstoreService.removeFromPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             toast.show();
         }
-
         Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(cloudstoreService.getAppUserStatus()));
         Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(cloudstoreService.getUserPendingStatus()));
         Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(cloudstoreService.getFriendPendingStatus()));
