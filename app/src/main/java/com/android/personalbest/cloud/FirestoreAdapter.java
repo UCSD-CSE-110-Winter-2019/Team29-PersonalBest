@@ -301,6 +301,11 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
+    public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    @Override
     public void getMonthlyActivity(String userEmail, final MonthlyDataList dataList) {
         final DataStorageMediator dataStorageMediator = new DataStorageMediator();
         currentAppUser.document(userEmail)

@@ -17,6 +17,7 @@ import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.notifications.GoalNotificationAdapter;
 import com.google.firebase.FirebaseApp;
 
+import java.time.Month;
 import java.util.Calendar;
 
 public class MainPageActivity extends AppCompatActivity {
@@ -70,8 +71,11 @@ public class MainPageActivity extends AppCompatActivity {
             sharedPrefManager.storeTotalStepsFromYesterday(1000);
             TimeMachine.setHourOfDay(21);
 
-            //For monthly bar chart, can save mock data into the cloud (override the empty data to some initial values)
-            //cloudstoreService.updateMonthlyActivityData(26);
+            //For monthly bar chart
+            MonthlyDataList myDataList = new MonthlyDataList();
+            cloudstoreService.getMonthlyActivity(sharedPrefManager.getCurrentAppUserEmail(), myDataList);
+            myDataList.mockPastData();
+            cloudstoreService.setMonthlyActivityData(sharedPrefManager.getCurrentAppUserEmail(), myDataList);
         }
 
         //set button listeners
