@@ -17,6 +17,7 @@ import com.android.personalbest.fitness.FitnessServiceFactory;
 import com.android.personalbest.notifications.GoalNotificationAdapter;
 import com.google.firebase.FirebaseApp;
 
+import java.time.Month;
 import java.util.Calendar;
 
 public class MainPageActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class MainPageActivity extends AppCompatActivity {
     private Button seeBarChart;
     private Button userSettings;
     private Button seeFriends;
+    private Button updateData;
 
     private FitnessService fitnessService;
     private int curStep;
@@ -35,6 +37,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     public static boolean mockSteps = true;
     public static boolean mockCloud = false;
+    public static boolean demo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,9 @@ public class MainPageActivity extends AppCompatActivity {
         userSettings = findViewById(R.id.userSettings);
         numStepDone = findViewById(R.id.numStepDone);
         seeFriends = findViewById(R.id.goToFriBtn);
+        updateData = findViewById(R.id.updateData);
+        sharedPrefManager.setMockSteps(mockSteps);
+        sharedPrefManager.setMockCloud(mockCloud);
 
         FirebaseApp.initializeApp(this.getApplicationContext()); //added during testing, may need to be called each time created
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
@@ -60,6 +66,15 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setSubGoalExceededToday(false);
 
         fitnessService = FitnessServiceFactory.create(this, mockSteps);
+
+        if (demo) {
+            //For subgoal encouragement
+            sharedPrefManager.storeTotalStepsFromYesterday(1000);
+            TimeMachine.setHourOfDay(21);
+
+            //For monthly bar chart
+            cloudstoreService.setMockPastData(sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
+        }
 
         //set button listeners
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +106,19 @@ public class MainPageActivity extends AppCompatActivity {
                 launchUserSettings();
             }
         });
+
+        updateData.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                cloudstoreService.updateTodayData(sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
+            }
+        });
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        numStepDone.setText(String.valueOf(sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek())));
         goal.setText(String.valueOf(sharedPrefManager.getGoal()));
         checkWalkOrRun();
         checkGoalMet();
@@ -145,7 +168,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setGoalExceededToday(false);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail());
+        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
 
         //check if it's a new week and we need to reset the bar chart
         if (storedDay == Calendar.SATURDAY) {
@@ -192,7 +215,9 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     private void checkSubGoalMet() {
+        Log.d("TEST", "checking for subgoal met");
         if (sharedPrefManager.getSubGoalReached()) {
+            Log.d("TEST", "subgoal met");
             int dayOfMonth = TimeMachine.getDayOfMonth();
             long time = TimeMachine.getHourOfDay();
             int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
@@ -211,7 +236,8 @@ public class MainPageActivity extends AppCompatActivity {
     }
 
     public void addToStepCount(int steps) {
-        int completedSteps = Integer.parseInt(numStepDone.getText().toString());
+        //int completedSteps = Integer.parseInt(numStepDone.getText().toString());
+        int completedSteps = sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek());
         int totalSteps = completedSteps + steps;
         totalUpdated(totalSteps);
     }

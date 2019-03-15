@@ -1,18 +1,28 @@
 package com.android.personalbest.cloud;
 
 import com.android.personalbest.MonthlyBarChartActivity;
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
+import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
-import android.content.Context;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class TestCloudService implements CloudstoreService{
 
-    private boolean userPendingStatus = false;
-    private boolean friendPendingStatus = false;
-    private boolean friendStatus = false;
-    private boolean isAppUser = false;
+    private boolean userPendingStatus = true;
+    private boolean friendPendingStatus = true;
+    private boolean friendStatus = true;
+    private boolean isAppUser = true;
+
+    private static String mockFriendEmail = "sarah@gmail.com";
 
     private Context context;
 
@@ -26,6 +36,7 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail) {
         setAppUserStatus(true);
+        signUpFriendPageActivity.enableUserInteraction();
     }
 
     @Override
@@ -41,21 +52,25 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void isInFriendPendingListCheck(SignUpFriendPageActivity signUpFriendPageActivity, String currentAppUserEmail, String friendEmail) {
         setFriendPendingStatus(true);
+        setFriendStatus(true);
     }
 
     @Override
-    public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {
-        setFriendStatus(true);
-    }
+    public void addToPendingFriendList(String currentAppUserEmail, String friendEmail) {}
 
     @Override
     public void addToFriendList(String currentAppUserEmail, String friendEmail) {
-        setFriendStatus(true);
+        Log.d("TEST", "Added friend to friend list");
     }
 
     @Override
-    public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {
-        setFriendStatus(true);
+    public void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail) {}
+
+    @Override
+    public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+        List<String> list = new ArrayList<>();
+        list.add(mockFriendEmail);
+        friendListActivity.onGetFriendListCompleted(list);
     }
 
     @Override
@@ -64,9 +79,7 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public boolean getAppUserStatus() {
-        return this.isAppUser;
-    }
+    public boolean getAppUserStatus() { return this.isAppUser; }
 
     @Override
     public void setFriendStatus(boolean friendStatus) {
@@ -99,15 +112,38 @@ public class TestCloudService implements CloudstoreService{
     }
 
     @Override
-    public void resetUserAddFriendProcess() {
+    public void resetUserAddFriendProcess() {}
+
+    @Override
+    public void initChat(String from, String to) {
+        setAppUserStatus(true);
+    }
+
+    @Override
+    public void sendMessage(Map<String, String> newMessage) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(newMessage);
+        TextView chatView = ((Activity)context).findViewById(R.id.chat);
+        chatView.append(sb.toString());
+    }
+
+    @Override
+    public void initMessageUpdateListener() {
         setAppUserStatus(true);
     }
 
     //For testing, can add mock implementations here
+    @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
-    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {}
-    public void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex) {}
-    public void updateTodayData(String currentAppUserEmail) {}
-    public void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData) {}
+    @Override
     public void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {}
+    @Override
+    public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {}
+
 }

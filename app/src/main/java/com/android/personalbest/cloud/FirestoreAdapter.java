@@ -1,6 +1,6 @@
 package com.android.personalbest.cloud;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,34 +8,54 @@ import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
+import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
+import com.android.personalbest.chatmessage.ChatMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import android.content.Context;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class FirestoreAdapter implements CloudstoreService {
-    private static String COLLECTION_KEY = "appUserList";
-    private static String TAG = " FirestoreAdapter ";
+    private String COLLECTION_KEY = "appUserList";
+    private String TAG = " FirestoreAdapter ";
     private boolean userPendingStatus = false;
     private boolean friendPendingStatus = false;
     private boolean friendStatus = false;
-    private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
+    private CollectionReference currentAppUser;
+    private CollectionReference chat;
     private boolean isAppUser = false;
     private Context context;
+    private String CHAT_COLLECTION_KEY = "chats";
+    private String CHAT_DOCUMENT_KEY;
+    private String CHAT_MESSAGES_KEY = "messages";
+    private String CHAT_TIMESTAMP_KEY = "timestamp";
+    private String FROM_KEY = "from";
+    private String TEXT_KEY = "text";
+    private ChatMessage chatMessage;
+    private SharedPrefManager sharedPrefManager;
 
     public FirestoreAdapter(Context context){
         this.context = context;
+        this.sharedPrefManager = new SharedPrefManager(context);
+        FirebaseApp.initializeApp(context);
+        currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     }
 
     @Override
@@ -190,8 +210,8 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    public static void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
-
+    @Override
+    public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
         currentAppUser.document(currentAppUserEmail)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -276,32 +296,8 @@ public class FirestoreAdapter implements CloudstoreService {
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", new MonthlyDataList());
     }
 
-    //Called this method at end of day
     @Override
-    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {
-        MonthlyDataList dataList = new MonthlyDataList();
-        getMonthlyActivity(currentAppUserEmail, dataList);
-        dataList.updateDataAtEndOfDay(context);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
-    }
-
-    //Optionally call this method periodically to update today's data in the Cloud
-    @Override
-    public void updateTodayData(String currentAppUserEmail) {
-        updateMonthlyActivityData(currentAppUserEmail,27);
-    }
-
-    //Use this method as helper method and for testing (can change data for days in the past 28 days)
-    @Override
-    public void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex) {
-        MonthlyDataList dataList = new MonthlyDataList();
-        getMonthlyActivity(currentAppUserEmail, dataList);
-        dataList.updateData(context, dayIndex);
-        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
-    }
-
-    @Override
-    public void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData) {
+    public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {
         final DataStorageMediator dataStorageMediator = new DataStorageMediator();
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -313,10 +309,8 @@ public class FirestoreAdapter implements CloudstoreService {
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
-                                myData.setList(dataStorageMediator.getMonthlyActivity().getList());
-                                Log.w(TAG, "a "+document.get("monthlyActivity", MonthlyDataList.class).getList().get(27).getTotalSteps());
-                                Log.w(TAG, "b "+dataStorageMediator.getMonthlyActivity().getList().get(27).getTotalSteps());
-                                Log.w(TAG, "c "+myData.getList().get(27).getTotalSteps());
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                onUpdateDataEndOfDay(currentAppUserEmail, dataList);
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -327,7 +321,38 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    //TODO: @Override
+    private void onUpdateDataEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.updateDataAtEndOfDay(context);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    //Optionally call this method periodically to update today's data in the Cloud
+    @Override
+    public void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                onUpdateTodayData(currentAppUserEmail, dataList);
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void getMonthlyActivity(final MonthlyBarChartActivity monthlyBarChartActivity, String currentAppUserEmail, MonthlyDataList myData) {
         final DataStorageMediator dataStorageMediator = new DataStorageMediator();
         currentAppUser.document(currentAppUserEmail)
@@ -352,6 +377,94 @@ public class FirestoreAdapter implements CloudstoreService {
                     }
                 }
             });
+    }
+
+    private void onUpdateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.updateTodayData(context);
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    @Override
+    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                            dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                            onMockPastData(currentAppUserEmail, dataList);
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+    }
+
+    private void onMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.mockPastData();
+        setMonthlyActivityData(currentAppUserEmail, dataList);
+    }
+
+    @Override
+    public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {
+        currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
+    }
+
+    @Override
+    public void initChat(String from, String to) {
+
+        if(from.compareTo(to) < 0){
+            CHAT_DOCUMENT_KEY = from + to;
+        }
+        else{
+           CHAT_DOCUMENT_KEY = to + from;
+        }
+        chat = FirebaseFirestore.getInstance()
+                .collection(CHAT_COLLECTION_KEY)
+                .document(CHAT_DOCUMENT_KEY)
+                .collection(CHAT_MESSAGES_KEY);
+    }
+
+    @Override
+    public void initMessageUpdateListener() {
+        chat.orderBy(CHAT_TIMESTAMP_KEY, Query.Direction.ASCENDING)
+                .addSnapshotListener((newChatSnapShot, error) -> {
+                    if (error != null) {
+                        Log.e(TAG, error.getLocalizedMessage());
+                        return;
+                    }
+                    if (newChatSnapShot != null && !newChatSnapShot.isEmpty() && !newChatSnapShot.getMetadata().hasPendingWrites()) {
+                        StringBuilder sb = new StringBuilder();
+                        List<DocumentChange> documentChanges = newChatSnapShot.getDocumentChanges();
+                        documentChanges.forEach(change -> {
+                            QueryDocumentSnapshot document = change.getDocument();
+                            chatMessage = new ChatMessage((String) document.get(FROM_KEY),(String) document.get(TEXT_KEY));
+                            sb.append(chatMessage.toString());
+                        });
+                        TextView chatView = ((Activity)context).findViewById(R.id.chat);
+                        chatView.append(sb.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void sendMessage(Map<String, String> newMessage) {
+        EditText messageView = ((Activity)context).findViewById(R.id.text_message);
+
+        chat.add(newMessage).addOnSuccessListener(result -> {
+            messageView.setText("");
+        }).addOnFailureListener(error -> {
+            Log.e(TAG, error.getLocalizedMessage());
+        });
     }
 }
 

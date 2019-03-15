@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +11,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.android.personalbest.chatmessage.ChatActivity;
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
+
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import static com.android.personalbest.cloud.FirestoreAdapter.getFriendList;
 
 public class FriendListActivity extends AppCompatActivity {
 
@@ -30,6 +33,8 @@ public class FriendListActivity extends AppCompatActivity {
     private String TAG = "FriendListActivity";
     public AlertDialog.Builder dialog;
     public AlertDialog dialogBox;
+    public CloudstoreService cloudstoreService;
+    public static boolean mock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,9 @@ public class FriendListActivity extends AppCompatActivity {
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);
         refreshFriendListBtn = findViewById(R.id.refreshFriendListBtn);
+
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), sharedPrefManager.getMockCloud());
+
         Log.i(TAG,"onCreate setFriendListUI() Get Call");
         setFriendListUI();
 
@@ -92,7 +100,7 @@ public class FriendListActivity extends AppCompatActivity {
         refreshFriendListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
+                cloudstoreService.getFriendList(FriendListActivity.this,sharedPrefManager.getCurrentAppUserEmail());
             }
         });
     }

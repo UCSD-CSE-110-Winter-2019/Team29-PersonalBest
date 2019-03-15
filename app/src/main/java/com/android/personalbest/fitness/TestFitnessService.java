@@ -1,5 +1,6 @@
 package com.android.personalbest.fitness;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
@@ -8,11 +9,12 @@ import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.TimeMachine;
+import com.android.personalbest.WalkActivity;
 
 import java.util.Calendar;
 
 public class TestFitnessService implements FitnessService {
-    private MainPageActivity mainPageActivity;
+    private Activity activity;
     private SharedPrefManager sharedPrefManager;
     private int total = 0;
     private int goal = 0;
@@ -23,15 +25,16 @@ public class TestFitnessService implements FitnessService {
     private Runnable runnable;
 
     //using MainPageActivity like StepCounterActivity
-    public TestFitnessService(MainPageActivity activity) {
-        this.mainPageActivity = activity;
+    public TestFitnessService(Activity activity) {
+        this.activity = activity;
         sharedPrefManager = new SharedPrefManager(activity.getApplicationContext());
         total = sharedPrefManager.getTotalStepsForDayOfWeek(TimeMachine.getDayOfWeek());
         goal = sharedPrefManager.getGoal();
 
-        activity.numStepDone.setText(String.valueOf(total));
-        activity.goal.setText(String.valueOf(goal));
-        setup();
+        if (activity instanceof MainPageActivity) {
+            ((MainPageActivity) activity).numStepDone.setText(String.valueOf(total));
+            ((MainPageActivity) activity).goal.setText(String.valueOf(goal));
+        }
 
         //Button to quickly update/mock steps
         if (seeUpdateStepsButton) {
@@ -58,7 +61,12 @@ public class TestFitnessService implements FitnessService {
     @Override
     public void updateStepCount() {
         System.out.println("update steps");
-        mainPageActivity.addToStepCount(500);
+        if (activity instanceof MainPageActivity) {
+            ((MainPageActivity) activity).addToStepCount(500);
+        }
+        else if (activity instanceof WalkActivity) {
+            ((WalkActivity) activity).addToStepCount(500);
+        }
     }
 
     @Override

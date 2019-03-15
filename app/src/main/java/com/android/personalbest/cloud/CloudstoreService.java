@@ -1,6 +1,7 @@
 package com.android.personalbest.cloud;
 
 import com.android.personalbest.MonthlyBarChartActivity;
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
 
@@ -8,7 +9,6 @@ import java.util.Map;
 
 public interface CloudstoreService {
 
-    //
     void setAppUserInCloud(String appUser, Map<String, Object> friend);
 
     void appUserCheck(SignUpFriendPageActivity signUpFriendPageActivity, String friendEmail);
@@ -21,6 +21,8 @@ public interface CloudstoreService {
 
     void addToFriendList(String currentAppUserEmail,String friendEmail);
     void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail);
+    void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail);
+
 
     void setAppUserStatus(boolean appUserStatus);
     boolean getAppUserStatus();
@@ -37,10 +39,15 @@ public interface CloudstoreService {
     void resetUserAddFriendProcess();
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
-    void updateMonthlyActivityEndOfDay(String currentAppUserEmail);
-    void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex);
-    void updateTodayData(String currentAppUserEmail);
-    void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData);
     void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData);
 
+    void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList);
+    void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList);
+    void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList);
+    void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList);
+
+    //chatMessage
+    void initChat(String from, String to);
+    void sendMessage(Map<String, String> newMessage);
+    void initMessageUpdateListener();
 }

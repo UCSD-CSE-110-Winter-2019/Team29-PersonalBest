@@ -1,13 +1,14 @@
 package com.android.personalbest;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
-import android.support.test.uiautomator.Until;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.runner.RunWith;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -20,20 +21,23 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.sql.Time;
+
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import com.google.android.gms.common.api.CommonStatusCodes;
+@LargeTest
+@RunWith(AndroidJUnit4.class)
+public class SubgoalEncouragementEspressoTest {
 
-public class MeetGoalEspressoTest {
-
-    UiDevice mDevice;
+    SharedPrefManager sharedPrefManager;
 
     @BeforeClass
     public static void beforeClass(){
         MainPageActivity.mockSteps = true;
         MainPageActivity.mockCloud = true;
+        TimeMachine.setHourOfDay(21);
     }
 
     @Rule
@@ -42,20 +46,20 @@ public class MeetGoalEspressoTest {
     @Before
     public void beforeTest(){
         final MainPageActivity mainPageActivity = mActivityTestRule.getActivity();
+        sharedPrefManager = new SharedPrefManager(mainPageActivity);
         mainPageActivity.runOnUiThread(new Runnable() {
             public void run() {
                 mainPageActivity.resetDisplayToDefault();
+                sharedPrefManager.storeTotalStepsFromYesterday(1000);
             }
         });
-        mDevice =
-                UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     }
 
     @Test
-    public void meetGoalTest() {
+    public void meetSubgoalTest() {
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -69,7 +73,7 @@ public class MeetGoalEspressoTest {
                 .check(matches(withText("500")));
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -82,10 +86,34 @@ public class MeetGoalEspressoTest {
         Espresso.onView(withId(R.id.numStepDone))
                 .check(matches(withText("1000")));
 
-        for (int i = 0; i < 9; i++) {
-            Espresso.onView(withId(R.id.updateSteps))
-                    .perform(ViewActions.click());
+        //Update steps again
+        Espresso.onView(withId(R.id.updateSteps))
+                .perform(ViewActions.click());
+
+        Espresso.onView(withId(R.id.numStepDone))
+                .check(matches(withText("1500")));
+
+        Espresso.onView(withId(R.id.updateSteps))
+                .perform(ViewActions.click());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        Espresso.onView(withId(R.id.userSettings))
+                .perform(ViewActions.click());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Toast message appears
+        Espresso.onView(withId(R.id.homeButton))
+                .perform(ViewActions.click());
 
         try {
             Thread.sleep(5000);
@@ -93,27 +121,6 @@ public class MeetGoalEspressoTest {
             e.printStackTrace();
         }
 
-        mDevice.openNotification();
-        String NOTIFICATION_TITLE = mActivityTestRule.getActivity().getString(R.string.goalNotifTitle);
-        mDevice.wait(Until.hasObject(By.text(NOTIFICATION_TITLE)), CommonStatusCodes.TIMEOUT);
-        UiObject2 title = mDevice.findObject(By.text(NOTIFICATION_TITLE));
-        title.click();
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //check for congrats prompt
-        Espresso.onView(withId(R.id.textView11))
-                .check(matches(withText(mActivityTestRule.getActivity().getString(R.string.goal_reached))));
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private static Matcher<View> childAtPosition(
