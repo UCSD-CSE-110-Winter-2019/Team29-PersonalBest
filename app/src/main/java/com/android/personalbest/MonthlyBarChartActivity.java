@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -42,11 +43,13 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
     private TextView totalTime;
     private TextView averageMPH;
     private TextView totalDistance;
+    private TextView goalText;
 
     private TextView stepsNumber;
     private TextView timeNumber;
     private TextView MPHNumber;
     private TextView distanceNumber;
+    private TextView goalNumber;
 
     private BarEntry data;
     private int intentionalSteps;
@@ -81,17 +84,21 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
     public void setUpBarChart(){
 
         //initializing buttons
-        //homeButton = findViewById(R.id.homebutton);
+        chart = findViewById(R.id.barChart);
+        chart.setDescription("");
+        chart.setNoDataText("Loading Chart");
 
         //initializing stats textViews
         totalSteps = findViewById(R.id.totalsteps);
         totalTime = findViewById(R.id.totaltime);
         averageMPH = findViewById(R.id.averagemph);
         totalDistance = findViewById(R.id.totaldistance);
+        goalText = findViewById(R.id.goaltext);
         stepsNumber = findViewById(R.id.stepsnumber);
         timeNumber = findViewById(R.id.timenumber);
         MPHNumber = findViewById(R.id.mphnumber);
         distanceNumber = findViewById(R.id.distancenumber);
+        goalNumber = findViewById(R.id.goalnumber);
 
         //setting up bar chart
         userEmail = sharedPrefManager.getMonthlyEmail();
@@ -137,12 +144,14 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
 
         LineDataSet lineDataSet = new LineDataSet(line, "");
         lineDataSet.setColor(Color.RED);
+        lineDataSet.setDrawValues(false);
         LineData lineData = new LineData(lineDataSet);
 
         //creating dataset
         BarDataSet dataSet = new BarDataSet(entries, "Steps Taken");
         int[] colors = new int[]{Color.GREEN, Color.CYAN};
         dataSet.setColors(colors);
+        dataSet.setDrawValues(false);
         BarData data = new BarData(dataSet);
         data.setBarWidth(0.75f);
         CombinedData combinedData = new CombinedData();
@@ -151,8 +160,11 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         chart.setData(combinedData);
         chart.getXAxis().setAxisMaxValue(data.getXMax() + 0.25f);
         chart.getXAxis().setAxisMinValue(data.getXMin() - 0.25f);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        chart.getAxisRight().setDrawLabels(false);
 
         //show the chart
+        chart.setMaxVisibleValueCount(1);
         chart.setVisibility(View.VISIBLE);
 
         //onclicklistener for bar chart
@@ -163,6 +175,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
                 totalTime.setVisibility(View.VISIBLE);
                 averageMPH.setVisibility(View.VISIBLE);
                 totalDistance.setVisibility(View.VISIBLE);
+                goalText.setVisibility(View.VISIBLE);
 
                 int day = (int) e.getX();
 
@@ -172,15 +185,18 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
                 mPH = todayData.getIntentionalMph();
                 time = todayData.getIntentionalTime();
                 miles = todayData.getIntentionalDistance();
+                goal = todayData.getGoal();
 
                 String stepsStr = intentionalSteps + nonIntentionalSteps + getString(R.string.emptyString);
                 String timeStr = time + getString(R.string.emptyString);
                 String mphStr = mPH + getString(R.string.emptyString);
                 String distanceStr = miles + getString(R.string.emptyString);
+                String goalStr = goal + getString(R.string.emptyString);
                 stepsNumber.setText(stepsStr);
                 timeNumber.setText(timeStr);
                 MPHNumber.setText(mphStr);
                 distanceNumber.setText(distanceStr);
+                goalNumber.setText(goalStr);
             }
 
             @Override

@@ -148,7 +148,7 @@
     <string name="message">message</string>
     <string name="send">send</string>
     <string name="go_back">Go Back</string>
-
+    <string name="goalText">Goal:</string>
 
 
 </resources>
