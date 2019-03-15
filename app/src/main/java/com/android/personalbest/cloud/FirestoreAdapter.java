@@ -183,7 +183,7 @@ public class FirestoreAdapter implements CloudstoreService {
         sharedPrefManager = new SharedPrefManager(this.context);
         currentAppUser.document(currentAppUserEmail).update(context.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
         currentAppUser.document(friendEmail).update(context.getString(R.string.friend_list), FieldValue.arrayUnion(currentAppUserEmail));
-        sharedPrefManager.incrementNumFriends();
+        currentAppUser.document(currentAppUserEmail);
     }
 
     @Override
