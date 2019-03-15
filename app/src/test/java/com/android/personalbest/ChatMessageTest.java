@@ -60,6 +60,12 @@ public class ChatMessageTest {
         assertEquals(true,cloudstoreService.getAppUserStatus());
     }
 
+    @Test
+    public void testSubscribeToNotificationsTopic(){
+        cloudstoreService.subscribeToNotificationsTopic();
+        assertEquals(false,cloudstoreService.getAppUserStatus());
+    }
+
 
 
 
