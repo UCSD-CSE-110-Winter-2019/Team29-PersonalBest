@@ -3,6 +3,7 @@ package com.android.personalbest.cloud;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
+import com.android.personalbest.chatmessage.ChatActivity;
 
 import java.util.Map;
 
@@ -43,4 +44,8 @@ public interface CloudstoreService {
     void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList);
     void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList);
 
-    }
+    //chatMessage
+    void initChat(String from, String to);
+    void sendMessage(Map<String, String> newMessage);
+    void initMessageUpdateListener();
+}

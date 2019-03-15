@@ -1,6 +1,5 @@
 package com.android.personalbest;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.android.personalbest.chatmessage.ChatActivity;
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
 
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
@@ -31,12 +33,15 @@ public class FriendListActivity extends AppCompatActivity {
     private String TAG = "FriendListActivity";
     public AlertDialog.Builder dialog;
     public AlertDialog dialogBox;
-    private CloudstoreService cloudstoreService;
+    public CloudstoreService cloudstoreService;
+    public static boolean mock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
+        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
         sharedPrefManager = new SharedPrefManager(this);
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
