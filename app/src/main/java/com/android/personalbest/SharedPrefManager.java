@@ -91,17 +91,6 @@ public class SharedPrefManager {
         editor.putInt(res.getString(R.string.height), height);
         editor.apply();
     }
-
-    public int getNumFriends(){
-        return sharedPref.getInt("numFriends", 0);
-    }
-
-    public void incrementNumFriends(){
-        int currentNumFriends = getNumFriends();
-        editor.putInt("numFriends", currentNumFriends + 1);
-        editor.apply();
-    }
-
     public int getHeight() {
         return sharedPref.getInt(res.getString(R.string.height), 0);
     }
