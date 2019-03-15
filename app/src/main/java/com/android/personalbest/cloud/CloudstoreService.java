@@ -26,6 +26,7 @@ public interface CloudstoreService {
     void addToFriendList(String currentAppUserEmail,String friendEmail);
     void removeFromPendingFriendList(String currentAppUserEmail, String friendEmail);
     void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail);
+    void subscribeToNotificationsTopic();
 
     void setAppUserStatus(boolean appUserStatus);
     boolean getAppUserStatus();

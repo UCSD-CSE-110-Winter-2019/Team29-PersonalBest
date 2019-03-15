@@ -102,7 +102,6 @@ public class SharedPrefManager {
         editor.putInt(res.getString(R.string.height), height);
         editor.apply();
     }
-
     public int getHeight() {
         return sharedPref.getInt(res.getString(R.string.height), 0);
     }
