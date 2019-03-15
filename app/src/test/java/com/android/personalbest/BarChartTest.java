@@ -101,13 +101,9 @@ public class BarChartTest {
         Button goToBarChart = mainPage.findViewById(R.id.seeBarChart);
         goToBarChart.performClick();
 
-        barChartActivity.pastWeek.resetSharedPrefForDay(today);
-        barChartActivity.pastWeek.storeGoalForDayOfWeek(today, goal);
-        sharedPrefManager.setGoal(1500);
-
         //making sure both sharedpreferences stored the goal
         //which corresponds to a y-value of 1500 of the line on the chart
-        assertEquals(sharedPrefManager.getGoal(), barChartActivity.pastWeek.getGoal());
+        assertEquals(sharedPrefManager.getGoal(), 1500);
     }
 
 }

@@ -110,13 +110,6 @@
     <string name="totalSteps">Total Steps Taken:</string>
     <string name="nonIntentional">Non Intentional Steps</string>
     <string name="intentional">Intentional Steps:</string>
-    <string name="sun">SUN</string>
-    <string name="mon">MON</string>
-    <string name="tues">TUES</string>
-    <string name="wed">WED</string>
-    <string name="thurs">THURS</string>
-    <string name="fri">FRI</string>
-    <string name="sat">SAT</string>
     <string name="day_month_storage">Day of month currently stored in SharedPref</string>
     <string name="month_storage">month in storage</string>
     <string name="mpa_tag">MainPageActivity</string>
