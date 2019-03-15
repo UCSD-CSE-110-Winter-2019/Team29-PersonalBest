@@ -9,6 +9,7 @@ import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
 import com.android.personalbest.SharedPrefManager;
 import com.android.personalbest.SignUpFriendPageActivity;
+import com.android.personalbest.chatmessage.ChatActivity;
 import com.android.personalbest.chatmessage.ChatMessage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,9 +24,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,8 +184,10 @@ public class FirestoreAdapter implements CloudstoreService {
 
     @Override
     public void addToFriendList(String currentAppUserEmail, String friendEmail) {
+        sharedPrefManager = new SharedPrefManager(this.context);
         currentAppUser.document(currentAppUserEmail).update(context.getString(R.string.friend_list), FieldValue.arrayUnion(friendEmail));
         currentAppUser.document(friendEmail).update(context.getString(R.string.friend_list), FieldValue.arrayUnion(currentAppUserEmail));
+        currentAppUser.document(currentAppUserEmail);
     }
 
     @Override
@@ -429,6 +435,20 @@ public class FirestoreAdapter implements CloudstoreService {
                         chatView.append(sb.toString());
                     }
                 });
+    }
+
+    @Override
+    public void subscribeToNotificationsTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic(CHAT_DOCUMENT_KEY)
+                .addOnCompleteListener(task -> {
+                            String msg = "Subscribed to notifications";
+                            if (!task.isSuccessful()) {
+                                msg = "Subscribe to notifications failed";
+                            }
+                            Log.d(TAG, msg);
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                        }
+                );
     }
 
     @Override

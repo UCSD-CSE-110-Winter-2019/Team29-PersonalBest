@@ -37,7 +37,6 @@ public class ChatMessageTest {
 
     @Test
     public void testInitChat(){
-
         cloudstoreService.initChat("from","to");
         assertEquals(true,cloudstoreService.getAppUserStatus());
     }
@@ -57,7 +56,6 @@ public class ChatMessageTest {
 
     @Test
     public void testInitMessageUpdateListener(){
-
         cloudstoreService.initMessageUpdateListener();
         assertEquals(true,cloudstoreService.getAppUserStatus());
     }

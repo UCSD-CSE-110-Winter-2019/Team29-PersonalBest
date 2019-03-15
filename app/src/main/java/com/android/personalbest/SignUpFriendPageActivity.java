@@ -82,15 +82,13 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         // Duplicate Check: Make user the input email not in userPendingList and userFriend
         // if the input email satisfy the dupliacate check condition, add to the user pendingFriendList
         if(!(cloudstoreService.getUserPendingStatus() || cloudstoreService.getFriendStatus())){
-
             cloudstoreService.addToPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Add To User Pending FriendList (:",
+                    "Friend Request Sent",
                     Toast.LENGTH_SHORT);
             toast.show();
             //check if the user is in friend's pending list
             cloudstoreService.isInFriendPendingListCheck(this, sharedPrefManager.getCurrentAppUserEmail(), sharedPrefManager.getFriendEmail());
-
         }
         Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(cloudstoreService.getAppUserStatus()));
         Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(cloudstoreService.getUserPendingStatus()));
@@ -106,12 +104,11 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
             Log.i(TAG,"user is in friend pending list");
             cloudstoreService.addToFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Add To Friends List Successfully(:",
+                    "User added successfully!",
                     Toast.LENGTH_LONG);
             cloudstoreService.removeFromPendingFriendList(sharedPrefManager.getCurrentAppUserEmail(),sharedPrefManager.getFriendEmail());
             toast.show();
         }
-
         Log.i(TAG,"getAppUserStatus() => "+ Boolean.toString(cloudstoreService.getAppUserStatus()));
         Log.i(TAG,"getUserPendingStatus() => "+ Boolean.toString(cloudstoreService.getUserPendingStatus()));
         Log.i(TAG,"getFriendPendingStatus() => "+ Boolean.toString(cloudstoreService.getFriendPendingStatus()));
