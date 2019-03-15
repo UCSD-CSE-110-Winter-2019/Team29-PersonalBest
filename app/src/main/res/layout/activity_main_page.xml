@@ -11,10 +11,8 @@
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="#238A16"
         android:text="@string/start_walk"
@@ -24,7 +22,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.527" />
+        app:layout_constraintVertical_bias="0.477" />
 
     <Button
         android:id="@+id/seeBarChart"
@@ -152,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="145dp"
-        android:layout_marginTop="483dp"
+        android:layout_marginTop="400dp"
         android:layout_marginEnd="143dp"
         android:layout_marginBottom="225dp"
         android:text="@string/update_data"
@@ -161,7 +159,7 @@
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.706" />
 
     <Button
         android:id="@+id/goToFriBtn"
