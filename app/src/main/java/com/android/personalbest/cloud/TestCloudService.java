@@ -131,6 +131,9 @@ public class TestCloudService implements CloudstoreService{
         setAppUserStatus(true);
     }
 
+    @Override
+    public void subscribeToNotificationsTopic() {}
+
     //For testing, can add mock implementations here
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
     public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {}
