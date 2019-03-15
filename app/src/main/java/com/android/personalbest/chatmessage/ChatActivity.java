@@ -22,12 +22,10 @@ public class ChatActivity extends AppCompatActivity {
 
     String TAG = MainActivity.class.getSimpleName();
 
-
-
     public SharedPrefManager sharedPrefManager;
     private CloudstoreService cloudstoreService;
     private ChatMessage chatMessage;
-    private boolean mock = false;
+    public static boolean mock = false;
     private String from;
     private String to;
     private String FROM_KEY = "from";
@@ -71,4 +69,5 @@ public class ChatActivity extends AppCompatActivity {
         newMessage.put(TEXT_KEY, messageView.getText().toString());
         return newMessage;
     }
+
 }

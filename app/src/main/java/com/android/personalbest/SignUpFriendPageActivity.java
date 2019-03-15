@@ -20,7 +20,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "SignUpFriendPageActivity";
-    private boolean mock = false;
+    public static boolean mock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
 import com.android.personalbest.chatmessage.ChatActivity;
@@ -34,6 +35,7 @@ public interface CloudstoreService {
     void setFriendPendingStatus(boolean friendPendingStatus);
     boolean getFriendPendingStatus();
 
+    void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail);
     void resetUserAddFriendProcess();
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
@@ -47,5 +49,6 @@ public interface CloudstoreService {
     void initChat(String from, String to);
     void sendMessage(Map<String, String> newMessage);
     void initMessageUpdateListener();
+
 
 }

@@ -1,8 +1,13 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
+import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
+
+import android.app.Activity;
 import android.content.Context;
+import android.widget.TextView;
 
 import java.util.Map;
 
@@ -105,16 +110,26 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void initChat(String from, String to) {
 
+        setAppUserStatus(true);
+
+    }
+
+    @Override
+    public void getFriendList(FriendListActivity friendListActivity, String currentAppUserEmail) {
+
     }
 
     @Override
     public void sendMessage(Map<String, String> newMessage) {
-
+        StringBuilder sb = new StringBuilder();
+        sb.append(newMessage);
+        TextView chatView = ((Activity)context).findViewById(R.id.chat);
+        chatView.append(sb.toString());
     }
 
     @Override
     public void initMessageUpdateListener() {
-
+        setAppUserStatus(true);
     }
 
     //For testing, can add mock implementations here

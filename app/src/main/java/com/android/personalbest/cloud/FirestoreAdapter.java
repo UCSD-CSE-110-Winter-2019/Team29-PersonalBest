@@ -33,12 +33,12 @@ import java.util.List;
 import java.util.Map;
 
 public class FirestoreAdapter implements CloudstoreService {
-    private static String COLLECTION_KEY = "appUserList";
-    private static String TAG = " FirestoreAdapter ";
+    private String COLLECTION_KEY = "appUserList";
+    private String TAG = " FirestoreAdapter ";
     private boolean userPendingStatus = false;
     private boolean friendPendingStatus = false;
     private boolean friendStatus = false;
-    private static CollectionReference currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
+    private CollectionReference currentAppUser;
     private CollectionReference chat;
     private boolean isAppUser = false;
     private Context context;
@@ -55,6 +55,7 @@ public class FirestoreAdapter implements CloudstoreService {
 
     public FirestoreAdapter(Context context){
         this.context = context;
+        currentAppUser = FirebaseFirestore.getInstance().collection(COLLECTION_KEY);
     }
 
     @Override
@@ -209,7 +210,8 @@ public class FirestoreAdapter implements CloudstoreService {
                 });
     }
 
-    public static void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
+    @Override
+    public void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail) {
 
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -384,16 +386,7 @@ public class FirestoreAdapter implements CloudstoreService {
 
     }
 
-    @Override
-    public void sendMessage(Map<String, String> newMessage) {
-        EditText messageView = ((Activity)context).findViewById(R.id.text_message);
 
-        chat.add(newMessage).addOnSuccessListener(result -> {
-            messageView.setText("");
-        }).addOnFailureListener(error -> {
-            Log.e(TAG, error.getLocalizedMessage());
-        });
-    }
 
     @Override
     public void initMessageUpdateListener() {
@@ -415,6 +408,17 @@ public class FirestoreAdapter implements CloudstoreService {
                         chatView.append(sb.toString());
                     }
                 });
+    }
+
+    @Override
+    public void sendMessage(Map<String, String> newMessage) {
+        EditText messageView = ((Activity)context).findViewById(R.id.text_message);
+
+        chat.add(newMessage).addOnSuccessListener(result -> {
+            messageView.setText("");
+        }).addOnFailureListener(error -> {
+            Log.e(TAG, error.getLocalizedMessage());
+        });
     }
 }
 
