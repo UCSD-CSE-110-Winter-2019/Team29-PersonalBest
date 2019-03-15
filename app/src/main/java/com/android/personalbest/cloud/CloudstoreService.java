@@ -41,4 +41,6 @@ public interface CloudstoreService {
     void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList);
     void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList);
     void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList);
-}
+    void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList);
+
+    }

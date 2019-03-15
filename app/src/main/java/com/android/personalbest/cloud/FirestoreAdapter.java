@@ -339,6 +339,36 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
+    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                                dataList.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                onMockPastData(currentAppUserEmail, dataList);
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void onMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.mockPastData();
+        setMonthlyActivityData(sharedPrefManager.getCurrentAppUserEmail(), dataList);
+    }
+
+    @Override
     public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {
         currentAppUser.document(currentAppUserEmail).update("monthlyActivity", dataList);
     }

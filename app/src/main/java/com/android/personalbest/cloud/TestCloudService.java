@@ -114,4 +114,6 @@ public class TestCloudService implements CloudstoreService{
     public void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList) {}
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {}
     public void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {}
-}
+    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {}
+
+    }

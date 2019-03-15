@@ -74,10 +74,7 @@ public class MainPageActivity extends AppCompatActivity {
             TimeMachine.setHourOfDay(21);
 
             //For monthly bar chart
-            MonthlyDataList myDataList = new MonthlyDataList();
-            cloudstoreService.getMonthlyActivity(sharedPrefManager.getCurrentAppUserEmail(), myDataList);
-            myDataList.mockPastData();
-            cloudstoreService.setMonthlyActivityData(sharedPrefManager.getCurrentAppUserEmail(), myDataList);
+            cloudstoreService.setMockPastData(sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
         }
 
         //set button listeners
@@ -172,7 +169,7 @@ public class MainPageActivity extends AppCompatActivity {
         sharedPrefManager.setGoalExceededToday(false);
         sharedPrefManager.setSubGoalExceededToday(false);
 
-        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail());
+        cloudstoreService.updateMonthlyActivityEndOfDay(sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
 
         //check if it's a new week and we need to reset the bar chart
         if (storedDay == Calendar.SATURDAY) {
