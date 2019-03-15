@@ -20,20 +20,12 @@ public class SignUpFriendPageActivityTest {
 
     @BeforeClass
     public static void beforeClass(){
-        SignUpFriendPageActivity.mock =true;
+        SignUpFriendPageActivity.mock = true;
     }
     @Before
     public void setUp() {
-
         signUpFriendPageActivity = Robolectric.buildActivity(SignUpFriendPageActivity.class).create().get();
         cloudstoreService = CloudstoreServiceFactory.create(signUpFriendPageActivity, true);
-    }
-
-    @Test
-    public void testAppUserCheck(){
-        String friendEmail = "";
-        cloudstoreService.appUserCheck(signUpFriendPageActivity,friendEmail);
-        assertEquals(true,cloudstoreService.getAppUserStatus());
     }
 
     @Test

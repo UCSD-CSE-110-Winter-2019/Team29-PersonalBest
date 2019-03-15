@@ -125,7 +125,6 @@ public class GoogleFitAdapter implements FitnessService {
             }
         };
         handler.postDelayed(runnable, 1000);
-
     }
 
     public int getCurrentStep(){

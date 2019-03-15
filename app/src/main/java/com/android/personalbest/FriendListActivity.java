@@ -16,10 +16,12 @@ import com.android.personalbest.chatmessage.ChatActivity;
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
 
+import com.android.personalbest.cloud.CloudstoreService;
+import com.android.personalbest.cloud.CloudstoreServiceFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 
 public class FriendListActivity extends AppCompatActivity {
 
@@ -45,6 +47,9 @@ public class FriendListActivity extends AppCompatActivity {
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);
         refreshFriendListBtn = findViewById(R.id.refreshFriendListBtn);
+
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), sharedPrefManager.getMockCloud());
+
         Log.i(TAG,"onCreate setFriendListUI() Get Call");
         setFriendListUI();
 
