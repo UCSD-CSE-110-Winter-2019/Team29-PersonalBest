@@ -23,7 +23,7 @@ public interface CloudstoreService {
     void getFriendList(final FriendListActivity friendListActivity, String currentAppUserEmail);
 
 
-        void setAppUserStatus(boolean appUserStatus);
+    void setAppUserStatus(boolean appUserStatus);
     boolean getAppUserStatus();
 
     void setFriendStatus(boolean friendStatus);
@@ -39,8 +39,6 @@ public interface CloudstoreService {
 
     void storeMonthlyActivityForNewUser(String currentAppUserEmail);
     void setMonthlyActivityData(String currentAppUserEmail, MonthlyDataList dataList);
-    void updateMonthlyActivityEndOfDay(String currentAppUserEmail);
-    void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex);
-    void updateTodayData(String currentAppUserEmail);
-    void getMonthlyActivity(String userEmail, MonthlyDataList dataList);
+    void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList);
+    void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList);
 }
