@@ -20,6 +20,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
     private EditText friendEmail;
     private SharedPrefManager sharedPrefManager;
     private String TAG = "SignUpFriendPageActivity";
+    public static boolean mock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class SignUpFriendPageActivity extends AppCompatActivity implements Retri
         setContentView(R.layout.activity_sign_up_friend_page);
 
         sharedPrefManager = new SharedPrefManager(this);
-        cloudstoreService = CloudstoreServiceFactory.create(this,false);
+        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
 
         returnFriendListBtn = findViewById(R.id.returnFriendBtn);
         addFriendsBtn = findViewById(R.id.addBtn);
