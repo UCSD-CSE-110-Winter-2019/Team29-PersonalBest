@@ -102,6 +102,21 @@ public class TestCloudService implements CloudstoreService{
         setAppUserStatus(true);
     }
 
+    @Override
+    public void initChat(String from, String to) {
+
+    }
+
+    @Override
+    public void sendMessage(Map<String, String> newMessage) {
+
+    }
+
+    @Override
+    public void initMessageUpdateListener() {
+
+    }
+
     //For testing, can add mock implementations here
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail) {}
