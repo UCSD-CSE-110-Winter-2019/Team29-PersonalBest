@@ -58,7 +58,6 @@ public class FriendListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 final String friendEmail = (String)parent.getItemAtPosition(position);
-                Log.d("blah", "friend's email is " + friendEmail);
                 dialog = new AlertDialog.Builder(FriendListActivity.this);
                 dialog.setItems(new CharSequence[]
                                 {"Chat", "See Activity", "Cancel"},
@@ -112,20 +111,16 @@ public class FriendListActivity extends AppCompatActivity {
     }
 
     public void onGetFriendListCompleted(List<String> userFriendList){
-
         if (userFriendList.isEmpty()){
             Log.i(TAG,"database FriendList is empty");
         }else {
             Log.i(TAG,"database FriendList is not empty");
             sharedPrefManager.setFriendListSet(userFriendList);
         }
-
         setFriendListUI();
-
     }
 
     private void setFriendListUI(){
-
         ArrayList<String> friendList = new ArrayList<>();
         Set<String>friendListSet;
         if(sharedPrefManager.getFriendListSet() == null){
@@ -136,7 +131,6 @@ public class FriendListActivity extends AppCompatActivity {
                 friendList.add(friend);
             }
         }
-
         ArrayAdapter arrayAdapter = new ArrayAdapter(FriendListActivity.this,android.R.layout.simple_list_item_1,friendList);
         listView.setAdapter(arrayAdapter);
     }

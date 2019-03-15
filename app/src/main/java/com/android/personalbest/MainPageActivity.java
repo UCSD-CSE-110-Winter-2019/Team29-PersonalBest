@@ -19,6 +19,7 @@ import com.google.firebase.FirebaseApp;
 
 import java.time.Month;
 import java.util.Calendar;
+import java.util.Set;
 
 public class MainPageActivity extends AppCompatActivity {
     private Button startButton;
@@ -222,8 +223,8 @@ public class MainPageActivity extends AppCompatActivity {
             int dayOfMonth = TimeMachine.getDayOfMonth();
             long time = TimeMachine.getHourOfDay();
             int subGoalDay = sharedPrefManager.getSubGoalMessageDay();
-
-            if ((dayOfMonth == subGoalDay + 1) || (dayOfMonth == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) {
+            Set<String> numFriends = sharedPrefManager.getFriendListSet();
+            if (((dayOfMonth == subGoalDay + 1) || (dayOfMonth == subGoalDay && time > getResources().getInteger(R.integer.eight_pm))) && numFriends == null){
                 sharedPrefManager.setSubGoalReached(false);
                 showSubGoalMsg();
             }
