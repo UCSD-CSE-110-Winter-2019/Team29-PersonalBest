@@ -1,6 +1,7 @@
 package com.android.personalbest;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 
 import com.android.personalbest.cloud.CloudstoreService;
 import com.android.personalbest.cloud.CloudstoreServiceFactory;
-import com.android.personalbest.cloud.FirestoreAdapter;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -23,7 +23,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class MonthlyBarChartActivity extends AppCompatActivity {
@@ -63,9 +62,8 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_chart);
 
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         homeButton = findViewById(R.id.homebutton);
-
-        setUpBarChart();
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -84,7 +82,7 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
     public void setUpBarChart(){
 
         //initializing buttons
-        homeButton = findViewById(R.id.homebutton);
+        //homeButton = findViewById(R.id.homebutton);
 
         //initializing stats textViews
         totalSteps = findViewById(R.id.totalsteps);
@@ -100,9 +98,11 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         userEmail = sharedPrefManager.getMonthlyEmail();
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
         monthlyData = new MonthlyDataList();
-        cloudstoreService.getMonthlyActivity(userEmail, monthlyData);
-        monthlyActivity = monthlyData.getList();
+        Log.w("MAemail", "d "+monthlyData.getList().get(26).getTotalSteps());
+        cloudstoreService.getMonthlyActivity(this, userEmail, monthlyData);
+    }
 
+    public void finishBarChartSetup() {
         chart = findViewById(R.id.barChart);
         chart.setDescription("");
 
@@ -110,6 +110,9 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         chart.getAxisLeft().setDrawGridLines(false);
         chart.getXAxis().setDrawGridLines(false);
         chart.setScaleEnabled(false);
+
+        monthlyActivity = monthlyData.getList();
+        Log.w("MAemail", "e "+monthlyActivity.get(27).getTotalSteps());
 
         //getting total number of steps for each day (intentional)
         entries = new ArrayList<>();
@@ -124,6 +127,13 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
             data = new BarEntry(i, new float[] { intentionalSteps, nonIntentionalSteps });
             entries.add(data);
             line.add(new Entry(i, goal));
+            if (i >= 0 ) {
+                Log.i("MAemail", i + " i");
+                Log.i("MAemail", goal + " goal");
+                Log.i("MAemail", intentionalSteps + " intS");
+                Log.i("MAemail", nonIntentionalSteps + " nonIntS");
+                Log.i("MAemail", todayData.getTotalSteps() + " tot");
+            }
         }
 
         LineDataSet lineDataSet = new LineDataSet(line, "");
@@ -178,3 +188,5 @@ public class MonthlyBarChartActivity extends AppCompatActivity {
         });
     }
 }
+
+

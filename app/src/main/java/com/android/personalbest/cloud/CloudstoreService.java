@@ -1,5 +1,6 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
 
@@ -40,5 +41,6 @@ public interface CloudstoreService {
     void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex);
     void updateTodayData(String currentAppUserEmail);
     void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData);
+    void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData);
 
 }

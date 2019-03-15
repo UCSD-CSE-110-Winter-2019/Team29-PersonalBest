@@ -35,7 +35,7 @@ public class FriendListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
-        sharedPrefManager = new SharedPrefManager(this);
+        sharedPrefManager = new SharedPrefManager(this.getApplicationContext());
         listView = findViewById(R.id.friendListView);
         returnHomeBtn = findViewById(R.id.returnHomeBtn);
         addFriendsBtn = findViewById(R.id.addFriBtn);

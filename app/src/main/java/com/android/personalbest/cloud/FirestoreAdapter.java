@@ -1,9 +1,11 @@
 package com.android.personalbest.cloud;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.personalbest.FriendListActivity;
+import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.R;
 import com.android.personalbest.SignUpFriendPageActivity;
@@ -299,7 +301,7 @@ public class FirestoreAdapter implements CloudstoreService {
     }
 
     @Override
-    public void getMonthlyActivity(String currentAppUserEmail, final MonthlyDataList myData) {
+    public void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData) {
         final DataStorageMediator dataStorageMediator = new DataStorageMediator();
         currentAppUser.document(currentAppUserEmail)
                 .get()
@@ -312,6 +314,9 @@ public class FirestoreAdapter implements CloudstoreService {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
                                 myData.setList(dataStorageMediator.getMonthlyActivity().getList());
+                                Log.w(TAG, "a "+document.get("monthlyActivity", MonthlyDataList.class).getList().get(27).getTotalSteps());
+                                Log.w(TAG, "b "+dataStorageMediator.getMonthlyActivity().getList().get(27).getTotalSteps());
+                                Log.w(TAG, "c "+myData.getList().get(27).getTotalSteps());
                             } else {
                                 Log.d(TAG, "No such document");
                             }
@@ -320,6 +325,33 @@ public class FirestoreAdapter implements CloudstoreService {
                         }
                     }
                 });
+    }
+
+    //TODO: @Override
+    public void getMonthlyActivity(final MonthlyBarChartActivity monthlyBarChartActivity, String currentAppUserEmail, MonthlyDataList myData) {
+        final DataStorageMediator dataStorageMediator = new DataStorageMediator();
+        currentAppUser.document(currentAppUserEmail)
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            dataStorageMediator.setMonthlyActivity(document.get("monthlyActivity", MonthlyDataList.class));
+                            myData.setList(dataStorageMediator.getMonthlyActivity().getList());
+                            Log.w(TAG, "c1 "+myData.getList().get(27).getTotalSteps());
+
+                            monthlyBarChartActivity.finishBarChartSetup();
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
     }
 }
 

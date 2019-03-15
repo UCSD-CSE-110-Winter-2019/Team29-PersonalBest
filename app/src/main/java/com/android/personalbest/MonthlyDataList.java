@@ -11,7 +11,6 @@ public class MonthlyDataList {
     public static int NUMDAYS = 28;
 
     //Remove context from MonthlyDataList
-
     public MonthlyDataList() {
         list = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package com.android.personalbest.cloud;
 
+import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.MonthlyDataList;
 import com.android.personalbest.SignUpFriendPageActivity;
 import android.content.Context;
@@ -108,4 +109,5 @@ public class TestCloudService implements CloudstoreService{
     public void updateMonthlyActivityData(String currentAppUserEmail, int dayIndex) {}
     public void updateTodayData(String currentAppUserEmail) {}
     public void getMonthlyActivity(String currentAppUserEmail, MonthlyDataList myData) {}
+    public void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {}
 }
