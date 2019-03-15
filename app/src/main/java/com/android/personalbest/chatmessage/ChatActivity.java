@@ -37,7 +37,7 @@ public class ChatActivity extends AppCompatActivity {
         from = sharedPrefManager.getCurrentAppUserEmail();
         to = sharedPrefManager.getCurrentChatFriend();
 
-        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(),mock);
+        cloudstoreService = CloudstoreServiceFactory.create(this,mock);
         cloudstoreService.initChat(from,to);
         cloudstoreService.initMessageUpdateListener();
 

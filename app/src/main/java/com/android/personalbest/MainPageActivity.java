@@ -92,15 +92,14 @@ public class MainPageActivity extends AppCompatActivity {
         seeBarChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchBarChartActivity();
+                cloudstoreService.updateTodayWeeklyData(MainPageActivity.this, sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
             }
         });
 
         seeMonthlyBarChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Monthly", "launched");
-                launchMonthlyBarChartActivity();
+                cloudstoreService.updateTodayMonthlyData(MainPageActivity.this, sharedPrefManager.getCurrentAppUserEmail(), new MonthlyDataList());
             }
         });
 

@@ -1,6 +1,7 @@
 package com.android.personalbest.cloud;
 
 import com.android.personalbest.BarChartActivity;
+import com.android.personalbest.MainPageActivity;
 import com.android.personalbest.MonthlyBarChartActivity;
 import com.android.personalbest.FriendListActivity;
 import com.android.personalbest.MonthlyDataList;
@@ -146,6 +147,10 @@ public class TestCloudService implements CloudstoreService{
     public void updateMonthlyActivityEndOfDay(String currentAppUserEmail, MonthlyDataList dataList) {}
     @Override
     public void updateTodayData(String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void updateTodayWeeklyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList) {}
+    @Override
+    public void updateTodayMonthlyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList) {}
     @Override
     public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {}
 
