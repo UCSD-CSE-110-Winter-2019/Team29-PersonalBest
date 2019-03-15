@@ -102,9 +102,7 @@ public class BarChartActivity extends AppCompatActivity {
         entries = new ArrayList<>();
         line = new ArrayList<Entry>();
 
-//        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-
-            for (int i = Calendar.SUNDAY; i <= 28; i++) {
+        for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
             intentionalSteps = pastWeek.getIntentionalStepsTaken(i);
             nonIntentionalSteps = pastWeek.getNonIntentionalStepsTaken(i);
             goal = pastWeek.getGoalForDayOfWeek(i);

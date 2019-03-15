@@ -60,7 +60,8 @@ public class FriendListActivity extends AppCompatActivity {
                                         sharedPrefManager.setCurrentChatFriend(friendEmail);
                                         launchChatActivity();
                                     case 1:
-                                        //code for friend's activity
+                                        sharedPrefManager.setMonthlyEmail(friendEmail);
+                                        launchMonthlyActivity();
                                     case 2:
                                         dialog.dismiss();
                                 }
@@ -94,6 +95,11 @@ public class FriendListActivity extends AppCompatActivity {
     private void launchChatActivity(){
         Intent chat = new Intent(this, ChatActivity.class);
         startActivity(chat);
+    }
+
+    private void launchMonthlyActivity() {
+        Intent monthlyActivity = new Intent(this, MonthlyBarChartActivity.class);
+        startActivity(monthlyActivity);
     }
 
     private void launchSignUpFriendPageActivity(){
