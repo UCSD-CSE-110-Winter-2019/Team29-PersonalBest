@@ -102,7 +102,7 @@ public class BarChartActivity extends AppCompatActivity {
 
         //setting up bar chart
         userEmail = sharedPrefManager.getCurrentAppUserEmail();
-        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), sharedPrefManager.getMockCloud());
+        cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
         monthlyData = new MonthlyDataList();
         cloudstoreService.getWeeklyActivity(this, userEmail, monthlyData);
     }
