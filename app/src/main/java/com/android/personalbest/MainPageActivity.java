@@ -39,7 +39,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     public static boolean mockSteps = true;
     public static boolean mockCloud = false;
-    public static boolean demo = false;
+    public static boolean demo = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -23,6 +23,7 @@ public class TestCloudService implements CloudstoreService{
     private boolean friendPendingStatus = true;
     private boolean friendStatus = true;
     private boolean isAppUser = true;
+    private MonthlyDataList dataList = new MonthlyDataList();
 
     private static String mockFriendEmail = "sarah@gmail.com";
 
@@ -145,7 +146,10 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void storeMonthlyActivityForNewUser(String currentAppUserEmail) {}
     @Override
-    public void getWeeklyActivity(BarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {}
+    public void getWeeklyActivity(BarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {
+        setMockPastData(currentAppUserEmail, myData);
+        activity.finishBarChartSetup();
+    }
     @Override
     public void getMonthlyActivity(MonthlyBarChartActivity activity, String currentAppUserEmail, MonthlyDataList myData) {}
     @Override
@@ -159,6 +163,7 @@ public class TestCloudService implements CloudstoreService{
     @Override
     public void updateTodayMonthlyData(MainPageActivity activity, String currentAppUserEmail, MonthlyDataList dataList) {}
     @Override
-    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {}
-
+    public void setMockPastData(String currentAppUserEmail, MonthlyDataList dataList) {
+        dataList.mockPastData();
+    }
 }
