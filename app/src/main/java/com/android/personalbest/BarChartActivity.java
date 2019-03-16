@@ -32,7 +32,7 @@ public class BarChartActivity extends AppCompatActivity {
     public CombinedChart chart;
     public ArrayList<BarEntry> entries;
     public ArrayList<Entry> line;
-    private static List<UserDayData> monthlyActivity;
+    public static List<UserDayData> monthlyActivity;
     private MonthlyDataList monthlyData;
     private CloudstoreService cloudstoreService;
     private SharedPrefManager sharedPrefManager;
@@ -69,7 +69,6 @@ public class BarChartActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Log.i("MonthlyChart", "MActivity ended");
                 finish();
             }
         });
@@ -105,7 +104,6 @@ public class BarChartActivity extends AppCompatActivity {
         userEmail = sharedPrefManager.getCurrentAppUserEmail();
         cloudstoreService = CloudstoreServiceFactory.create(this.getApplicationContext(), mockCloud);
         monthlyData = new MonthlyDataList();
-        Log.i("MAemail", "d "+monthlyData.getList().get(26).getTotalSteps());
         cloudstoreService.getWeeklyActivity(this, userEmail, monthlyData);
     }
 
@@ -119,7 +117,6 @@ public class BarChartActivity extends AppCompatActivity {
         chart.setScaleEnabled(false);
 
         monthlyActivity = monthlyData.getList();
-        Log.w("MAemail", "e "+monthlyActivity.get(27).getTotalSteps());
 
         //getting total number of steps for each day (intentional)
         entries = new ArrayList<>();
