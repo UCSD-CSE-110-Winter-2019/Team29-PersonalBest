@@ -73,7 +73,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         if (demo) {
             //For subgoal encouragement
-            sharedPrefManager.storeTotalStepsFromYesterday(1000);
+            sharedPrefManager.storeTotalStepsFromYesterday(1200);
             TimeMachine.setHourOfDay(21);
 
             //For monthly bar chart
